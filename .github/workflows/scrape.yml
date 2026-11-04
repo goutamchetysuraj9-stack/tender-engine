@@ -1,0 +1,31 @@
+name: Automated Tender Scraper Engine
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Automatically runs every 6 hours
+  workflow_dispatch: # Allows manual trigger button directly from GitHub
+
+permissions:
+  contents: write # Crucial parameter to allow script to save json back to repo
+
+jobs:
+  build-and-scrape:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository files
+      uses: actions/checkout@v4
+
+    - name: Set up Python Runtime Environment
+      uses: actions/setup-python@v5
+      with:
+        python-python-version: '3.10'
+
+    - name: Execute Scraper Engine Script
+      run: python scraper.py
+
+    - name: Commit and Stream Updated Data to Vercel
+      run: |
+        git config --global user.name "TenderEngine-Bot"
+        git config --global user.email "bot@lmo-ai.internal"
+        git add tenders.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Automated Sync: Fresh tenders parsed" && git push)
