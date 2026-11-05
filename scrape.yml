@@ -1,6 +1,5 @@
 import json
 import random
-import requests
 from datetime import datetime, timedelta
 
 def fetch_and_parse_tenders():
@@ -8,7 +7,7 @@ def fetch_and_parse_tenders():
     
     # 1. Real-world target database structure formats 
     districts_list = [
-        "Udalguri", "Baksat", "Chirang", "Kokrajhar", "Kamrup", 
+        "Udalguri", "Baksa", "Chirang", "Kokrajhar", "Kamrup", 
         "Darrang", "Sonitpur", "Nagaon", "Jorhat", "Dibrugarh"
     ]
     departments_list = [
@@ -40,17 +39,18 @@ def fetch_and_parse_tenders():
         else:
             value_string = f"Reference Estimated: ₹{budget_raw} Lakhs"
 
-        # Probability and timeline criteria evaluation
-        probability_options = ["High Win Rate", "Medium Competition", "Low Competition"]
+        # Probability and timeline criteria evaluation (Frontend design supports High / Medium)
+        probability_options = ["High Win Rate", "Medium Competition"]
         closing_dt = base_date + timedelta(days=random.randint(7, 30))
         
+        # 🎯 Keys mapped directly to match index.html JavaScript properties
         tender_node = {
             "title": title,
-            "value": value_string,
+            "estimate": value_string,      # 🔄 "value" changed to "estimate"
             "department": dept,
             "ref": f"TENDER/LMO-AI/2026/{1000 + i}",
-            "district": district,
-            "probability": random.choice(probability_options),
+            "location": district,         # 🔄 "district" changed to "location"
+            "winRate": random.choice(probability_options), # 🔄 "probability" changed to "winRate"
             "closingDate": closing_dt.strftime("%d-%b-%Y")
         }
         scraped_data.append(tender_node)
