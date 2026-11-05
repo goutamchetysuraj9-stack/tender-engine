@@ -57,12 +57,29 @@
             gap: 20px;
         }
 
+        /* Clickable Card Link Wrapper Styling */
+        .tender-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .tender-link:hover {
+            transform: translateY(-2px);
+        }
+
         .tender-card {
             background: #ffffff;
             border-left: 5px solid var(--primary-color);
             padding: 20px;
             border-radius: 6px;
             box-shadow: var(--card-shadow);
+            cursor: pointer;
+        }
+
+        .tender-card:hover h3 {
+            color: var(--primary-color);
         }
 
         .tender-meta {
@@ -76,6 +93,14 @@
         .high-rate { color: #2e7d32; font-weight: bold; }
         .medium-rate { color: #ef6c00; font-weight: bold; }
         .closing-date { color: var(--warning-red); font-weight: bold; margin-top: 10px; }
+
+        .btn-view-details {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
 
         .adsense-placeholder {
             background: #f9f9f9;
@@ -167,8 +192,8 @@
             if (!containerNode) return;
 
             try {
-                // Fetch updated database array stream
-                const response = await fetch('tenders.json');
+                // 🔄 Force refresh using dynamic timestamp URL query to break browser cache
+                const response = await fetch('tenders.json?v=' + new Date().getTime());
                 if (!response.ok) throw new Error(`HTTP Error Status Matrix: ${response.status}`);
                 
                 const dataSet = await response.json();
@@ -181,26 +206,32 @@
 
                 // Loop through compiled records and build interface models
                 dataSet.forEach(item => {
-                    const cardElement = document.createElement('div');
-                    cardElement.className = 'tender-card';
+                    const linkWrapper = document.createElement('a');
+                    linkWrapper.className = 'tender-link';
                     
-                    // Style condition routing based on parsed parameters
+                    // 🔗 Yahan redirect link set hai (Aap is link ko future me badal sakte hain)
+                    linkWrapper.href = "https://assamtenders.gov.in"; 
+                    linkWrapper.target = "_blank";
+
                     const evaluationClass = item.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
 
-                    cardElement.innerHTML = `
-                        <div class="tender-meta">
-                            <span class="district-badge">📍 ${item.location || 'Assam Region'}</span>
-                            <span class="${evaluationClass}">🎯 ${item.winRate || 'Verified Feed'}</span>
+                    linkWrapper.innerHTML = `
+                        <div class="tender-card">
+                            <div class="tender-meta">
+                                <span class="district-badge">📍 ${item.location || 'Assam Region'}</span>
+                                <span class="${evaluationClass}">🎯 ${item.winRate || 'Verified Feed'}</span>
+                            </div>
+                            <h3 style="margin: 10px 0; color: #111; font-size: 1.2rem;">${item.title}</h3>
+                            <div style="font-weight: bold; color: #222; margin: 8px 0; font-size: 1.05rem;">${item.estimate}</div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0;">Department: ${item.department} | Ref: ${item.ref}</p>
+                            
+                            <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
+                            
+                            <div class="closing-date">⚠️ Closing Date: ${item.closingDate}</div>
+                            <div class="btn-view-details">Click to View Official Tender Announcement →</div>
                         </div>
-                        <h3 style="margin: 10px 0; color: #111; font-size: 1.2rem;">${item.title}</h3>
-                        <div style="font-weight: bold; color: #222; margin: 8px 0; font-size: 1.05rem;">${item.estimate}</div>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0;">Department: ${item.department} | Ref: ${item.ref}</p>
-                        
-                        <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-                        
-                        <div class="closing-date">⚠️ Closing Date: ${item.closingDate}</div>
                     `;
-                    containerNode.appendChild(cardElement);
+                    containerNode.appendChild(linkWrapper);
                 });
 
             } catch (pipelineError) {
