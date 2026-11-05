@@ -6,246 +6,165 @@
     <title>Tender Engine - Live Dashboard</title>
     <style>
         :root {
-            --primary-color: #2e7d32;
-            --warning-red: #cc0000;
-            --accent-gold: #ef6c00;
-            --text-muted: #666666;
-            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --success: #16a34a;
+            --warning: #dc2626;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #334155;
         }
-
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 0;
-            background-color: #f4f6f9;
+            padding: 20px;
         }
-
-        /* Header Styling */
-        .header {
-            background: #1b5e20;
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            background-color: var(--primary);
             color: white;
-            padding: 30px 20px;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             text-align: center;
         }
-        .header h1 { margin: 0; font-size: 2.5rem; }
-        .header p { margin: 10px 0 0 0; opacity: 0.9; }
-
-        /* Main Grid Structure Layout */
-        .main-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container { grid-template-columns: 1fr; }
-        }
-
+        header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
+        header p { margin: 5px 0 0 0; opacity: 0.8; font-size: 14px; }
+        
         .section-title {
-            border-bottom: 2px solid #1b5e20;
-            padding-bottom: 10px;
-            color: #333;
-        }
-
-        /* Live Automatic Tender Card Deck Nodes */
-        .tender-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Clickable Card Link Wrapper Styling */
-        .tender-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: transform 0.2s ease;
-        }
-
-        .tender-link:hover {
-            transform: translateY(-2px);
-        }
-
-        .tender-card {
-            background: #ffffff;
-            border-left: 5px solid var(--primary-color);
-            padding: 20px;
-            border-radius: 6px;
-            box-shadow: var(--card-shadow);
-            cursor: pointer;
-        }
-
-        .tender-card:hover h3 {
-            color: var(--primary-color);
-        }
-
-        .tender-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.85rem;
-        }
-
-        .district-badge { font-weight: bold; color: #555; }
-        .high-rate { color: #2e7d32; font-weight: bold; }
-        .medium-rate { color: #ef6c00; font-weight: bold; }
-        .closing-date { color: var(--warning-red); font-weight: bold; margin-top: 10px; }
-
-        .btn-view-details {
-            display: inline-block;
-            margin-top: 10px;
-            color: var(--primary-color);
+            font-size: 18px;
             font-weight: bold;
-            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .adsense-placeholder {
-            background: #f9f9f9;
-            border: 1px dashed #ccc;
-            padding: 12px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #999;
-            margin: 15px 0;
-            border-radius: 4px;
+        
+        .tender-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
-
-        /* Sidebar Styling Elements */
-        .sidebar-card, .disclaimer-card {
-            background: white;
+        .tender-card {
+            background: var(--card);
+            border-radius: 10px;
             padding: 20px;
-            border-radius: 6px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--accent);
+            position: relative;
         }
-
-        .btn-loan {
+        .tender-card.high-win { border-left-color: var(--success); }
+        .location-tag {
+            background: #eff6ff;
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
             display: inline-block;
-            background: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+        .meta-tag {
+            float: right;
+            font-size: 11px;
+            background: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .tender-card h3 { margin: 0 0 10px 0; font-size: 16px; color: var(--primary); }
+        .est-cost { font-size: 18px; font-weight: bold; color: var(--success); margin: 10px 0; }
+        .dept-info { font-size: 12px; color: #64748b; margin-bottom: 15px; }
+        .closing-date { font-size: 12px; font-weight: bold; color: var(--warning); border-top: 1px dashed #e2e8f0; padding-top: 10px; }
+        
+        .adsense-slot {
+            background: #e2e8f0;
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #475569;
+            font-weight: bold;
+            border: 2px dashed #cbd5e1;
+        }
+        
+        .capital-section {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .capital-section h2 { margin: 0 0 10px 0; font-size: 18px; }
+        .capital-section p { margin: 0 0 15px 0; font-size: 14px; opacity: 0.9; }
+        .btn-loan {
+            background: var(--accent);
             color: white;
             text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             font-weight: bold;
-            margin-top: 15px;
-            text-align: center;
+            display: inline-block;
+            transition: background 0.2s;
         }
-
-        .disclaimer-title {
-            font-weight: bold;
-            color: var(--warning-red);
-            margin-bottom: 10px;
+        .btn-loan:hover { background: #1d4ed8; }
+        
+        .disclaimer-box {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #9b2c2c;
+            line-height: 1.5;
+            text-align: justify;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Banner Component -->
-    <div class="header">
-        <h1>TENDER ENGINE</h1>
-        <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
-    </div>
+    <div class="dashboard-container">
+        <header>
+            <h1>TENDER ENGINE</h1>
+            <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
+        </header>
 
-    <!-- Main Container Core Matrix -->
-    <div class="main-container">
+        <div class="section-title">⚡ Live Local Tenders</div>
         
-        <!-- Left Column: Automated Active Data Engine Feed -->
-        <div class="tenders-section">
-            <h2 class="section-title">⚡ Live Local Tenders</h2>
-            
-            <!-- ⚡ Active Target Anchor Point Node -->
-            <div id="live-tenders-container" class="tender-container">
-                <p style="color: var(--text-muted); font-style: italic;">Loading live automated database matrix fields...</p>
-            </div>
+        <!-- Live Tenders Container where JavaScript renders cards -->
+        <div id="live-tenders-container" class="tender-grid">
+            <p style="grid-column: 1/-1; text-align: center; color: #64748b;">Loading live automated database matrix fields...</p>
         </div>
 
-        <!-- Right Column: Sidebar Panels & Legal Clauses -->
-        <div class="sidebar-area">
-            
-            <!-- Financial Micro Funding Node -->
-            <div class="sidebar-card">
-                <h3 style="margin-top: 0; color: var(--accent-gold);">🔨 Contractor Capital</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
-                <a href="https://sbismartcare.sbi" target="_blank" class="btn-loan">Apply for Project Loan →</a>
-                
-                <div class="adsense-placeholder">[ DYNAMIC FINANCIAL DISPLAY AD ]</div>
-            </div>
-
-            <!-- Regulatory Absolute Protection Disclaimer -->
-            <div class="disclaimer-card">
-                <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-                <p style="font-size: 0.85rem; color: #666; margin: 0; line-height: 1.4;">
-                    Disclaimer: This platform is a fully automated open aggregator and public directory that fetches open procurement information from official government portals. We are not a financial institution, bank, or loan advisor. Before entering any commercial transaction, processing fee payment, or loan binding agreement with any third-party link listed here, users are strongly advised to independently verify the company's registration, credibility, and RBI credentials. This portal, its database networks, and its developers shall not be liable for any direct or indirect commercial losses.
-                </p>
-            </div>
+        <!-- GOOGLE ADSENSE RESPONSIVE BANNER SLOT -->
+        <div class="adsense-slot">
+            [ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]
+            <!-- Aapka AdSense Script Tag Yahan Aayega -->
         </div>
 
+        <div class="capital-section">
+            <h2>🔨 Contractor Capital</h2>
+            <p>Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
+            <a href="#" class="btn-loan">Apply for Project Loan →</a>
+        </div>
+
+        <!-- DYNAMIC FINANCIAL DISPLAY AD -->
+        <div class="adsense-slot">
+            [ DYNAMIC FINANCIAL DISPLAY AD ]
+        </div>
+
+        <div class="disclaimer-box">
+            <strong>⚠️ Legal Protection Clause / Disclaimer:</strong> Yeh platform sirf ek automated aggregator/directory hai jo official government portals se open public information text display karti hai. Hum koi financial institution, bank, ya loan advisor nahi hain. Kisi bhi commercial transaction, processing fee payment, ya loan binding agreement par aage badhne se pehle company ki authenticity/RBI registration ki jaanch swayam karein. Kisi bhi financial vivad ya fraud ke liye yeh portal ya iske developers kanooni roop se utpannah ya jimmedar nahi honge.
+        </div>
     </div>
 
-    <!-- 🌐 Dynamic Injection Pipeline Logic Stream -->
-    <script>
-        async function runDataFetchPipeline() {
-            const containerNode = document.getElementById('live-tenders-container');
-            if (!containerNode) return;
-
-            try {
-                // 🔄 Force refresh using dynamic timestamp URL query to break browser cache
-                const response = await fetch('tenders.json?v=' + new Date().getTime());
-                if (!response.ok) throw new Error(`HTTP Error Status Matrix: ${response.status}`);
-                
-                const dataSet = await response.json();
-                containerNode.innerHTML = ''; // Safely wipe placeholder nodes
-
-                if (dataSet.length === 0) {
-                    containerNode.innerHTML = '<p>No active public procurement entries parsed currently.</p>';
-                    return;
-                }
-
-                // Loop through compiled records and build interface models
-                dataSet.forEach(item => {
-                    const linkWrapper = document.createElement('a');
-                    linkWrapper.className = 'tender-link';
-                    
-                    // 🔗 Yahan redirect link set hai (Aap is link ko future me badal sakte hain)
-                    linkWrapper.href = "https://assamtenders.gov.in"; 
-                    linkWrapper.target = "_blank";
-
-                    const evaluationClass = item.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
-
-                    linkWrapper.innerHTML = `
-                        <div class="tender-card">
-                            <div class="tender-meta">
-                                <span class="district-badge">📍 ${item.location || 'Assam Region'}</span>
-                                <span class="${evaluationClass}">🎯 ${item.winRate || 'Verified Feed'}</span>
-                            </div>
-                            <h3 style="margin: 10px 0; color: #111; font-size: 1.2rem;">${item.title}</h3>
-                            <div style="font-weight: bold; color: #222; margin: 8px 0; font-size: 1.05rem;">${item.estimate}</div>
-                            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0;">Department: ${item.department} | Ref: ${item.ref}</p>
-                            
-                            <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-                            
-                            <div class="closing-date">⚠️ Closing Date: ${item.closingDate}</div>
-                            <div class="btn-view-details">Click to View Official Tender Announcement →</div>
-                        </div>
-                    `;
-                    containerNode.appendChild(linkWrapper);
-                });
-
-            } catch (pipelineError) {
-                console.error('Data Engine Sync Failure:', pipelineError);
-                containerNode.innerHTML = `
-                    <p style="color: var(--warning-red); font-weight: bold;">
-                        Failed to parse active database pipeline streams. Please check your data configurations.
-                    </p>
-                `;
-            }
-        }
-
-        // Initialize script trigger upon DOM state completion
-        document.addEventListener('DOMContentLoaded', runDataFetchPipeline);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
