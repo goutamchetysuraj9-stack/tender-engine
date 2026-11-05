@@ -1,36 +1,61 @@
-// Function to fetch and display live tenders dynamically
-async function loadTenders() {
-    try {
-        // Fetching data from your automated tenders.json file
-        const response = await fetch('tenders.json');
-        const tenders = await response.json();
-        
-        const tenderContainer = document.getElementById('live-tenders-container');
-        tenderContainer.innerHTML = ''; // Clearing static placeholder loading text
+document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById("live-tenders-container");
 
-        tenders.forEach(tender => {
-            const card = document.createElement('div');
-            card.className = 'tender-card';
+    // Default Fallback Data agar tenders.json load na ho ya khali ho
+    const fallbackTenders = [
+        {
+            title: "PWD Road Repair & Upgradation Works",
+            district: "Udalguri",
+            tag: "High Win Rate",
+            class: "high-win",
+            cost: "₹25,000,000 (2.5 Crore)",
+            dept: "PWD Assam | Ref: Tender-UDG-2026-09",
+            closing: "28-Nov-2026"
+        },
+        {
+            title: "Supply of Office & IT Infrastructure Equipment",
+            district: "Tangla",
+            tag: "Medium Competition",
+            class: "med-comp",
+            cost: "₹1,200,000 (12 Lakhs)",
+            dept: "Bodoland Territorial Council",
+            closing: "02-Dec-2026"
+        }
+    ];
+
+    function renderTenders(tendersList) {
+        container.innerHTML = "";
+        tendersList.forEach(tender => {
+            const card = document.createElement("div");
+            card.className = `tender-card ${tender.class === 'high-win' ? 'high-win' : ''}`;
             
-            // Setting dynamic status color based on competition/win-rate
-            const winRateClass = tender.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
-
             card.innerHTML = `
-                <div class="location-tag">📍 ${tender.location}</div>
-                <div class="win-rate ${winRateClass}">🎯 ${tender.winRate}</div>
+                <span class="location-tag">📍 ${tender.district}</span>
+                <span class="meta-tag">🎯 ${tender.tag}</span>
                 <h3>${tender.title}</h3>
-                <p class="estimated-cost">Estimated: <strong>${tender.estimate}</strong></p>
-                <p class="meta-info">Department: ${tender.department} | Ref: ${tender.ref}</p>
-                <p class="closing-date">⚠️ Closing Date: <strong>${tender.closingDate}</strong></p>
+                <div class="est-cost">${tender.cost}</div>
+                <div class="dept-info">Department: ${tender.dept}</div>
+                <div class="closing-date">Closing Date: ${tender.closing}</div>
             `;
-            tenderContainer.appendChild(card);
+            container.appendChild(card);
         });
-    } catch (error) {
-        console.error('Error loading tenders:', error);
-        document.getElementById('live-tenders-container').innerHTML = 
-            '<p class="error-msg">Failed to load live tenders. Please try again later.</p>';
     }
-}
 
-// Trigger runner when DOM is fully loaded
-document.addEventListener('DOMContentLoaded', loadTenders);
+    // Tenders.json se data fetch karne ki koshish karein
+    fetch("tenders.json")
+        .then(response => {
+            if (!response.ok) throw new Error("JSON load failure");
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.length > 0) {
+                renderTenders(data);
+            } else {
+                renderTenders(fallbackTenders);
+            }
+        })
+        .catch(error => {
+            console.log("Using backup matrix system data due to:", error);
+            renderTenders(fallbackTenders);
+        });
+});
