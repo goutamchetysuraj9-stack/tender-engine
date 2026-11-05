@@ -1,27 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tender Engine</title>
-
-    <!-- 🔽 Yahan par aapko apna CSS code daalna hai 🔽 -->
+    <title>Tender Engine - Dashboard</title>
     <style>
         :root {
-            --primary-color: #0b3c5d;
-            --accent-gold: #ffd700;
-            --text-dark: #333333;
+            --primary-color: #2e7d32;
             --warning-red: #cc0000;
+            --accent-gold: #ef6c00;
+            --text-muted: #666666;
             --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+        }
+
+        /* Header Styling */
+        .header {
+            background: #1b5e20;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 { margin: 0; font-size: 2.5rem; }
+        .header p { margin: 10px 0 0 0; opacity: 0.9; }
+
+        /* Layout Grid */
+        .main-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+        }
+
+        .section-title {
+            border-bottom: 2px solid #1b5e20;
+            padding-bottom: 10px;
+            color: #333;
+        }
+
+        /* Tender Feed Grid */
         .tender-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            padding: 15px;
         }
 
         .tender-card {
@@ -30,171 +63,55 @@
             padding: 20px;
             border-radius: 6px;
             box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .tender-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
         }
 
         .high-rate { color: #2e7d32; font-weight: bold; }
         .medium-rate { color: #ef6c00; font-weight: bold; }
-        .closing-date { color: var(--warning-red); }
+        .closing-date { color: var(--warning-red); font-weight: bold; }
 
-        /* Disclaimer & Ad Blocks Styling */
-        .legal-protection-clause {
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            padding: 15px;
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 30px;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Aapka dashboard content yahan niche aayega -->
-
-</body>
-</html>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tender Engine - Assam LMO AI</title>
-    <style>
-        :root {
-            --emerald: #059669;
-            --emerald-light: #10b981;
-            --dark-bg: #111827;
-            --card-bg: #1f2937;
-            --text-light: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent-gold: #f59e0b;
-            --danger-red: #ef4444;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            margin: 0;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-            border-bottom: 3px solid var(--emerald);
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-        .header h1 {
-            color: var(--emerald-light);
-            margin: 0 0 10px 0;
-            font-size: 2.5rem;
-            letter-spacing: 1px;
-        }
-        .header p {
-            color: var(--text-muted);
-            margin: 0;
-            font-size: 1.1rem;
-        }
-        .main-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
-        }
-        @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        .section-title {
-            font-size: 1.5rem;
-            color: var(--emerald-light);
-            border-bottom: 1px solid var(--card-bg);
-            padding-bottom: 8px;
-            margin-top: 0;
-        }
-        .tender-card {
-            background-color: var(--card-bg);
-            border-left: 5px solid var(--emerald);
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .tender-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        .district-badge {
-            background-color: #374151;
-            padding: 4px 10px;
-            border-radius: 4px;
-            color: var(--text-light);
-            font-weight: bold;
-        }
-        .win-probability {
-            background-color: rgba(5, 150, 105, 0.2);
-            color: var(--emerald-light);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-        .tender-value {
-            font-size: 1.3rem;
-            color: var(--accent-gold);
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .sidebar-card {
-            background-color: var(--card-bg);
-            border: 1px dashed var(--accent-gold);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .btn-loan {
-            display: block;
-            text-align: center;
-            background-color: var(--accent-gold);
-            color: #111827;
-            padding: 12px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-top: 15px;
-            transition: background 0.2s;
-        }
-        .btn-loan:hover {
-            background-color: #d97706;
-        }
         .adsense-placeholder {
-            background-color: #374151;
+            background: #f0f0f0;
+            border: 1px dashed #ccc;
+            padding: 10px;
             text-align: center;
-            padding: 15px;
-            font-size: 11px;
-            color: var(--text-muted);
-            border: 1px dashed #4b5563;
+            font-size: 0.8rem;
+            color: #888;
             margin: 15px 0;
-            border-radius: 4px;
-            letter-spacing: 0.5px;
         }
-        .disclaimer-card {
-            background-color: rgba(239, 68, 68, 0.05);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 15px;
+
+        /* Sidebar Styling */
+        .sidebar-card, .disclaimer-card {
+            background: white;
+            padding: 20px;
             border-radius: 6px;
-            font-size: 0.85rem;
-            color: #fca5a5;
-            line-height: 1.4;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
         }
-        .disclaimer-title {
-            color: var(--danger-red);
+
+        .btn-loan {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
             font-weight: bold;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .disclaimer-title {
+            font-weight: bold;
+            color: var(--warning-red);
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -213,79 +130,10 @@
         <div class="tenders-section">
             <h2 class="section-title">⚡ Live Local Tenders</h2>
             
-            <!-- Sample Tender Card Components -->
-            <div class="tender-card">
-                <div class="tender-meta">
-                    <span class="district-badge">📍 Udalguri</span>
-                    <span class="win-probability">🎯 High Win Rate</span>
-                </div>
-                <h3>PWD Road Repair & Upgradation Works</h3>
-                <div class="tender-value">Estimated: ₹25,000,000 (2.5 Crore)</div>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: PWD Assam | Ref: Tender-UDG-2026-09</p>
-                
-                <!-- AdSense Micro Slot Unit -->
-                <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-                
-                <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: 28-Nov-2026</p>
-            </div>
-
-            <div class="tender-card">
-                <div class="tender-meta">
-                    <span class="district-badge">📍 Tangla</span>
-                    <span class="win-probability">🎯 Medium Competition</span>
-                </div>
-                <h3>Supply of Office & IT Infrastructure Equipment</h3>
-                <div class="tender-value">Estimated: ₹1,200,000 (12 Lakhs)</div>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: Bodoland Territorial Council</p>
-                <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: 02-Dec-2026</p>
-            </div>
-        </div>
-
-        <!-- Right Side: Finance Sidebar & Legal Compliance -->
-        <div class="sidebar-area">
-            
-            <!-- Contractor Funding Gateway -->
-            <div class="sidebar-card">
-                <h3 style="margin-top: 0; color: var(--accent-gold);">🔨 Contractor Capital</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
-                <a href="https://sbismartcare.sbi" target="_blank" class="btn-loan">Apply for Project Loan →</a>
-                
-                <div class="adsense-placeholder">[ DYNAMIC FINANCIAL DISPLAY AD ]</div>
-            </div>
-
-           <!-- Absolute Legal Safety Disclaimer -->
-<div class="disclaimer-card">
-    <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-    Disclaimer: This platform is a fully automated open aggregator and public directory that fetches open procurement information from official government portals. We are not a financial institution, bank, or loan advisor. Before entering any commercial transaction, processing fee payment, or loan binding agreement with any third-party link listed here, users are strongly advised to independently verify the company's registration, credibility, and RBI credentials. This portal, its database networks, and its developers shall not be held legally liable or responsible for any financial losses, online scams, or transactional disputes arising between users and external service providers.
-</div>
-
-        </div>
-
-    </div>
-
-</body>
-</html><body>
-
-    <!-- Header Section -->
-    <div class="header">
-        <h1>TENDER ENGINE</h1>
-        <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
-    </div>
-
-    <!-- Main Dynamic Grid -->
-    <div class="main-container">
-        
-        <!-- Left Side: Automated Tenders Feed -->
-        <div class="tenders-section">
-            <h2 class="section-title">⚡ Live Local Tenders</h2>
-            
-            <!-- 🔽 IS CONTAINER KE ANDAR JAVASCRIPT AUTOMATIC TENDERS LOAD KAREGA 🔽 -->
+            <!-- 🎯 Is Container ke andar JavaScript automatic data fill karega -->
             <div id="live-tenders-container" class="tender-container">
-                <p style="color: var(--text-muted); padding: 15px;">Loading live local tenders...</p>
+                <p>Loading live local tenders...</p>
             </div>
-            
-            <!-- AdSense Micro Slot Unit -->
-            <div class="adsense-placeholder" style="margin-top: 20px;">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
         </div>
 
         <!-- Right Side: Finance Sidebar & Legal Compliance -->
@@ -303,14 +151,15 @@
             <!-- Absolute Legal Safety Disclaimer -->
             <div class="disclaimer-card">
                 <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-                Disclaimer: This platform is a fully automated open aggregator and public directory that fetches open procurement information from official government portals. We are not a financial institution, bank, or loan advisor. Before entering any commercial transaction, processing fee payment, or loan binding agreement with any third-party link listed here, users are strongly advised to independently verify the company's registration, credibility, and RBI credentials. This portal, its database networks, and its developers shall not be held legally liable or responsible for any financial losses, online scams, or transactional disputes arising between users and external service providers.
+                <p style="font-size: 0.85rem; color: #666; margin: 0; line-height: 1.4;">
+                    Disclaimer: This platform is a fully automated open aggregator and public directory that fetches open procurement information from official government portals. We are not a financial institution, bank, or loan advisor. Before entering any commercial transaction, processing fee payment, or loan binding agreement with any third-party link listed here, users are strongly advised to independently verify the company's registration, credibility, and RBI credentials. This portal, its database networks, and its developers shall not be liable for any direct or indirect commercial losses.
+                </p>
             </div>
-
         </div>
 
     </div>
 
-    <!-- 🔽 AUTOMATION JAVASCRIPT: YEH TENDERS.JSON SE DATA UTHTA HAI 🔽 -->
+    <!-- 🔽 Auto-Fetch Data Script Before Closing Body Tag 🔽 -->
     <script>
         async function loadTenders() {
             try {
@@ -320,7 +169,7 @@
                 const tenderContainer = document.getElementById('live-tenders-container');
                 if (!tenderContainer) return;
                 
-                tenderContainer.innerHTML = ''; // Clear loading text
+                tenderContainer.innerHTML = ''; // Loading text clear karne ke liye
 
                 tenders.forEach(tender => {
                     const card = document.createElement('div');
@@ -331,109 +180,27 @@
                     card.innerHTML = `
                         <div class="tender-meta">
                             <span class="district-badge">📍 ${tender.location}</span>
-                            <span class="win-probability ${winRateClass}">🎯 ${tender.winRate}</span>
+                            <span class="${winRateClass}">🎯 ${tender.winRate}</span>
                         </div>
                         <h3>${tender.title}</h3>
-                        <div class="tender-value">Estimated: ${tender.estimate}</div>
+                        <div style="font-weight: bold; color: #333; margin: 10px 0;">Estimated: ${tender.estimate}</div>
                         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: ${tender.department} | Ref: ${tender.ref}</p>
-                        <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: ${tender.closingDate}</p>
+                        
+                        <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
+                        
+                        <p class="closing-date">⚠️ Closing Date: ${tender.closingDate}</p>
                     `;
                     tenderContainer.appendChild(card);
                 });
             } catch (error) {
                 console.error('Error loading tenders:', error);
                 document.getElementById('live-tenders-container').innerHTML = 
-                    '<p style="color: red; padding: 15px;">Failed to load live tenders. Please check tenders.json execution.</p>';
+                    '<p style="color: red;">Failed to load live tenders. Please check if tenders.json file is correctly formatted.</p>';
             }
         }
 
+        // Run setup when page is completely loaded
         document.addEventListener('DOMContentLoaded', loadTenders);
     </script>
-
 </body>
 </html>
-<body>
-
-    <!-- Header Section -->
-    <div class="header">
-        <h1>TENDER ENGINE</h1>
-        <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
-    </div>
-
-    <!-- Main Dynamic Grid -->
-    <div class="main-container">
-        
-        <!-- Left Side: Automated Tenders Feed -->
-        <div class="tenders-section">
-            <h2 class="section-title">⚡ Live Local Tenders</h2>
-            
-            <!-- 🔽 IS CONTAINER KE ANDAR JAVASCRIPT AUTOMATIC TENDERS LOAD KAREGA 🔽 -->
-            <div id="live-tenders-container" class="tender-container">
-                <p style="color: var(--text-muted); padding: 15px;">Loading live local tenders...</p>
-            </div>
-            
-            <!-- AdSense Micro Slot Unit -->
-            <div class="adsense-placeholder" style="margin-top: 20px;">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-        </div>
-
-        <!-- Right Side: Finance Sidebar & Legal Compliance -->
-        <div class="sidebar-area">
-            
-            <!-- Contractor Funding Gateway -->
-            <div class="sidebar-card">
-                <h3 style="margin-top: 0; color: var(--accent-gold);">🔨 Contractor Capital</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
-                <a href="https://sbismartcare.sbi" target="_blank" class="btn-loan">Apply for Project Loan →</a>
-                
-                <div class="adsense-placeholder">[ DYNAMIC FINANCIAL DISPLAY AD ]</div>
-            </div>
-
-            <!-- Absolute Legal Safety Disclaimer -->
-            <div class="disclaimer-card">
-                <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-                Disclaimer: This platform is a fully automated open aggregator and public directory that fetches open procurement information from official government portals. We are not a financial institution, bank, or loan advisor. Before entering any commercial transaction, processing fee payment, or loan binding agreement with any third-party link listed here, users are strongly advised to independently verify the company's registration, credibility, and RBI credentials. This portal, its database networks, and its developers shall not be held legally liable or responsible for any financial losses, online scams, or transactional disputes arising between users and external service providers.
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- 🔽 AUTOMATION JAVASCRIPT: YEH TENDERS.JSON SE DATA UTHTA HAI 🔽 -->
-    <script>
-        async function loadTenders() {
-            try {
-                const response = await fetch('tenders.json');
-                const tenders = await response.json();
-                
-                const tenderContainer = document.getElementById('live-tenders-container');
-                if (!tenderContainer) return;
-                
-                tenderContainer.innerHTML = ''; // Clear loading text
-
-                tenders.forEach(tender => {
-                    const card = document.createElement('div');
-                    card.className = 'tender-card';
-                    
-                    const winRateClass = tender.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
-
-                    card.innerHTML = `
-                        <div class="tender-meta">
-                            <span class="district-badge">📍 ${tender.location}</span>
-                            <span class="win-probability ${winRateClass}">🎯 ${tender.winRate}</span>
-                        </div>
-                        <h3>${tender.title}</h3>
-                        <div class="tender-value">Estimated: ${tender.estimate}</div>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: ${tender.department} | Ref: ${tender.ref}</p>
-                        <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: ${tender.closingDate}</p>
-                    `;
-                    tenderContainer.appendChild(card);
-                });
-            } catch (error) {
-                console.error('Error loading tenders:', error);
-                document.getElementById('live-tenders-container').innerHTML = 
-                    '<p style="color: red; padding: 15px;">Failed to load live tenders. Please check tenders.json execution.</p>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadTenders);
-    </script>
