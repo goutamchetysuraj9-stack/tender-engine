@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const container = document.getElementById("live-tenders-container");
 
-    // Default Fallback Data agar tenders.json load na ho ya khali ho
+    // Pehle se chal rahe fields ke sath aapka data setup
     const fallbackTenders = [
         {
             title: "PWD Road Repair & Upgradation Works",
@@ -24,29 +24,34 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     function renderTenders(tendersList) {
+        if (!container) return;
         container.innerHTML = "";
+        
         tendersList.forEach(tender => {
             const card = document.createElement("div");
-            card.className = `tender-card ${tender.class === 'high-win' ? 'high-win' : ''}`;
+            // Agar aapke variable ka naam thoda badla bhi ho, toh yeh || lagakar use handle kar lega taaki undefined na aaye
+            const dist = tender.district || tender.dist || "Assam";
+            const currentTag = tender.tag || "Live";
+            const estCost = tender.cost || tender.amount || "Check Document";
+            const department = tender.dept || tender.department || "Govt Portal";
+            const lastDate = tender.closing || tender.date || "N/A";
             
+            card.className = `tender-card ${tender.class || ''}`;
             card.innerHTML = `
-                <span class="location-tag">📍 ${tender.district}</span>
-                <span class="meta-tag">🎯 ${tender.tag}</span>
-                <h3>${tender.title}</h3>
-                <div class="est-cost">${tender.cost}</div>
-                <div class="dept-info">Department: ${tender.dept}</div>
-                <div class="closing-date">Closing Date: ${tender.closing}</div>
+                <span class="location-tag">📍 ${dist}</span>
+                <span class="meta-tag">🎯 ${currentTag}</span>
+                <h3>${tender.title || 'Open Tender'}</h3>
+                <div class="est-cost">${estCost}</div>
+                <div class="dept-info">Department: ${department}</div>
+                <div class="closing-date">Closing Date: ${lastDate}</div>
             `;
             container.appendChild(card);
         });
     }
 
-    // Tenders.json se data fetch karne ki koshish karein
+    // JSON file load karne ka backup route
     fetch("tenders.json")
-        .then(response => {
-            if (!response.ok) throw new Error("JSON load failure");
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             if (data && data.length > 0) {
                 renderTenders(data);
@@ -54,8 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 renderTenders(fallbackTenders);
             }
         })
-        .catch(error => {
-            console.log("Using backup matrix system data due to:", error);
+        .catch(() => {
             renderTenders(fallbackTenders);
         });
 });
