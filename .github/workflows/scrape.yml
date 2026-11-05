@@ -2,30 +2,43 @@ name: Automated Tender Scraper Engine
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Automatically runs every 6 hours
-  workflow_dispatch: # Allows manual trigger button directly from GitHub
+    # ⏱️ Har 12 ghante me automatic chalega (Indian Time: Subah 5:30 baje aur Shaam 5:30 baje)
+    - cron: '0 */12 * * *'
+  workflow_dispatch: # ▶️ Isse aap GitHub Actions tab se manually bhi run kar sakte hain
 
 permissions:
-  contents: write # Crucial parameter to allow script to save json back to repo
+  contents: write # 🔐 Repository me tenders.json write karne ki permission
 
 jobs:
   build-and-scrape:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout repository files
+    # 1. Repository ka code runner par checkout karna
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Set up Python Runtime Environment
+    # 2. Python environment setup karna
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-python-version: '3.10'
+        python-version: '3.10' # 🐍 Explicit python-version configuration to fix empty node input warnings
 
-    - name: Execute Scraper Engine Script
+    # 3. Agar dependencies ho toh install karna (requests, etc.)
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    # 4. Scraper script ko run karna
+    - name: Run Automated Scraper
       run: python scraper.py
 
-    - name: Commit and Stream Updated Data to Vercel
+    # 5. Badle hue tenders.json file ko automatic repository me save/commit karna
+    - name: Commit and Push Updated Data
       run: |
-        git config --global user.name "TenderEngine-Bot"
-        git config --global user.email "bot@lmo-ai.internal"
+        git config --global user.name "Automated Tender Engine"
+        git config --global user.name "goutamchetysuraj9-stack"
+        git config --global user.email "goutamchetysuraj9@gmail.com"
         git add tenders.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Automated Sync: Fresh tenders parsed" && git push)
+        git diff-index --quiet HEAD || (git commit -m "Automated Sync: Update active tender database structures" && git push)
