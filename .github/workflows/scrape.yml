@@ -16,7 +16,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
-        persist-credentials: true # 🔐 Yeh pipeline credentials ko push ke liye save rakhega
+        persist-credentials: true
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -28,12 +28,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests
 
+    # 🎯 Yahan 'scraper.py' ki jagah sahi naam 'script.py' set kar diya hai
     - name: Run Automated Scraper
-      run: python scraper.py
+      run: python script.py
 
     - name: Commit and Push Updated Data
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 🔑 Secret auth token integration
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config --global user.name "goutamchetysuraj9-stack"
         git config --global user.email "goutamchetysuraj9@gmail.com"
