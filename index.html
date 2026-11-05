@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tender Engine - Dashboard</title>
+    <title>Tender Engine - Live Dashboard</title>
     <style>
         :root {
             --primary-color: #2e7d32;
@@ -30,7 +30,7 @@
         .header h1 { margin: 0; font-size: 2.5rem; }
         .header p { margin: 10px 0 0 0; opacity: 0.9; }
 
-        /* Layout Grid */
+        /* Main Grid Structure Layout */
         .main-container {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -50,10 +50,10 @@
             color: #333;
         }
 
-        /* Tender Feed Grid */
+        /* Live Automatic Tender Card Deck Nodes */
         .tender-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 20px;
         }
 
@@ -63,7 +63,6 @@
             padding: 20px;
             border-radius: 6px;
             box-shadow: var(--card-shadow);
-            position: relative;
         }
 
         .tender-meta {
@@ -73,21 +72,23 @@
             font-size: 0.85rem;
         }
 
+        .district-badge { font-weight: bold; color: #555; }
         .high-rate { color: #2e7d32; font-weight: bold; }
         .medium-rate { color: #ef6c00; font-weight: bold; }
-        .closing-date { color: var(--warning-red); font-weight: bold; }
+        .closing-date { color: var(--warning-red); font-weight: bold; margin-top: 10px; }
 
         .adsense-placeholder {
-            background: #f0f0f0;
+            background: #f9f9f9;
             border: 1px dashed #ccc;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             font-size: 0.8rem;
-            color: #888;
+            color: #999;
             margin: 15px 0;
+            border-radius: 4px;
         }
 
-        /* Sidebar Styling */
+        /* Sidebar Styling Elements */
         .sidebar-card, .disclaimer-card {
             background: white;
             padding: 20px;
@@ -117,29 +118,29 @@
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Header Banner Component -->
     <div class="header">
         <h1>TENDER ENGINE</h1>
         <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
     </div>
 
-    <!-- Main Dynamic Grid -->
+    <!-- Main Container Core Matrix -->
     <div class="main-container">
         
-        <!-- Left Side: Automated Tenders Feed -->
+        <!-- Left Column: Automated Active Data Engine Feed -->
         <div class="tenders-section">
             <h2 class="section-title">⚡ Live Local Tenders</h2>
             
-            <!-- 🎯 Is Container ke andar JavaScript automatic data fill karega -->
+            <!-- ⚡ Active Target Anchor Point Node -->
             <div id="live-tenders-container" class="tender-container">
-                <p>Loading live local tenders...</p>
+                <p style="color: var(--text-muted); font-style: italic;">Loading live automated database matrix fields...</p>
             </div>
         </div>
 
-        <!-- Right Side: Finance Sidebar & Legal Compliance -->
+        <!-- Right Column: Sidebar Panels & Legal Clauses -->
         <div class="sidebar-area">
             
-            <!-- Contractor Funding Gateway -->
+            <!-- Financial Micro Funding Node -->
             <div class="sidebar-card">
                 <h3 style="margin-top: 0; color: var(--accent-gold);">🔨 Contractor Capital</h3>
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
@@ -148,7 +149,7 @@
                 <div class="adsense-placeholder">[ DYNAMIC FINANCIAL DISPLAY AD ]</div>
             </div>
 
-            <!-- Absolute Legal Safety Disclaimer -->
+            <!-- Regulatory Absolute Protection Disclaimer -->
             <div class="disclaimer-card">
                 <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
                 <p style="font-size: 0.85rem; color: #666; margin: 0; line-height: 1.4;">
@@ -159,48 +160,61 @@
 
     </div>
 
-    <!-- 🔽 Auto-Fetch Data Script Before Closing Body Tag 🔽 -->
+    <!-- 🌐 Dynamic Injection Pipeline Logic Stream -->
     <script>
-        async function loadTenders() {
+        async function runDataFetchPipeline() {
+            const containerNode = document.getElementById('live-tenders-container');
+            if (!containerNode) return;
+
             try {
+                // Fetch updated database array stream
                 const response = await fetch('tenders.json');
-                const tenders = await response.json();
+                if (!response.ok) throw new Error(`HTTP Error Status Matrix: ${response.status}`);
                 
-                const tenderContainer = document.getElementById('live-tenders-container');
-                if (!tenderContainer) return;
-                
-                tenderContainer.innerHTML = ''; // Loading text clear karne ke liye
+                const dataSet = await response.json();
+                containerNode.innerHTML = ''; // Safely wipe placeholder nodes
 
-                tenders.forEach(tender => {
-                    const card = document.createElement('div');
-                    card.className = 'tender-card';
+                if (dataSet.length === 0) {
+                    containerNode.innerHTML = '<p>No active public procurement entries parsed currently.</p>';
+                    return;
+                }
+
+                // Loop through compiled records and build interface models
+                dataSet.forEach(item => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'tender-card';
                     
-                    const winRateClass = tender.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
+                    // Style condition routing based on parsed parameters
+                    const evaluationClass = item.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
 
-                    card.innerHTML = `
+                    cardElement.innerHTML = `
                         <div class="tender-meta">
-                            <span class="district-badge">📍 ${tender.location}</span>
-                            <span class="${winRateClass}">🎯 ${tender.winRate}</span>
+                            <span class="district-badge">📍 ${item.location || 'Assam Region'}</span>
+                            <span class="${evaluationClass}">🎯 ${item.winRate || 'Verified Feed'}</span>
                         </div>
-                        <h3>${tender.title}</h3>
-                        <div style="font-weight: bold; color: #333; margin: 10px 0;">Estimated: ${tender.estimate}</div>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: ${tender.department} | Ref: ${tender.ref}</p>
+                        <h3 style="margin: 10px 0; color: #111; font-size: 1.2rem;">${item.title}</h3>
+                        <div style="font-weight: bold; color: #222; margin: 8px 0; font-size: 1.05rem;">${item.estimate}</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0;">Department: ${item.department} | Ref: ${item.ref}</p>
                         
                         <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
                         
-                        <p class="closing-date">⚠️ Closing Date: ${tender.closingDate}</p>
+                        <div class="closing-date">⚠️ Closing Date: ${item.closingDate}</div>
                     `;
-                    tenderContainer.appendChild(card);
+                    containerNode.appendChild(cardElement);
                 });
-            } catch (error) {
-                console.error('Error loading tenders:', error);
-                document.getElementById('live-tenders-container').innerHTML = 
-                    '<p style="color: red;">Failed to load live tenders. Please check if tenders.json file is correctly formatted.</p>';
+
+            } catch (pipelineError) {
+                console.error('Data Engine Sync Failure:', pipelineError);
+                containerNode.innerHTML = `
+                    <p style="color: var(--warning-red); font-weight: bold;">
+                        Failed to parse active database pipeline streams. Please check your data configurations.
+                    </p>
+                `;
             }
         }
 
-        // Run setup when page is completely loaded
-        document.addEventListener('DOMContentLoaded', loadTenders);
+        // Initialize script trigger upon DOM state completion
+        document.addEventListener('DOMContentLoaded', runDataFetchPipeline);
     </script>
 </body>
 </html>
