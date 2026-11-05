@@ -1,65 +1,80 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const container = document.getElementById("live-tenders-container");
+    // Aapke dashboard ke original tables/containers ke IDs
+    const smallTable = document.getElementById("small-tenders") || document.querySelector(".small-table");
+    const mediumTable = document.getElementById("medium-tenders") || document.querySelector(".medium-table");
+    const megaTable = document.getElementById("mega-tenders") || document.querySelector(".mega-table");
+    const fallbackContainer = document.getElementById("live-tenders-container");
 
-    // Pehle se chal rahe fields ke sath aapka data setup
+    // Backup Data agar json file se automatic scrape na ho sake
     const fallbackTenders = [
         {
             title: "PWD Road Repair & Upgradation Works",
             district: "Udalguri",
-            tag: "High Win Rate",
-            class: "high-win",
-            cost: "₹25,000,000 (2.5 Crore)",
-            dept: "PWD Assam | Ref: Tender-UDG-2026-09",
-            closing: "28-Nov-2026"
+            budget: 25000000,
+            dept: "PWD Assam",
+            closing: "28-Nov-2026",
+            win_probability: "95%"
         },
         {
             title: "Supply of Office & IT Infrastructure Equipment",
             district: "Tangla",
-            tag: "Medium Competition",
-            class: "med-comp",
-            cost: "₹1,200,000 (12 Lakhs)",
+            budget: 1200000,
             dept: "Bodoland Territorial Council",
-            closing: "02-Dec-2026"
+            closing: "02-Dec-2026",
+            win_probability: "80%"
         }
     ];
 
-    function renderTenders(tendersList) {
-        if (!container) return;
-        container.innerHTML = "";
-        
-        tendersList.forEach(tender => {
-            const card = document.createElement("div");
-            // Agar aapke variable ka naam thoda badla bhi ho, toh yeh || lagakar use handle kar lega taaki undefined na aaye
-            const dist = tender.district || tender.dist || "Assam";
-            const currentTag = tender.tag || "Live";
-            const estCost = tender.cost || tender.amount || "Check Document";
-            const department = tender.dept || tender.department || "Govt Portal";
-            const lastDate = tender.closing || tender.date || "N/A";
+    function renderTendersToDashboard(tenders) {
+        // Purane code ki tarah tables ko pehle clear karna
+        if(smallTable) smallTable.innerHTML = '';
+        if(mediumTable) mediumTable.innerHTML = '';
+        if(megaTable) megaTable.innerHTML = '';
+        if(fallbackContainer) fallbackContainer.innerHTML = '';
+
+        tenders.forEach(tender => {
+            const districtText = tender.district ? `(${tender.district})` : '';
+            const winBadge = tender.win_probability ? `<span class="badge">${tender.win_probability} Win</span>` : '';
+            const budgetVal = tender.budget || tender.cost || "Check Document";
+            const closingDate = tender.closing || "N/A";
             
-            card.className = `tender-card ${tender.class || ''}`;
-            card.innerHTML = `
-                <span class="location-tag">📍 ${dist}</span>
-                <span class="meta-tag">🎯 ${currentTag}</span>
-                <h3>${tender.title || 'Open Tender'}</h3>
-                <div class="est-cost">${estCost}</div>
-                <div class="dept-info">Department: ${department}</div>
-                <div class="closing-date">Closing Date: ${lastDate}</div>
+            const rowHTML = `
+                <div class="tender-card">
+                    <h3>${tender.title} ${districtText}</h3>
+                    <p class="budget">Budget: ${budgetVal}</p>
+                    <p class="dept">Dept: ${tender.dept || 'Govt Portal'}</p>
+                    <p class="date">Closing: ${closingDate} ${winBadge}</p>
+                </div>
             `;
-            container.appendChild(card);
+
+            // Budget ke hisab se sahi section me render karna jaisa aapka Market System AI karta tha
+            if (tender.budget <= 500000 && smallTable) {
+                smallTable.insertAdjacentHTML('beforeend', rowHTML);
+            } else if (tender.budget > 500000 && tender.budget <= 5000000 && mediumTable) {
+                mediumTable.insertAdjacentHTML('beforeend', rowHTML);
+            } else if (tender.budget > 5000000 && megaTable) {
+                megaTable.insertAdjacentHTML('beforeend', rowHTML);
+            } else if (fallbackContainer) {
+                fallbackContainer.insertAdjacentHTML('beforeend', rowHTML);
+            }
         });
     }
 
-    // JSON file load karne ka backup route
+    // Main logic: JSON file se fetch karna
     fetch("tenders.json")
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error("JSON Fetch Failed");
+            return response.json();
+        })
         .then(data => {
             if (data && data.length > 0) {
-                renderTenders(data);
+                renderTendersToDashboard(data);
             } else {
-                renderTenders(fallbackTenders);
+                renderTendersToDashboard(fallbackTenders);
             }
         })
-        .catch(() => {
-            renderTenders(fallbackTenders);
+        .catch(err => {
+            console.log("Using system backup data matrix:", err);
+            renderTendersToDashboard(fallbackTenders);
         });
 });
