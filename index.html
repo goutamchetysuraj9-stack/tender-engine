@@ -162,7 +162,20 @@
         <div class="tenders-section">
             <h2 class="section-title">⚡ Live Local Tenders</h2>
             
-            <!-- JavaScript (script.js) yahan live tenders load karega -->
+            <!-- JavaScript (script.js) yahan live tenders load karega --><!-- Filter Bar for State, District & Department -->
+<div class="filter-bar" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+    <select id="state-filter" style="padding: 10px; border-radius: 6px; flex: 1; min-width: 180px;">
+        <option value="ALL">All States (North East / India)</option>
+    </select>
+
+    <select id="district-filter" style="padding: 10px; border-radius: 6px; flex: 1; min-width: 180px;">
+        <option value="ALL">All Districts</option>
+    </select>
+
+    <select id="department-filter" style="padding: 10px; border-radius: 6px; flex: 1; min-width: 180px;">
+        <option value="ALL">All Departments</option>
+    </select>
+</div>
             <div id="live-tenders-container">
                 <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
             </div>
