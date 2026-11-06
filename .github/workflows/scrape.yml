@@ -1,19 +1,18 @@
-name: Automated Tender Scraper Engine
+name: Auto Scrape North East Tenders
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Har 6 ghante mein automatic chalega
-  workflow_dispatch:       # Manual "Run workflow" button ke liye
+    - cron: '0 3 * * *' # रोज़ सुबह 8:30 AM IST पर चलेगा
+  workflow_dispatch:       # आप जब चाहें Run workflow बटन दबाकर चला सकते हैं
 
 permissions:
-  contents: write          # tenders.json ko auto-save karne ke liye zaroori
+  contents: write
 
 jobs:
   build-and-scrape:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -21,16 +20,18 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Playwright
         run: |
-          pip install requests beautifulsoup4 urllib3
+          pip install playwright
+          playwright install chromium
 
-      - name: Run North East Tender Scraper
+      - name: Run Scraper
         run: python scraper.py
 
-      - name: Commit and push updated tenders.json
+      - name: Commit & Push Updated Tenders
         run: |
-          git config --global user.name "Tender-Engine-Bot"
-          git config --global user.email "bot@://github.com"
+          git config --local user.email "bot@tender-engine.local"
+          git config --local user.name "Tender Engine Bot"
           git add tenders.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update North East tenders" && git push)
+          git commit -m "Auto-update live tenders" || exit 0
+          git push
