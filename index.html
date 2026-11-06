@@ -191,7 +191,14 @@
 
     <!-- JavaScript jo tenders.json se data fetch karega -->
   <script src="script.js"></script>
-        async function loadTenders() {
+       </div> <!-- Sidebar area closing -->
+    </div> <!-- Main container closing -->
+
+    <!-- 👇 Sirf yeh ek line lagayein, koi extra code nahi -->
+    <script src="script.js"></script>
+
+</body>
+</html>
             try {
                 const response = await fetch('./tenders.json');
                 if (!response.ok) throw new Error('tenders.json not found');
