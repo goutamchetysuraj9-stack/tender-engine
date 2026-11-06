@@ -4,31 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tender Engine - Assam LMO AI</title>
-    <style>.btn-loan {
-    display: block;
-    text-align: center;
-    background-color: var(--accent-gold);
-    color: #111827;
-    padding: 12px;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 6px;
-    margin-top: 15px;
-    transition: background 0.2s;
-    cursor: pointer;
-}
-.btn-loan:hover {
-    background-color: #d97706;
-}
-.adsense-placeholder {
-    background-color: #374151;
-    text-align: center;
-    padding: 15px;
-    font-size: 11px;
-    color: var(--text-muted);
-    border: 1px dashed #4b5563;
-    margin: 15px 0;
-}
+    <style>
         :root {
             --emerald: #059669;
             --emerald-light: #10b981;
@@ -136,6 +112,7 @@
             border-radius: 6px;
             margin-top: 15px;
             transition: background 0.2s;
+            cursor: pointer;
         }
         .btn-loan:hover {
             background-color: #d97706;
@@ -170,7 +147,7 @@
         }
     </style>
 </head>
-<body><a href="https://vidyalakshmi.co.in" target="_blank" class="btn-loan" style="z-index: 10; position: relative;">Apply for Project Loan →</a>
+<body>
 
     <!-- Header Section -->
     <div class="header">
@@ -185,31 +162,9 @@
         <div class="tenders-section">
             <h2 class="section-title">⚡ Live Local Tenders</h2>
             
-            <!-- Sample Tender Card Components -->
-            <div class="tender-card">
-                <div class="tender-meta">
-                    <span class="district-badge">📍 Udalguri</span>
-                    <span class="win-probability">🎯 High Win Rate</span>
-                </div>
-                <h3>PWD Road Repair & Upgradation Works</h3>
-                <div class="tender-value">Estimated: ₹25,000,000 (2.5 Crore)</div>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: PWD Assam | Ref: Tender-UDG-2026-09</p>
-                
-                <!-- AdSense Micro Slot Unit -->
-                <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-                
-                <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: 28-Nov-2026</p>
-            </div>
-
-            <div class="tender-card">
-                <div class="tender-meta">
-                    <span class="district-badge">📍 Tangla</span>
-                    <span class="win-probability">🎯 Medium Competition</span>
-                </div>
-                <h3>Supply of Office & IT Infrastructure Equipment</h3>
-                <div class="tender-value">Estimated: ₹1,200,000 (12 Lakhs)</div>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: Bodoland Territorial Council</p>
-                <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: 02-Dec-2026</p>
+            <!-- Yahan JavaScript automatic tenders load karega -->
+            <div id="live-tenders-container">
+                <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
             </div>
         </div>
 
@@ -228,12 +183,51 @@
             <!-- Absolute Legal Safety Disclaimer -->
             <div class="disclaimer-card">
                 <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-                Disclaimer: Yeh platform sirf ek automated aggregator/directory hai jo official government portals se open public information text display karti hai. Hum koi financial institution, bank, ya loan advisor nahi hain. Kisi bhi commercial transaction, processing fee payment, ya loan binding agreement par aage badhne se pehle company ki authenticity/RBI registration ki jaanch swayam karein. Kisi bhi financial vivad ya fraud ke liye yeh portal ya iske developers kanooni roop se utpannah ya jimmedar nahi honge.
+                Disclaimer: Yeh platform sirf ek automated aggregator/directory hai jo official government portals se open public information text display karti hai. Hum koi financial institution, bank, ya loan advisor nahi hain. Kisi bhi tender me bid karne se pehle official portal par details zaroor verify karein.
             </div>
 
-        </div>
+        </div> <!-- Sidebar area closing -->
+    </div> <!-- Main container closing -->
 
-    </div>
+    <!-- JavaScript jo tenders.json se data fetch karega -->
+    <script>
+        async function loadTenders() {
+            try {
+                const response = await fetch('./tenders.json');
+                if (!response.ok) throw new Error('tenders.json not found');
+                
+                const tenders = await response.json();
+                const tenderContainer = document.getElementById('live-tenders-container');
+                tenderContainer.innerHTML = ''; 
+
+                tenders.forEach(tender => {
+                    const card = document.createElement('div');
+                    card.className = 'tender-card';
+                    const winRateClass = tender.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
+
+                    card.innerHTML = `
+                        <div class="tender-meta">
+                            <span class="district-badge">📍 ${tender.location}</span>
+                            <span class="win-probability ${winRateClass}">🎯 ${tender.winRate}</span>
+                        </div>
+                        <h3>${tender.title}</h3>
+                        <div class="tender-value">${tender.estimate}</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">
+                            Department: ${tender.department} | Ref: ${tender.ref}
+                        </p>
+                        <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
+                        <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: ${tender.closingDate}</p>
+                    `;
+                    tenderContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading tenders:', error);
+                document.getElementById('live-tenders-container').innerHTML = 
+                    '<p style="color: var(--danger-red); padding: 20px;">Failed to load live tenders. Please try again later.</p>';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadTenders);
+    </script>
 
 </body>
 </html>
