@@ -3,208 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tender Engine - North East LMO AI</title>
+    <title>TENDER ENGINE | North East & India Public Procurement Dashboard</title>
     <style>
         :root {
-            --emerald: #059669;
-            --emerald-light: #10b981;
-            --dark-bg: #111827;
-            --card-bg: #1f2937;
-            --text-light: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent-gold: #f59e0b;
-            --danger-red: #ef4444;
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --success: #16a34a;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--dark-bg); color: var(--text-light); margin: 0; padding: 20px; }
-        .header { text-align: center; padding: 30px 20px; border-bottom: 3px solid var(--emerald); background-color: var(--card-bg); border-radius: 8px; margin-bottom: 25px; }
-        .header h1 { color: var(--emerald-light); margin: 0 0 10px 0; font-size: 2.5rem; letter-spacing: 1px; }
-        .header p { color: var(--text-muted); margin: 0; font-size: 1.1rem; }
-        .main-container { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-        @media (max-width: 768px) { .main-container { grid-template-columns: 1fr; } }
-        .section-title { font-size: 1.5rem; color: var(--emerald-light); border-bottom: 1px solid var(--card-bg); padding-bottom: 8px; margin-top: 0; }
-        .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin: 15px 0 25px 0; }
-        .filter-select { background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer; }
-        .tender-card { background-color: var(--card-bg); border-left: 5px solid var(--emerald); padding: 20px; border-radius: 6px; margin-bottom: 20px; }
-        .tender-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 0.9rem; }
-        .district-badge { background-color: #374151; padding: 4px 10px; border-radius: 4px; color: var(--text-light); font-weight: bold; }
-        .win-probability { background-color: rgba(5, 150, 105, 0.2); color: var(--emerald-light); padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; }
-        .tender-value { font-size: 1.3rem; color: var(--accent-gold); font-weight: bold; margin: 10px 0; }
-        .sidebar-card { background-color: var(--card-bg); border: 1px dashed var(--accent-gold); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .btn-loan { display: block; text-align: center; background-color: var(--accent-gold); color: #111827; padding: 12px; font-weight: bold; text-decoration: none; border-radius: 6px; margin-top: 15px; cursor: pointer; }
-        .adsense-placeholder { background-color: #374151; text-align: center; padding: 15px; font-size: 11px; color: var(--text-muted); border: 1px dashed #4b5563; margin: 15px 0; border-radius: 4px; }
-        .disclaimer-card { background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.3); padding: 15px; border-radius: 6px; font-size: 0.85rem; color: #fca5a5; line-height: 1.4; }
-        .disclaimer-title { color: var(--danger-red); font-weight: bold; margin-bottom: 5px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.5; }
+        
+        /* Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 4px solid var(--accent);
+        }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+        .brand h1 { font-size: 1.5rem; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.5rem; }
+        .brand p { font-size: 0.85rem; color: #94a3b8; }
+        .live-badge { background: #dc2626; color: white; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.6rem; border-radius: 999px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        /* Main Container */
+        .container { max-width: 1200px; margin: 1.5rem auto; padding: 0 1rem; }
+
+        /* AdSense Slot */
+        .ad-slot {
+            background: #e2e8f0;
+            border: 1px dashed #94a3b8;
+            color: #475569;
+            text-align: center;
+            padding: 1rem;
+            margin: 1.25rem 0;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Filter Control Panel */
+        .filter-panel {
+            background: var(--card-bg);
+            padding: 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .filter-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-bottom: 0.35rem; text-transform: uppercase; }
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 0.65rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+        }
+        .filter-group select:focus, .filter-group input:focus { outline: none; border-color: var(--accent); }
+
+        /* Quick Department Pills */
+        .dept-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+        .pill {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pill:hover, .pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Dynamic Official Portal Action Banner */
+        .portal-action-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #93c5fd;
+            border-radius: 12px;
+            padding: 1.15rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .portal-info h3 { font-size: 1.05rem; color: #1e3a8a; margin-bottom: 0.2rem; }
+        .portal-info p { font-size: 0.85rem; color: #1e40af; }
+        .portal-btn {
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .portal-btn:hover { background: var(--accent-hover); }
+
+        /* Stats Bar */
+        .stats-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.9rem; color: var(--muted); font-weight: 600; }
+
+        /* Tender Cards Grid */
+        .tender-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.25rem;
+        }
+        .tender-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.15s;
+        }
+        .tender-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem; }
+        .loc-tag { background: #f1f5f9; color: #334155; font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 6px; }
+        .win-tag { background: #dcfce7; color: #166534; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 6px; }
+        .tender-title { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 0.6rem; }
+        .tender-budget { font-size: 1.15rem; font-weight: 800; color: var(--success); margin-bottom: 0.6rem; }
+        .tender-meta { font-size: 0.83rem; color: var(--muted); margin-bottom: 1rem; border-top: 1px solid var(--border); padding-top: 0.6rem; }
+        .tender-meta div { margin-bottom: 0.25rem; }
+        .bid-btn {
+            display: block;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.65rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .bid-btn:hover { background: var(--accent); }
+
+        /* Empty / Fallback State */
+        .empty-box {
+            grid-column: 1 / -1;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .empty-box h3 { margin-bottom: 0.5rem; color: var(--primary); }
+        .empty-box p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1rem; }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: #94a3b8;
+            padding: 1.5rem;
+            margin-top: 2.5rem;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+        footer p { max-width: 900px; margin: 0 auto; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>TENDER ENGINE</h1>
-        <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
-    </div>
 
-    <div class="main-container">
-        <div class="tenders-section">
-            <h2 class="section-title">⚡ Live Local Tenders</h2>
-            <div class="filter-bar">
-                <select id="state-filter" class="filter-select"><option value="ALL">All States (North East / India)</option></select>
-                <select id="district-filter" class="filter-select"><option value="ALL">All Districts</option></select>
-                <select id="department-filter" class="filter-select"><option value="ALL">All Departments</option></select>
-            </div>
-            <div id="live-tenders-container">
-                <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
-            </div>
-        </div>
-
-        <div class="sidebar-area">
-            <div class="sidebar-card">
-                <h3 style="margin-top: 0; color: var(--accent-gold);">🔨 Contractor Capital</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
-                <a href="https://sbismartcare.sbi" target="_blank" class="btn-loan">Apply for Project Loan →</a>
-                <div class="adsense-placeholder">[ DYNAMIC FINANCIAL DISPLAY AD ]</div>
-            </div>
-            <div class="disclaimer-card">
-                <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-                Disclaimer: This platform is an automated open-data aggregator that displays public information from official government portals. We are not a financial institution, bank, or loan advisor. Please verify all details on the official portal before bidding.
-            </div>
+<header>
+    <div class="header-inner">
+        <div class="brand">
+            <h1>⚡ TENDER ENGINE <span class="live-badge">LIVE PORTAL</span></h1>
+            <p>North East & All-India Automated Public Procurement Intelligence</p>
         </div>
     </div>
-Use code with caution.
+</header>
 
-STEP 2: Ab is PART 2 ko copy karke PART 1 ke theek neeche paste karein aur Commit changes dabayein:
+<div class="container">
+    <div class="ad-slot">[ GOOGLE ADSENSE RESPONSIVE TOP BANNER SLOT ]</div>
 
-html
-    <script>
-    let allTenders = [];
-
-    const STATE_DISTRICTS_MASTER = {
-        "Assam": ["Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"],
-        "Meghalaya": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"],
-        "Arunachal Pradesh": ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Itanagar Capital Complex", "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"],
-        "Nagaland": ["Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"],
-        "Manipur": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
-        "Mizoram": ["Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Saitual", "Serchhip"],
-        "Tripura": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
-        "Sikkim": ["Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"]
-    };
-
-    const STATE_DEPARTMENTS_MASTER = {
-        "Assam": ["PWD Assam", "Bodoland Territorial Council", "PHE Assam", "Health & Family Welfare Assam", "Education Dept Assam", "Irrigation Dept Assam", "Water Resources Assam", "GMDA Assam", "APDCL (Assam Power)", "Panchayat & Rural Development Assam"],
-        "Meghalaya": ["PHE Meghalaya", "PWD Meghalaya", "MeECL (Power)", "Health Dept Meghalaya"],
-        "Arunachal Pradesh": ["Power Department Arunachal", "PWD Arunachal", "PHE & WS Arunachal", "Rural Works Dept"],
-        "Nagaland": ["NPWD Nagaland", "PHED Nagaland", "Power Dept Nagaland"],
-        "Manipur": ["Health Directorate Manipur", "PWD Manipur", "PHED Manipur"],
-        "Mizoram": ["PWD Mizoram", "PHE Mizoram", "Power & Electricity Mizoram"],
-        "Tripura": ["Education Dept Tripura", "PWD Tripura", "DWS Tripura"],
-        "Sikkim": ["Tourism Dept Sikkim", "Roads & Bridges Sikkim", "Power Dept Sikkim"]
-    };
-
-    const BACKUP_TENDERS = [
-        { "state": "Assam", "district": "Udalguri", "location": "Udalguri", "winRate": "High Win Rate", "title": "PWD Road Repair & Upgradation Works under Udalguri Division", "estimate": "₹25,000,000 (2.5 Crore)", "department": "PWD Assam", "ref": "Tender-UDG-2026-09", "closingDate": "28-Nov-2026", "link": "https://assamtenders.gov.in" },
-        { "state": "Assam", "district": "Udalguri", "location": "Tangla, Udalguri", "winRate": "Medium Competition", "title": "Supply of Office & IT Infrastructure Equipment", "estimate": "₹1,200,000 (12 Lakhs)", "department": "Bodoland Territorial Council", "ref": "Tender-BTC-2026-11", "closingDate": "02-Dec-2026", "link": "https://assamtenders.gov.in" }
-    ];
-
-    async function initDashboard() {
-        populateStateDropdown();
-        updateDistrictAndDeptDropdowns('ALL');
-
-        document.getElementById('state-filter').addEventListener('change', function() {
-            updateDistrictAndDeptDropdowns(this.value);
-            applyFilters();
-        });
-        document.getElementById('district-filter').addEventListener('change', applyFilters);
-        document.getElementById('department-filter').addEventListener('change', applyFilters);
-
-        try {
-            const response = await fetch('./tenders.json?v=' + Date.now());
-            if (!response.ok) throw new Error('JSON not loaded');
-            allTenders = await response.json();
-        } catch (e) {
-            allTenders = BACKUP_TENDERS;
-        }
-
-        updateDistrictAndDeptDropdowns('ALL');
-        renderTenders(allTenders);
-    }
-
-    function populateStateDropdown() {
-        const stateSelect = document.getElementById('state-filter');
-        stateSelect.innerHTML = '<option value="ALL">All States (North East / India)</option>';
-        Object.keys(STATE_DISTRICTS_MASTER).sort().forEach(state => {
-            const opt = document.createElement('option');
-            opt.value = state;
-            opt.textContent = state;
-            stateSelect.appendChild(opt);
-        });
-    }
-
-    function updateDistrictAndDeptDropdowns(selectedState) {
-        const districtSelect = document.getElementById('district-filter');
-        const deptSelect = document.getElementById('department-filter');
-
-        districtSelect.innerHTML = '<option value="ALL">All Districts</option>';
-        let districts = selectedState === 'ALL' ? Object.values(STATE_DISTRICTS_MASTER).flat() : (STATE_DISTRICTS_MASTER[selectedState] || []);
-        [...new Set(districts)].sort().forEach(d => {
-            const opt = document.createElement('option');
-            opt.value = d;
-            opt.textContent = d;
-            districtSelect.appendChild(opt);
-        });
-
-        deptSelect.innerHTML = '<option value="ALL">All Departments</option>';
-        let depts = selectedState === 'ALL' ? Object.values(STATE_DEPARTMENTS_MASTER).flat() : (STATE_DEPARTMENTS_MASTER[selectedState] || []);
-        allTenders.filter(t => selectedState === 'ALL' || (t.state || 'Assam') === selectedState).forEach(t => { if (t.department) depts.push(t.department); });
-        [...new Set(depts)].sort().forEach(dept => {
-            const opt = document.createElement('option');
-            opt.value = dept;
-            opt.textContent = dept;
-            deptSelect.appendChild(opt);
-        });
-    }
-
-    function applyFilters() {
-        const s = document.getElementById('state-filter').value;
-        const d = document.getElementById('district-filter').value;
-        const dept = document.getElementById('department-filter').value;
-
-        const filtered = allTenders.filter(t => {
-            const matchS = (s === 'ALL') || ((t.state || 'Assam') === s);
-            const matchD = (d === 'ALL') || ((t.district || t.location) === d);
-            const matchDept = (dept === 'ALL') || (t.department === dept);
-            return matchS && matchD && matchDept;
-        });
-        renderTenders(filtered);
-    }
-
-    function renderTenders(list) {
-        const container = document.getElementById('live-tenders-container');
-        container.innerHTML = '';
-
-        if (list.length === 0) {
-            container.innerHTML = '<p style="padding: 20px; text-align: center; color: #94a3b8;">No active tenders found for this selection. Try selecting "All Districts" or "All Departments".</p>';
-            return;
-        }
-
-        list.forEach(tender => {
-            const card = document.createElement('div');
-            card.className = 'tender-card';
-            const stateLabel = tender.state ? ', ' + tender.state : '';
-            card.innerHTML = `
-                <div class="tender-meta">
-                    <span class="district-badge">📍 ${tender.location || tender.district}${stateLabel}</span>
-                    <span class="win-probability">🎯 ${tender.winRate}</span>
-                </div>
-                <h3>${tender.title}</h3>
-                <div class="tender-value">${tender.estimate}</div>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Department: ${tender.department} | Ref: ${tender.ref}</p>
-                <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-                <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: ${tender.closingDate}</p>
-                <a href="${tender.link || 'https://assamtenders.gov.in'}" target="_blank" style="display: inline-block; background-color: var(--emerald); color: white; padding: 10px 16px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 12px;">View & Bid on Official Portal →</a>
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    initDashboard();
-    </script>
-</body>
-</html>
+    <div class="filter-panel">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label for="stateFilter">Select State</label>
+                <select id="stateFilter">
+                    <option value="ALL">All North East States</option>
+                    <option value="Assam" selected>Assam</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tripura">Tripura</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="districtFilter">Select District / Region</label>
+                <select id="districtFilter">
+                    <option value="ALL">All Districts</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="deptFilter">Select Department</label>
+                <select id="deptFilter">
+                    <option value="ALL">All Departments</option>
+                    <option value="PWD">PWD (Roads & Building)</option>
+                    <option value="Irrigation">Irrigation Department</option>
+                    <option value="PHE">PHE (Water Supply)</option>
+                    <option value="Health">Health & Family Welfare</option>
+                    <option value="Education">Education / Samagra Shiksha</option>
+                    <option value="Power">Power / APDCL / Energy</option>
+                    <option value="BTR">BTR / Municipal / Panchayat</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="searchInput">Keyword Search</label>
