@@ -53,31 +53,33 @@ def detect_department(text):
 
 def scrape_assam_tenders():
     live_tenders = []
-    print("assamtenders.gov.in से लाइव टेंडर निकाले जा रहे हैं...")
+    print("assamtenders.gov.in se live tenders nikale ja rahe hain...")
 
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36"
+                ignore_https_errors=True,
+                java_script_enabled=True,
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
             )
             page = context.new_page()
-            page.goto("https://assamtenders.gov.in", timeout=60000)
-            page.wait_for_timeout(4000)
+            page.goto("https://assamtenders.gov.in", timeout=60000, wait_until="networkidle")
+            page.wait_for_timeout(3000)
 
             rows = page.locator("table tr").all()
             seen_titles = set()
 
             for row in rows:
                 cols = [c.inner_text().strip() for c in row.locator("td").all()]
-                if len(cols) >= 3 and len(cols) > 20 and "tender" not in cols.lower()[:10]:
-                    title = re.sub(r'\s+', ' ', cols)
+                if len(cols) >= 3 and len(cols[0]) > 20 and "tender title" not in cols[0].lower():
+                    title = re.sub(r'\s+', ' ', cols[0])
                     if title in seen_titles:
                         continue
                     seen_titles.add(title)
 
-                    ref_no = cols if len(cols) > 1 and cols else f"ASM-{datetime.now().strftime('%Y%m')}-{len(live_tenders)+1}"
-                    closing_date = cols if len(cols) > 2 and cols else "Check Official Portal"
+                    ref_no = cols[1] if len(cols) > 1 and cols[1] else f"ASM-{datetime.now().strftime('%Y%m')}-{len(live_tenders)+1}"
+                    closing_date = cols[2] if len(cols) > 2 and cols[2] else "Check Official Portal"
                     district = detect_district(title)
                     dept = detect_department(title)
 
@@ -116,7 +118,7 @@ def scrape_assam_tenders():
     with open("tenders.json", "w", encoding="utf-8") as f:
         json.dump(final_output, f, ensure_ascii=False, indent=2)
 
-    print(f"कुल {len(final_output)} टेंडर tenders.json में सेव हो गए हैं।")
+    print(f"Total {len(final_output)} tenders saved to tenders.json.")
 
 if __name__ == "__main__":
     scrape_assam_tenders()
