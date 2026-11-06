@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tender Engine - North East LMO AI</title>
+    <title>Tender Engine - Assam LMO AI</title>
     <style>
         :root {
             --emerald: #059669;
@@ -162,21 +162,7 @@
         <div class="tenders-section">
             <h2 class="section-title">⚡ Live Local Tenders</h2>
             
-            <!-- Filter Bar for State, District & Department -->
-            <div class="filter-bar" style="display: flex; gap: 12px; flex-wrap: wrap; margin: 15px 0 25px 0;">
-                <select id="state-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
-                    <option value="ALL">All States (North East / India)</option>
-                </select>
-
-                <select id="district-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
-                    <option value="ALL">All Districts</option>
-                </select>
-
-                <select id="department-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
-                    <option value="ALL">All Departments</option>
-                </select>
-            </div>
-
+            <!-- Yahan JavaScript automatic tenders load karega -->
             <div id="live-tenders-container">
                 <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
             </div>
@@ -197,55 +183,51 @@
             <!-- Absolute Legal Safety Disclaimer -->
             <div class="disclaimer-card">
                 <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-                Disclaimer: This platform is an automated open-data aggregator that displays public information from official government portals. We are not a financial institution, bank, or loan advisor. Please verify all details on the official portal before bidding.
+                Disclaimer: Yeh platform sirf ek automated aggregator/directory hai jo official government portals se open public information text display karti hai. Hum koi financial institution, bank, ya loan advisor nahi hain. Kisi bhi tender me bid karne se pehle official portal par details zaroor verify karein.
             </div>
 
         </div> <!-- Sidebar area closing -->
     </div> <!-- Main container closing -->
 
-    <!-- Built-in JavaScript (No external script.js dependency) -->
-    <script>
-    let allTenders = [];
+    <!-- JavaScript jo tenders.json se data fetch karega -->
+  <script src="script.js"></script>
+        async function loadTenders() {
+            try {
+                const response = await fetch('./tenders.json');
+                if (!response.ok) throw new Error('tenders.json not found');
+                
+                const tenders = await response.json();
+                const tenderContainer = document.getElementById('live-tenders-container');
+                tenderContainer.innerHTML = ''; 
 
-    const STATE_DISTRICTS_MASTER = {
-        "Assam": [
-            "Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo",
-            "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara",
-            "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong",
-            "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari",
-            "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"
-        ],
-        "Meghalaya": [
-            "East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills",
-            "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills",
-            "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"
-        ],
-        "Arunachal Pradesh": [
-            "Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Itanagar Capital Complex",
-            "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley",
-            "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi",
-            "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"
-        ],
-        "Nagaland": [
-            "Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon",
-            "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"
-        ],
-        "Manipur": [
-            "Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam",
-            "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong",
-            "Tengnoupal", "Thoubal", "Ukhrul"
-        ],
-        "Mizoram": [
-            "Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai",
-            "Lunglei", "Mamit", "Saiha", "Saitual", "Serchhip"
-        ],
-        "Tripura": [
-            "Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"
-        ],
-        "Sikkim": [
-            "Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"
-        ]
-    };
+                tenders.forEach(tender => {
+                    const card = document.createElement('div');
+                    card.className = 'tender-card';
+                    const winRateClass = tender.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
 
-    const STATE_DEPARTMENTS_MASTER = {
-        "Assam": [
+                    card.innerHTML = `
+                        <div class="tender-meta">
+                            <span class="district-badge">📍 ${tender.location}</span>
+                            <span class="win-probability ${winRateClass}">🎯 ${tender.winRate}</span>
+                        </div>
+                        <h3>${tender.title}</h3>
+                        <div class="tender-value">${tender.estimate}</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">
+                            Department: ${tender.department} | Ref: ${tender.ref}
+                        </p>
+                        <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
+                        <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: ${tender.closingDate}</p>
+                    `;
+                    tenderContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading tenders:', error);
+                document.getElementById('live-tenders-container').innerHTML = 
+                    '<p style="color: var(--danger-red); padding: 20px;">Failed to load live tenders. Please try again later.</p>';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadTenders);
+    </script>
+
+</body>
+</html>
