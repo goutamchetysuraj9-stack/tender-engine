@@ -14,14 +14,24 @@ ASSAM_DISTRICTS = [
 CITY_TO_DISTRICT = {
     "guwahati": "Kamrup Metro",
     "dispur": "Kamrup Metro",
+    "panbazar": "Kamrup Metro",
     "tangla": "Udalguri",
     "tezpur": "Sonitpur",
     "silchar": "Cachar",
     "diphu": "Karbi Anglong",
     "haflong": "Dima Hasao",
     "mangaldoi": "Darrang",
-    "north lakhimpur": "Lakhimpur"
+    "dhakuakhana": "Lakhimpur",
+    "north lakhimpur": "Lakhimpur",
+    "dinjan": "Dibrugarh"
 }
+
+# फालतू वेबसाइट मेनू और फ़ुटर शब्दों की लिस्ट जिन्हें हमें छोड़ना है
+JUNK_KEYWORDS = [
+    "screen reader", "active tenders", "new spp portal", "mis reports",
+    "welcome to eprocurement", "online bidder", "help for contractors",
+    "visitor no", "designed, developed", "corrigendum title", "all rights reserved"
+]
 
 def detect_district(text):
     lower_text = text.lower()
@@ -33,27 +43,29 @@ def detect_district(text):
             return dist
     return "Kamrup Metro"
 
-def detect_department(text):
-    lower_text = text.lower()
-    if "pwd" in lower_text or "road" in lower_text or "bridge" in lower_text:
+def detect_department(text, ref_no):
+    combined = (text + " " + ref_no).lower()
+    if "gmda" in combined:
+        return "GMDA Assam"
+    elif "pwd" in combined or "road" in combined or "bridge" in combined:
         return "PWD Assam"
-    elif "phe" in lower_text or "water" in lower_text or "jal jeevan" in lower_text:
+    elif "phe" in combined or "water" in combined or "jal jeevan" in combined:
         return "PHE Assam"
-    elif "btc" in lower_text or "bodoland" in lower_text:
+    elif "btc" in combined or "bodoland" in combined:
         return "Bodoland Territorial Council"
-    elif "health" in lower_text or "nhm" in lower_text or "hospital" in lower_text:
+    elif "health" in combined or "nhm" in combined or "hospital" in combined or "medical" in combined or "ahidms" in combined:
         return "Health & Family Welfare Assam"
-    elif "education" in lower_text or "school" in lower_text:
+    elif "education" in combined or "school" in combined or "university" in combined:
         return "Education Dept Assam"
-    elif "apdcl" in lower_text or "power" in lower_text or "solar" in lower_text:
+    elif "apdcl" in combined or "power" in combined or "solar" in combined:
         return "APDCL (Assam Power)"
-    elif "irrigation" in lower_text:
-        return "Irrigation Dept Assam"
+    elif "irrigation" in combined or "flood" in combined or "river" in combined:
+        return "Water Resources Assam"
     return "Panchayat & Rural Development Assam"
 
 def scrape_assam_tenders():
     live_tenders = []
-    print("assamtenders.gov.in se live tenders nikale ja rahe hain...")
+    print("assamtenders.gov.in से साफ लाइव टेंडर निकाले जा रहे हैं...")
 
     try:
         with sync_playwright() as p:
@@ -72,26 +84,39 @@ def scrape_assam_tenders():
 
             for row in rows:
                 cols = [c.inner_text().strip() for c in row.locator("td").all()]
-                if len(cols) >= 3 and len(cols[0]) > 20 and "tender title" not in cols[0].lower():
-                    title = re.sub(r'\s+', ' ', cols[0])
-                    if title in seen_titles:
-                        continue
-                    seen_titles.add(title)
+                # केवल वे पंक्तियाँ लें जिनमें टेंडर का नंबर, रेफ़रेंस और बंद होने की तारीख (जैसे 2026) हो
+                if len(cols) >= 3:
+                    raw_title = re.sub(r'\s+', ' ', cols)
+                    closing_date = re.sub(r'\s+', ' ', cols)
+                    lower_title = raw_title.lower()
 
-                    ref_no = cols[1] if len(cols) > 1 and cols[1] else f"ASM-{datetime.now().strftime('%Y%m')}-{len(live_tenders)+1}"
-                    closing_date = cols[2] if len(cols) > 2 and cols[2] else "Check Official Portal"
-                    district = detect_district(title)
-                    dept = detect_department(title)
+                    # फालतू मेनू और फ़ुटर लाइनों को रोकें
+                    if any(junk in lower_title for junk in JUNK_KEYWORDS):
+                        continue
+                    if "2026" not in closing_date and "2027" not in closing_date:
+                        continue
+                    if len(raw_title) < 15 or len(raw_title) > 250:
+                        continue
+
+                    # आगे के सीरियल नंबर (जैसे "1. ", "2. ") हटाकर साफ़ टाइटल बनाएं
+                    clean_title = re.sub(r'^\d+\.\s*', '', raw_title)
+                    if clean_title in seen_titles:
+                        continue
+                    seen_titles.add(clean_title)
+
+                    ref_no = re.sub(r'\s+', ' ', cols) if cols else f"ASM-{datetime.now().strftime('%Y%m')}-{len(live_tenders)+1}"
+                    district = detect_district(clean_title)
+                    dept = detect_department(clean_title, ref_no)
 
                     live_tenders.append({
                         "state": "Assam",
                         "district": district,
                         "location": f"{district}, Assam",
-                        "winRate": "Live Portal Tender",
-                        "title": title[:140],
+                        "winRate": "High Win Rate",
+                        "title": clean_title[:140],
                         "estimate": "View BoQ on Official Portal",
                         "department": dept,
-                        "ref": ref_no[:40],
+                        "ref": ref_no[:45],
                         "closingDate": closing_date[:25],
                         "link": "https://assamtenders.gov.in"
                     })
@@ -118,7 +143,7 @@ def scrape_assam_tenders():
     with open("tenders.json", "w", encoding="utf-8") as f:
         json.dump(final_output, f, ensure_ascii=False, indent=2)
 
-    print(f"Total {len(final_output)} tenders saved to tenders.json.")
+    print(f"Total {len(final_output)} clean tenders saved to tenders.json.")
 
 if __name__ == "__main__":
     scrape_assam_tenders()
