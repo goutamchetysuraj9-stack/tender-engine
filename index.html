@@ -42,9 +42,62 @@ body{font-family:'Segoe UI',sans-serif;background:var(--dark-bg);color:var(--tex
 <div>
 <h2 class="sec-title">⚡ Live Local Tenders</h2>
 <div class="filters">
-<select id="s-filter"><option value="ALL">All States (North East / India)</option></select>
-<select id="d-filter"><option value="ALL">All Districts</option></select>
-<select id="p-filter"><option value="ALL">All Departments</option></select>
+<select id="s-filter">
+<option value="ALL">All States (North East / India)</option>
+<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+<option value="Assam">Assam</option>
+<option value="Manipur">Manipur</option>
+<option value="Meghalaya">Meghalaya</option>
+<option value="Mizoram">Mizoram</option>
+<option value="Nagaland">Nagaland</option>
+<option value="Sikkim">Sikkim</option>
+<option value="Tripura">Tripura</option>
+</select>
+<select id="d-filter">
+<option value="ALL">All Districts</option>
+<option value="Aizawl">Aizawl</option>
+<option value="Bajali">Bajali</option>
+<option value="Baksa">Baksa</option>
+<option value="Barpeta">Barpeta</option>
+<option value="Bongaigaon">Bongaigaon</option>
+<option value="Cachar">Cachar</option>
+<option value="Chirang">Chirang</option>
+<option value="Darrang">Darrang</option>
+<option value="Dibrugarh">Dibrugarh</option>
+<option value="Dimapur">Dimapur</option>
+<option value="East Khasi Hills">East Khasi Hills</option>
+<option value="Gangtok">Gangtok</option>
+<option value="Imphal West">Imphal West</option>
+<option value="Itanagar Capital Complex">Itanagar Capital Complex</option>
+<option value="Jorhat">Jorhat</option>
+<option value="Kamrup">Kamrup</option>
+<option value="Kamrup Metro">Kamrup Metro</option>
+<option value="Kohima">Kohima</option>
+<option value="Kokrajhar">Kokrajhar</option>
+<option value="Nagaon">Nagaon</option>
+<option value="Nalbari">Nalbari</option>
+<option value="Sonitpur">Sonitpur</option>
+<option value="Tinsukia">Tinsukia</option>
+<option value="Udalguri">Udalguri</option>
+<option value="West Tripura">West Tripura</option>
+</select>
+<select id="p-filter">
+<option value="ALL">All Departments</option>
+<option value="APDCL (Assam Power)">APDCL (Assam Power)</option>
+<option value="Bodoland Territorial Council">Bodoland Territorial Council</option>
+<option value="Education Dept Assam">Education Dept Assam</option>
+<option value="Education Dept Tripura">Education Dept Tripura</option>
+<option value="GMDA Assam">GMDA Assam</option>
+<option value="Health Directorate Manipur">Health Directorate Manipur</option>
+<option value="Irrigation Dept Assam">Irrigation Dept Assam</option>
+<option value="NPWD Nagaland">NPWD Nagaland</option>
+<option value="PHE Assam">PHE Assam</option>
+<option value="PHE Meghalaya">PHE Meghalaya</option>
+<option value="Power Department Arunachal">Power Department Arunachal</option>
+<option value="PWD Assam">PWD Assam</option>
+<option value="PWD Mizoram">PWD Mizoram</option>
+<option value="Tourism Dept Sikkim">Tourism Dept Sikkim</option>
+</select>
 </div>
 <div id="t-list"></div>
 </div>
@@ -85,14 +138,3 @@ const DEPT={
 const TENDERS=[
 {state:"Assam",district:"Udalguri",loc:"Udalguri, Assam",win:"High Win Rate",title:"PWD Road Repair & Upgradation Works",est:"₹25,000,000 (2.5 Crore)",dept:"PWD Assam",ref:"Tender-UDG-2026-09",dt:"28-Nov-2026",url:"https://assamtenders.gov.in"},
 {state:"Assam",district:"Udalguri",loc:"Tangla, Udalguri, Assam",win:"Medium Competition",title:"Supply of Office & IT Infrastructure Equipment",est:"₹1,200,000 (12 Lakhs)",dept:"Bodoland Territorial Council",ref:"Tender-BTC-2026-11",dt:"02-Dec-2026",url:"https://assamtenders.gov.in"},
-{state:"Assam",district:"Kamrup Metro",loc:"Guwahati, Kamrup Metro, Assam",win:"Medium Competition",title:"Construction of Drainage & Urban Flood Management System",est:"₹42,000,000 (4.2 Crore)",dept:"GMDA Assam",ref:"Tender-GHY-2026-14",dt:"04-Dec-2026",url:"https://assamtenders.gov.in"},
-{state:"Meghalaya",district:"East Khasi Hills",loc:"Shillong, East Khasi Hills",win:"High Win Rate",title:"Rural Water Supply Pipeline & Reservoir Upgradation",est:"₹18,500,000 (1.85 Crore)",dept:"PHE Meghalaya",ref:"MEG-PHE-2026-44",dt:"05-Dec-2026",url:"https://meghalayatenders.gov.in"},
-{state:"Arunachal Pradesh",district:"Itanagar Capital Complex",loc:"Itanagar, Arunachal Pradesh",win:"Medium Competition",title:"Solar Street Light Installation & Smart Grid Works",est:"₹9,500,000 (95 Lakhs)",dept:"Power Department Arunachal",ref:"ARP-PWR-2026-19",dt:"10-Dec-2026",url:"https://arunachaltenders.gov.in"},
-{state:"Tripura",district:"West Tripura",loc:"Agartala, West Tripura",win:"High Win Rate",title:"Government School Building Renovation & Furniture Supply",est:"₹6,000,000 (60 Lakhs)",dept:"Education Dept Tripura",ref:"TRP-EDU-2026-31",dt:"12-Dec-2026",url:"https://tripuratenders.gov.in"},
-{state:"Nagaland",district:"Kohima",loc:"Kohima, Nagaland",win:"High Win Rate",title:"NH-29 Retaining Wall & Hill Slope Protection Work",est:"₹31,000,000 (3.1 Crore)",dept:"NPWD Nagaland",ref:"NGL-PWD-2026-08",dt:"14-Dec-2026",url:"https://nagalandtenders.gov.in"},
-{state:"Manipur",district:"Imphal West",loc:"Imphal, Manipur",win:"Medium Competition",title:"Supply of Medical & Diagnostic Equipment for District Hospital",est:"₹15,000,000 (1.5 Crore)",dept:"Health Directorate Manipur",ref:"MNP-HLT-2026-22",dt:"15-Dec-2026",url:"https://manipurtenders.gov.in"},
-{state:"Mizoram",district:"Aizawl",loc:"Aizawl, Mizoram",win:"High Win Rate",title:"Community Hall Construction & Water Harvesting Tank",est:"₹8,000,000 (80 Lakhs)",dept:"PWD Mizoram",ref:"MIZ-PWD-2026-15",dt:"18-Dec-2026",url:"https://mizoramtenders.gov.in"},
-{state:"Sikkim",district:"Gangtok",loc:"Gangtok, Sikkim",win:"Medium Competition",title:"Tourism Infrastructure & Eco-Park Development",est:"₹22,000,000 (2.2 Crore)",dept:"Tourism Dept Sikkim",ref:"SKM-TRM-2026-07",dt:"20-Dec-2026",url:"https://sikkimtender.gov.in"}
-];
-const sf=document.getElementById("s-filter"),df=document.getElementById("d-filter"),pf=document.getElementById("p-filter"),tl=document.getElementById("t-list");
-Object.keys(DIST).sort().forEach(s=>{let o=document.createE
