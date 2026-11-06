@@ -162,7 +162,7 @@
         <div class="tenders-section">
             <h2 class="section-title">⚡ Live Local Tenders</h2>
             
-            <!-- Yahan JavaScript automatic tenders load karega -->
+            <!-- JavaScript (script.js) yahan live tenders load karega -->
             <div id="live-tenders-container">
                 <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
             </div>
@@ -183,58 +183,14 @@
             <!-- Absolute Legal Safety Disclaimer -->
             <div class="disclaimer-card">
                 <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
-                Disclaimer: Yeh platform sirf ek automated aggregator/directory hai jo official government portals se open public information text display karti hai. Hum koi financial institution, bank, ya loan advisor nahi hain. Kisi bhi tender me bid karne se pehle official portal par details zaroor verify karein.
+                Disclaimer: This platform is an automated open-data aggregator that displays public information from official government portals. We are not a financial institution, bank, or loan advisor. Please verify all details on the official portal before bidding.
             </div>
 
         </div> <!-- Sidebar area closing -->
     </div> <!-- Main container closing -->
 
-    <!-- JavaScript jo tenders.json se data fetch karega -->
-  <script src="script.js"></script>
-       </div> <!-- Sidebar area closing -->
-    </div> <!-- Main container closing -->
-
-    <!-- 👇 Sirf yeh ek line lagayein, koi extra code nahi -->
+    <!-- External JavaScript file jo tenders.json load karegi -->
     <script src="script.js"></script>
-
-</body>
-</html>
-            try {
-                const response = await fetch('./tenders.json');
-                if (!response.ok) throw new Error('tenders.json not found');
-                
-                const tenders = await response.json();
-                const tenderContainer = document.getElementById('live-tenders-container');
-                tenderContainer.innerHTML = ''; 
-
-                tenders.forEach(tender => {
-                    const card = document.createElement('div');
-                    card.className = 'tender-card';
-                    const winRateClass = tender.winRate === 'High Win Rate' ? 'high-rate' : 'medium-rate';
-
-                    card.innerHTML = `
-                        <div class="tender-meta">
-                            <span class="district-badge">📍 ${tender.location}</span>
-                            <span class="win-probability ${winRateClass}">🎯 ${tender.winRate}</span>
-                        </div>
-                        <h3>${tender.title}</h3>
-                        <div class="tender-value">${tender.estimate}</div>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">
-                            Department: ${tender.department} | Ref: ${tender.ref}
-                        </p>
-                        <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-                        <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: ${tender.closingDate}</p>
-                    `;
-                    tenderContainer.appendChild(card);
-                });
-            } catch (error) {
-                console.error('Error loading tenders:', error);
-                document.getElementById('live-tenders-container').innerHTML = 
-                    '<p style="color: var(--danger-red); padding: 20px;">Failed to load live tenders. Please try again later.</p>';
-            }
-        }
-        document.addEventListener('DOMContentLoaded', loadTenders);
-    </script>
 
 </body>
 </html>
