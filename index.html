@@ -6,68 +6,47 @@
     <title>TENDER ENGINE | Automated Public Procurement & Contractor Logistics Dashboard</title>
     <style>
         :root {
-            --bg-dark: #06110e;
-            --card-bg: #0c1f1a;
-            --card-border: #1b4338;
+            --bg-dark: #070d0b;
+            --card-bg: #0f1b17;
+            --card-border: #1e382f;
             --emerald: #10b981;
-            --emerald-dark: #059669;
-            --gold: #f59e0b;
-            --gold-light: #fbbf24;
+            --emerald-hover: #059669;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --ad-bg: #0a1814;
+            --badge-high: #064e3b;
+            --badge-high-text: #34d399;
+            --badge-med: #78350f;
+            --badge-med-text: #fbbf24;
+            --ad-bg: #13221d;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; padding-bottom: 50px; }
-        
-        /* Header */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; padding-bottom: 40px; }
         header {
-            background: linear-gradient(135deg, #091c16 0%, #040d0a 100%);
-            border-bottom: 2px solid var(--gold);
-            padding: 22px 5%;
+            background: linear-gradient(180deg, #0b1914 0%, var(--bg-dark) 100%);
+            border-bottom: 1px solid var(--card-border);
+            padding: 20px 5%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
         }
-        .brand h1 { font-size: 1.65rem; color: var(--gold-light); letter-spacing: 1px; font-weight: 800; }
-        .brand p { font-size: 0.88rem; color: var(--emerald); font-weight: 500; }
+        .brand h1 { font-size: 1.5rem; color: var(--emerald); letter-spacing: 0.5px; }
+        .brand p { font-size: 0.85rem; color: var(--text-muted); }
         .live-badge {
             background: rgba(16, 185, 129, 0.15);
             border: 1px solid var(--emerald);
             color: var(--emerald);
-            padding: 7px 16px;
-            border-radius: 30px;
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 700;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+            font-weight: 600;
         }
-
         .container { max-width: 1200px; margin: 25px auto; padding: 0 5%; }
-
-        /* Budget Overview Strip */
-        .budget-strip {
+        .filters {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
-            margin-bottom: 22px;
-        }
-        .budget-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-left: 4px solid var(--gold);
-            padding: 15px 18px;
-            border-radius: 10px;
-        }
-        .budget-card span { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .budget-card h2 { font-size: 1.35rem; color: var(--gold-light); margin-top: 4px; }
-
-        /* Filter Bar */
-        .filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 14px;
             background: var(--card-bg);
             padding: 18px;
             border-radius: 12px;
@@ -82,32 +61,19 @@
             color: var(--text-main);
             border-radius: 8px;
             font-size: 0.92rem;
-            cursor: pointer;
             outline: none;
-        }
-        select:focus { border-color: var(--gold); }
-        .btn-reset {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold-light);
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
         }
-        .btn-reset:hover { background: var(--gold); color: #000; }
-
-        /* Tender Cards */
+        select:focus { border-color: var(--emerald); }
         .tender-grid { display: flex; flex-direction: column; gap: 18px; }
         .tender-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 12px;
-            padding: 22px;
+            padding: 20px;
             transition: transform 0.2s, border-color 0.2s;
         }
-        .tender-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .tender-card:hover { border-color: var(--emerald); transform: translateY(-2px); }
         .card-top {
             display: flex;
             flex-wrap: wrap;
@@ -115,16 +81,15 @@
             align-items: center;
             gap: 10px;
             margin-bottom: 12px;
+            font-size: 0.85rem;
         }
-        .location { color: var(--gold-light); font-weight: 600; font-size: 0.9rem; }
-        .badge { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
-        .badge-high { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #059669; }
-        .badge-med { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #d97706; }
-        
-        .tender-title { font-size: 1.18rem; font-weight: 700; margin-bottom: 8px; color: #ffffff; }
-        .tender-value { font-size: 1.3rem; font-weight: 800; color: var(--emerald); margin-bottom: 8px; }
-        .tender-meta { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px; }
-        
+        .location { color: var(--text-muted); font-weight: 500; }
+        .badge { padding: 4px 10px; border-radius: 6px; font-weight: 600; font-size: 0.78rem; }
+        .badge-high { background: var(--badge-high); color: var(--badge-high-text); }
+        .badge-med { background: var(--badge-med); color: var(--badge-med-text); }
+        .tender-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; color: #fff; }
+        .tender-value { font-size: 1.25rem; font-weight: 700; color: var(--emerald); margin-bottom: 8px; }
+        .tender-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
         .card-bottom {
             display: flex;
             flex-wrap: wrap;
@@ -134,66 +99,50 @@
             padding-top: 14px;
             border-top: 1px solid var(--card-border);
         }
-        .closing { font-size: 0.88rem; color: #fca5a5; font-weight: 600; }
+        .closing { font-size: 0.85rem; color: #fca5a5; font-weight: 500; }
         .btn-bid {
-            background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-dark) 100%);
-            color: #ffffff;
+            background: var(--emerald);
+            color: #032219;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 9px 18px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+            transition: background 0.2s;
             display: inline-block;
-            transition: opacity 0.2s;
         }
-        .btn-bid:hover { opacity: 0.9; }
-
-        /* AdSense Slots */
+        .btn-bid:hover { background: var(--emerald-hover); color: #fff; }
         .ad-slot {
             background: var(--ad-bg);
-            border: 1px dashed #28594b;
+            border: 1px dashed #2d5245;
             border-radius: 10px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
-            color: #6ee7b7;
-            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
             letter-spacing: 1px;
         }
-
-        /* Contractor Capital Section */
         .capital-box {
             margin-top: 35px;
-            background: linear-gradient(135deg, #0f2c23 0%, #071410 100%);
-            border: 1.5px solid var(--gold);
+            background: linear-gradient(135deg, #0f2920 0%, #0a1713 100%);
+            border: 1px solid var(--emerald);
             border-radius: 12px;
-            padding: 25px;
+            padding: 24px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
         }
-        .capital-info h3 { color: var(--gold-light); margin-bottom: 6px; font-size: 1.25rem; }
-        .capital-info p { color: var(--text-muted); font-size: 0.92rem; max-width: 650px; }
-        .btn-loan {
-            background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
-            color: #000000;
-            text-decoration: none;
-            padding: 12px 22px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 0.92rem;
-            display: inline-block;
-        }
-
-        /* Legal Disclaimer */
+        .capital-info h3 { color: var(--emerald); margin-bottom: 6px; font-size: 1.2rem; }
+        .capital-info p { color: var(--text-muted); font-size: 0.9rem; max-width: 650px; }
         .disclaimer {
             margin-top: 30px;
             padding: 18px;
-            background: rgba(245, 158, 11, 0.06);
-            border-left: 4px solid var(--gold);
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid #f59e0b;
             border-radius: 6px;
-            font-size: 0.84rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
         }
     </style>
@@ -202,32 +151,15 @@
 
 <header>
     <div class="brand">
-        <h1>⚡ TENDER ENGINE</h1>
+        <h1>TENDER ENGINE</h1>
         <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
     </div>
-    <div class="live-badge">● Live Local Tenders</div>
+    <div class="live-badge">⚡ Live Local Tenders</div>
 </header>
 
 <div class="container">
-    <!-- Budget Summary Cards -->
-    <div class="budget-strip">
-        <div class="budget-card">
-            <span>Active Portal Value</span>
-            <h2 id="totalValue">₹22.47 Crore</h2>
-        </div>
-        <div class="budget-card">
-            <span>High Win-Rate Contracts</span>
-            <h2 id="highWinCount">8 Tenders</h2>
-        </div>
-        <div class="budget-card">
-            <span>Coverage Region</span>
-            <h2>Assam & North East</h2>
-        </div>
-    </div>
-
-    <!-- Dropdown Filters (No Typing Needed) -->
     <div class="filters">
-        <select id="stateFilter" onchange="updateDistricts(); filterTenders();">
+        <select id="stateFilter" onchange="onStateChange()">
             <option value="ALL">All States (North East / India)</option>
             <option value="Assam">Assam</option>
             <option value="Meghalaya">Meghalaya</option>
@@ -239,7 +171,7 @@
             <option value="Sikkim">Sikkim</option>
         </select>
 
-        <select id="districtFilter" onchange="filterTenders()">
+        <select id="districtFilter" onchange="onDistrictChange()">
             <option value="ALL">All Districts</option>
             <option value="Udalguri">Udalguri (Assam)</option>
             <option value="Nalbari">Nalbari (Assam)</option>
@@ -248,11 +180,47 @@
             <option value="Sonitpur">Tezpur / Sonitpur (Assam)</option>
             <option value="Dibrugarh">Dibrugarh (Assam)</option>
             <option value="Cachar">Silchar / Cachar (Assam)</option>
-            <option value="East Khasi Hills">Shillong / East Khasi Hills (Meghalaya)</option>
-            <option value="Papum Pare">Itanagar (Arunachal Pradesh)</option>
+            <option value="East Khasi Hills">Shillong (Meghalaya)</option>
+            <option value="Papum Pare">Itanagar (Arunachal)</option>
             <option value="West Tripura">Agartala (Tripura)</option>
             <option value="Kohima">Kohima (Nagaland)</option>
             <option value="Imphal West">Imphal (Manipur)</option>
             <option value="Aizawl">Aizawl (Mizoram)</option>
             <option value="Gangtok">Gangtok (Sikkim)</option>
         </select>
+
+        <select id="deptFilter" onchange="filterTenders()">
+            <option value="ALL">All Departments</option>
+            <option value="PWD">PWD / Construction</option>
+            <option value="IT">IT & Office Supply</option>
+            <option value="Water">PHE / Water Supply</option>
+            <option value="Power">Power & Solar</option>
+            <option value="Education">Education</option>
+            <option value="Health">Health & Medical</option>
+            <option value="Tourism">Tourism</option>
+        </select>
+    </div>
+
+    <div class="tender-grid" id="tenderList"></div>
+
+    <div class="capital-box">
+        <div class="capital-info">
+            <h3>🔨 Contractor Capital</h3>
+            <p>Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
+        </div>
+        <a href="https://udyamimitra.in" target="_blank" rel="noopener noreferrer" class="btn-bid">Apply for Project Loan →</a>
+    </div>
+
+    <div class="ad-slot" style="margin-top: 20px;">
+        [ DYNAMIC FINANCIAL DISPLAY AD ]
+    </div>
+
+    <div class="disclaimer">
+        <strong>⚠️ Legal Protection Clause & Disclaimer:</strong> This platform is an automated open-data aggregator that displays public information from official government portals. We are not a financial institution, bank, or loan advisor. Please verify all details on the official portal before bidding.
+    </div>
+</div>
+
+<script>
+    const tenders = [
+        { state: "Assam", district: "Udalguri", location: "Udalguri, Assam", rate: "High Win Rate", title: "PWD Road Repair & Upgradation Works", value: "₹25,000,000 (2.5 Crore)", dept: "PWD Assam", cat: "PWD", ref: "Tender-UDG-2026-09", closing: "28-Nov-2026", url: "https://assamtenders.gov.in" },
+        { state: "Assam", district: "Udalguri", location: "Tangla, Udalguri, Assam", rate: "Medium Competition", title: "Supply of Office & IT Infrastructure Equipment", value: "₹1,200,000 (12 Lakhs)", dept: "Bodoland Territorial Council", cat: "IT", ref: "Tender-BTC-2026-11", closing: "02-Dec-2026", url: "https://assamtenders.gov.in" },
