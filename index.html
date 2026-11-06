@@ -223,3 +223,20 @@ df.innerHTML='<option value="ALL">All Districts</option>';
 pf.innerHTML='<option value="ALL">All Departments</option>';
 let dl=st==="ALL"?Object.values(DIST).flat():(DIST[st]||[]);
 let pl=st==="ALL"?Object.values(DEPT).flat():(DEPT[st]||[]);
+[...new Set(dl)].sort().forEach(x=>{let o=document.createElement("option");o.value=x;o.textContent=x;df.appendChild(o)});
+[...new Set(pl)].sort().forEach(x=>{let o=document.createElement("option");o.value=x;o.textContent=x;pf.appendChild(o)});
+}
+function filterCards(){
+let s=sf.value,d=df.value,p=pf.value;
+document.querySelectorAll("#t-list .card").forEach(c=>{
+let ok=(s==="ALL"||c.dataset.state===s)&&(d==="ALL"||c.dataset.district===d)&&(p==="ALL"||c.dataset.dept===p);
+c.style.display=ok?"block":"none";
+});
+}
+sf.onchange=()=>{fillSub(sf.value);filterCards()};
+df.onchange=filterCards;
+pf.onchange=filterCards;
+fillSub("ALL");
+</script>
+</body>
+</html>
