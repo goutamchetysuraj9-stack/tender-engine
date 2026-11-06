@@ -85,7 +85,7 @@ def scrape_assam_tenders():
                         continue
                     if len(raw_title) < 18 or len(raw_title) > 220:
                         continue
-                    # केवल वही पंक्ति लें जिसमें "1. ", "2. " जैसा नंबर हो या 2026 की तारीख हो
+
                     row_full = " ".join(cols)
                     if not (re.match(r'^\d+\.', raw_title) or "2026" in row_full or "2027" in row_full):
                         continue
@@ -120,7 +120,6 @@ def scrape_assam_tenders():
     except Exception as e:
         print(f"Live crawl warning: {e}")
 
-    # असम के प्रमुख जिलों के स्थायी आधार कार्ड्स (ताकि असम कभी खाली न दिखे)
     assam_core_tenders = [
         {"state": "Assam", "district": "Udalguri", "location": "Udalguri, Assam", "winRate": "High Win Rate", "title": "PWD Road Repair & Blacktopping Works in Udalguri District", "estimate": "₹2,50,00,000 (2.5 Crore)", "department": "PWD Assam", "ref": "PWD-UDG-2026-09", "closingDate": "28-Nov-2026", "link": "https://assamtenders.gov.in"},
         {"state": "Assam", "district": "Udalguri", "location": "Tangla, Udalguri, Assam", "winRate": "Medium Competition", "title": "Supply of Office & IT Infrastructure Equipment under BTC", "estimate": "₹12,00,000 (12 Lakhs)", "department": "Bodoland Territorial Council", "ref": "BTC-IT-2026-11", "closingDate": "02-Dec-2026", "link": "https://assamtenders.gov.in"},
