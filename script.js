@@ -1,4 +1,61 @@
-let allTenders = []; // Saare tenders ko memory mein rakhne ke liye
+let allTenders = [];
+
+// North East ke Sabhi States ke Official Districts ki Master List
+const STATE_DISTRICTS_MASTER = {
+    "Assam": [
+        "Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo",
+        "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara",
+        "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong",
+        "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari",
+        "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"
+    ],
+    "Meghalaya": [
+        "East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills",
+        "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills",
+        "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"
+    ],
+    "Arunachal Pradesh": [
+        "Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Itanagar Capital Complex",
+        "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley",
+        "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi",
+        "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"
+    ],
+    "Nagaland": [
+        "Chümoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon",
+        "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyü", "Tuensang", "Wokha", "Zünheboto"
+    ],
+    "Manipur": [
+        "Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam",
+        "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong",
+        "Tengnoupal", "Thoubal", "Ukhrul"
+    ],
+    "Mizoram": [
+        "Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai",
+        "Lunglei", "Mamit", "Saiha", "Saitual", "Serchhip"
+    ],
+    "Tripura": [
+        "Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"
+    ],
+    "Sikkim": [
+        "Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"
+    ]
+};
+
+// State-wise Major Departments Master List (Taaki Assam mein sirf Assam ke departments dikhein)
+const STATE_DEPARTMENTS_MASTER = {
+    "Assam": [
+        "PWD Assam", "Bodoland Territorial Council", "PHE Assam", "Health & Family Welfare Assam",
+        "Education Dept Assam", "Irrigation Dept Assam", "Water Resources Assam", "GMDA Assam",
+        "APDCL (Assam Power)", "Panchayat & Rural Development Assam"
+    ],
+    "Meghalaya": ["PHE Meghalaya", "PWD Meghalaya", "MeECL (Power)", "Health Dept Meghalaya"],
+    "Arunachal Pradesh": ["Power Department Arunachal", "PWD Arunachal", "PHE & WS Arunachal", "Rural Works Dept"],
+    "Nagaland": ["NPWD Nagaland", "PHED Nagaland", "Power Dept Nagaland"],
+    "Manipur": ["Health Directorate Manipur", "PWD Manipur", "PHED Manipur"],
+    "Mizoram": ["PWD Mizoram", "PHE Mizoram", "Power & Electricity Mizoram"],
+    "Tripura": ["Education Dept Tripura", "PWD Tripura", "DWS Tripura"],
+    "Sikkim": ["Tourism Dept Sikkim", "Roads & Bridges Sikkim", "Power Dept Sikkim"]
+};
 
 async function loadTenders() {
     try {
@@ -7,13 +64,16 @@ async function loadTenders() {
         
         allTenders = await response.json();
         
-        // Dropdowns mein automatic State aur Department bharna
-        populateFilters(allTenders);
+        // State dropdown bharna
+        populateStateDropdown(allTenders);
+        
+        // Shuru mein saare districts aur departments load karna
+        updateDistrictAndDeptDropdowns('ALL');
         
         // Shuru mein saare tenders dikhana
         renderTenders(allTenders);
 
-        // Filter change hone par list update karna
+        // Event Listeners lagana
         document.getElementById('state-filter')?.addEventListener('change', handleStateChange);
         document.getElementById('district-filter')?.addEventListener('change', applyFilters);
         document.getElementById('department-filter')?.addEventListener('change', applyFilters);
@@ -27,63 +87,81 @@ async function loadTenders() {
     }
 }
 
-// 1. State aur Department dropdowns ko dynamic tareeke se bharna
-function populateFilters(tenders) {
+function populateStateDropdown(tenders) {
     const stateSelect = document.getElementById('state-filter');
-    const deptSelect = document.getElementById('department-filter');
-    if (!stateSelect || !deptSelect) return;
+    if (!stateSelect) return;
 
-    // Unique States nikalna (agar JSON mein state nahi hai toh default 'Assam' maanega)
-    const states = [...new Set(tenders.map(t => t.state || 'Assam'))].sort();
-    states.forEach(state => {
+    // Master list aur JSON data dono se unique states lena
+    const masterStates = Object.keys(STATE_DISTRICTS_MASTER);
+    const jsonStates = tenders.map(t => t.state || 'Assam');
+    const allStates = [...new Set([...masterStates, ...jsonStates])].sort();
+
+    allStates.forEach(state => {
         const option = document.createElement('option');
         option.value = state;
         option.textContent = state;
         stateSelect.appendChild(option);
     });
-
-    // Unique Departments nikalna
-    const departments = [...new Set(tenders.map(t => t.department).filter(Boolean))].sort();
-    departments.forEach(dept => {
-        const option = document.createElement('option');
-        option.value = dept;
-        option.textContent = dept;
-        deptSelect.appendChild(option);
-    });
-
-    // Shuru mein saare districts load karna
-    updateDistrictDropdown('ALL');
 }
 
-// 2. State badalne par sirf usi State ke Districts dikhana
+// State badalne par District aur Department dono ko usi State ke hisaab se update karna
 function handleStateChange() {
     const selectedState = document.getElementById('state-filter').value;
-    updateDistrictDropdown(selectedState);
+    updateDistrictAndDeptDropdowns(selectedState);
     applyFilters();
 }
 
-function updateDistrictDropdown(selectedState) {
+function updateDistrictAndDeptDropdowns(selectedState) {
     const districtSelect = document.getElementById('district-filter');
-    if (!districtSelect) return;
+    const deptSelect = document.getElementById('department-filter');
+    if (!districtSelect || !deptSelect) return;
 
+    // 1. District Dropdown Reset & Populate
     districtSelect.innerHTML = '<option value="ALL">All Districts</option>';
+    let districtsList = [];
 
-    const filteredByState = selectedState === 'ALL' 
-        ? allTenders 
-        : allTenders.filter(t => (t.state || 'Assam') === selectedState);
+    if (selectedState === 'ALL') {
+        // Sabhi states ke districts combine karein
+        Object.values(STATE_DISTRICTS_MASTER).forEach(list => districtsList.push(...list));
+        allTenders.forEach(t => { if (t.district) districtsList.push(t.district); });
+    } else {
+        // Sirf selected state ke saare official districts + JSON ke districts
+        districtsList = [...(STATE_DISTRICTS_MASTER[selectedState] || [])];
+        allTenders
+            .filter(t => (t.state || 'Assam') === selectedState)
+            .forEach(t => { if (t.district) districtsList.push(t.district); });
+    }
 
-    // District ya location field se unique districts nikalna
-    const districts = [...new Set(filteredByState.map(t => t.district || t.location).filter(Boolean))].sort();
-    
-    districts.forEach(dist => {
+    [...new Set(districtsList)].sort().forEach(dist => {
         const option = document.createElement('option');
         option.value = dist;
         option.textContent = dist;
         districtSelect.appendChild(option);
     });
+
+    // 2. Department Dropdown Reset & Populate (Sirf selected state ke departments!)
+    deptSelect.innerHTML = '<option value="ALL">All Departments</option>';
+    let deptList = [];
+
+    if (selectedState === 'ALL') {
+        Object.values(STATE_DEPARTMENTS_MASTER).forEach(list => deptList.push(...list));
+        allTenders.forEach(t => { if (t.department) deptList.push(t.department); });
+    } else {
+        // Sirf chune gaye state ke departments hi dikhayega, doosre states ke nahi!
+        deptList = [...(STATE_DEPARTMENTS_MASTER[selectedState] || [])];
+        allTenders
+            .filter(t => (t.state || 'Assam') === selectedState)
+            .forEach(t => { if (t.department) deptList.push(t.department); });
+    }
+
+    [...new Set(deptList)].sort().forEach(dept => {
+        const option = document.createElement('option');
+        option.value = dept;
+        option.textContent = dept;
+        deptSelect.appendChild(option);
+    });
 }
 
-// 3. Teeno filters (State + District + Department) ko ek saath check karna
 function applyFilters() {
     const selectedState = document.getElementById('state-filter')?.value || 'ALL';
     const selectedDistrict = document.getElementById('district-filter')?.value || 'ALL';
@@ -104,7 +182,6 @@ function applyFilters() {
     renderTenders(filteredTenders);
 }
 
-// 4. Filtered Tenders ko screen par dikhana
 function renderTenders(tendersToDisplay) {
     const tenderContainer = document.getElementById('live-tenders-container');
     if (!tenderContainer) return;
@@ -112,7 +189,12 @@ function renderTenders(tendersToDisplay) {
     tenderContainer.innerHTML = '';
 
     if (tendersToDisplay.length === 0) {
-        tenderContainer.innerHTML = '<p style="padding: 20px; text-align: center; color: var(--text-muted);">No active tenders found for the selected State/District/Department.</p>';
+        tenderContainer.innerHTML = `
+            <div style="background: rgba(30, 41, 59, 0.6); border: 1px solid #334155; padding: 25px; border-radius: 8px; text-align: center; margin-top: 15px;">
+                <p style="color: #f8fafc; font-weight: bold; margin-bottom: 6px;">No active tenders currently listed for this specific District/Department filter.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Select "All Districts" or "All Departments" above to view other live tenders in this State.</p>
+            </div>
+        `;
         return;
     }
 
@@ -124,24 +206,9 @@ function renderTenders(tendersToDisplay) {
 
         card.innerHTML = `
             <div class="tender-meta">
-                <span class="district-badge">📍 ${tender.district || tender.location}${stateLabel}</span>
+                <span class="district-badge">📍 ${tender.location || tender.district}${stateLabel}</span>
                 <span class="win-probability ${winRateClass}">🎯 ${tender.winRate}</span>
             </div>
             <h3>${tender.title}</h3>
             <div class="tender-value">${tender.estimate}</div>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">
-                Department: ${tender.department} | Ref: ${tender.ref}
-            </p>
-            <div class="adsense-placeholder">[ GOOGLE ADSENSE RESPONSIVE BANNER SLOT ]</div>
-            <p style="font-size: 0.85rem; color: var(--accent-gold);">Closing Date: ${tender.closingDate}</p>
-            
-            <a href="${tender.link || 'https://assamtenders.gov.in'}" target="_blank" 
-               style="display: inline-block; background-color: var(--emerald); color: white; padding: 10px 16px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 12px;">
-               View & Bid on Official Portal →
-            </a>
-        `;
-        tenderContainer.appendChild(card);
-    });
-}
-
-document.addEventListener('DOMContentLoaded', loadTenders);
