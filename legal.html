@@ -1,93 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legal Policy & Liability Disclaimer - Tender Engine</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #111827;
-            color: #f3f4f6;
-            line-height: 1.6;
-            padding: 40px 20px;
-            margin: 0;
-        }
-        .legal-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #1f2937;
-            padding: 30px;
-            border-radius: 8px;
-            border-top: 4px solid #ef4444;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #ef4444;
-            font-size: 1.8rem;
-            margin-top: 0;
-            border-bottom: 1px solid #374151;
-            padding-bottom: 10px;
-        }
-        h2 {
-            color: #10b981;
-            font-size: 1.2rem;
-            margin-top: 25px;
-        }
-        p, li {
-            color: #9ca3af;
-            font-size: 0.95rem;
-        }
-        ul {
-            padding-left: 20px;
-        }
-        .highlight-box {
-            background-color: rgba(239, 68, 68, 0.1);
-            border-left: 4px solid #ef4444;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-        .btn-back {
-            display: inline-block;
-            background-color: #059669;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tender Engine - North East LMO AI</title>
+<style>
+:root{--emerald:#059669;--emerald-light:#34d399;--dark-bg:#0f172a;--card-bg:#1e293b;--border:#334155;--text:#f1f5f9;--muted:#94a3b8;--gold:#fbbf24;--red:#f87171}
+*{box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:var(--dark-bg);color:var(--text);margin:0;padding:20px}
+.header{text-align:center;padding:25px 20px;border-bottom:3px solid var(--emerald);background:var(--card-bg);border-radius:10px;margin-bottom:25px}
+.header h1{color:var(--emerald-light);margin:0 0 6px;font-size:2.2rem}
+.header p{color:var(--muted);margin:0}
+.main{display:grid;grid-template-columns:2.2fr 1fr;gap:24px;max-width:1250px;margin:0 auto}
+@media(max-width:850px){.main{grid-template-columns:1fr}}
+.sec-title{font-size:1.35rem;color:var(--emerald-light);border-bottom:1px solid var(--border);padding-bottom:10px;margin:0 0 16px}
+.filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.filters select{background:var(--card-bg);color:var(--text);border:1px solid var(--border);padding:10px 12px;border-radius:8px;flex:1;min-width:170px;font-size:.95rem;cursor:pointer}
+.card{background:var(--card-bg);border:1px solid var(--border);border-left:5px solid var(--emerald);padding:18px;border-radius:8px;margin-bottom:16px}
+.meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.85rem;gap:8px;flex-wrap:wrap}
+.badge{background:#0f172a;border:1px solid var(--border);padding:4px 10px;border-radius:5px;font-weight:600}
+.win{background:rgba(5,150,105,.2);color:var(--emerald-light);padding:4px 10px;border-radius:5px;font-weight:600}
+.card h3{margin:0 0 6px;font-size:1.12rem;color:#fff}
+.dept{color:var(--muted);font-size:.88rem}
+.val{font-size:1.2rem;color:var(--gold);font-weight:bold;margin:10px 0}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:.85rem;color:var(--muted);gap:10px;flex-wrap:wrap}
+.btn{background:var(--emerald);color:#fff;text-decoration:none;padding:8px 14px;border-radius:6px;font-weight:bold}
+.btn:hover{background:var(--emerald-light);color:#0f172a}
+.side-card{background:var(--card-bg);border:1px dashed var(--gold);padding:20px;border-radius:10px;margin-bottom:20px}
+.loan-btn{display:block;text-align:center;background:var(--gold);color:#0f172a;padding:12px;font-weight:bold;text-decoration:none;border-radius:6px;margin-top:14px}
+.ad{background:#0f172a;text-align:center;padding:16px;font-size:11px;color:var(--muted);border:1px dashed var(--border);margin-top:15px;border-radius:6px}
+.legal{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.35);padding:15px;border-radius:8px;font-size:.85rem;color:#fecaca;line-height:1.5}
+.legal-title{color:var(--red);font-weight:bold;margin-bottom:5px}
+</style>
 </head>
 <body>
+<div class="header">
+<h1>TENDER ENGINE</h1>
+<p>Automated Public Procurement & Contractor Logistics Dashboard</p>
+</div>
+<div class="main">
+<div>
+<h2 class="sec-title">⚡ Live Local Tenders</h2>
+<div class="filters">
+<select id="s-filter">
+<option value="ALL">All States (North East / India)</option>
+<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+<option value="Assam">Assam</option>
+<option value="Manipur">Manipur</option>
+<option value="Meghalaya">Meghalaya</option>
+<option value="Mizoram">Mizoram</option>
+<option value="Nagaland">Nagaland</option>
+<option value="Sikkim">Sikkim</option>
+<option value="Tripura">Tripura</option>
+</select>
+<select id="d-filter">
+<option value="ALL">All Districts</option>
+<option value="Aizawl">Aizawl</option>
+<option value="Bajali">Bajali</option>
+<option value="Baksa">Baksa</option>
+<option value="Barpeta">Barpeta</option>
+<option value="Bongaigaon">Bongaigaon</option>
+<option value="Cachar">Cachar</option>
+<option value="Chirang">Chirang</option>
+<option value="Darrang">Darrang</option>
+<option value="Dibrugarh">Dibrugarh</option>
+<option value="Dimapur">Dimapur</option>
+<option value="East Khasi Hills">East Khasi Hills</option>
+<option value="Gangtok">Gangtok</option>
+<option value="Imphal West">Imphal West</option>
+<option value="Itanagar Capital Complex">Itanagar Capital Complex</option>
+<option value="Jorhat">Jorhat</option>
+<option value="Kamrup">Kamrup</option>
+<option value="Kamrup Metro">Kamrup Metro</option>
+<option value="Kohima">Kohima</option>
+<option value="Kokrajhar">Kokrajhar</option>
+<option value="Nagaon">Nagaon</option>
+<option value="Nalbari">Nalbari</option>
+<option value="Sonitpur">Sonitpur</option>
+<option value="Tinsukia">Tinsukia</option>
+<option value="Udalguri">Udalguri</option>
+<option value="West Tripura">West Tripura</option>
+</select>
+<select id="p-filter">
+<option value="ALL">All Departments</option>
+<option value="APDCL (Assam Power)">APDCL (Assam Power)</option>
+<option value="Bodoland Territorial Council">Bodoland Territorial Council</option>
+<option value="Education Dept Assam">Education Dept Assam</option>
+<option value="Education Dept Tripura">Education Dept Tripura</option>
+<option value="GMDA Assam">GMDA Assam</option>
+<option value="Health Directorate Manipur">Health Directorate Manipur</option>
+<option value="Irrigation Dept Assam">Irrigation Dept Assam</option>
+<option value="NPWD Nagaland">NPWD Nagaland</option>
+<option value="PHE Assam">PHE Assam</option>
+<option value="PHE Meghalaya">PHE Meghalaya</option>
+<option value="Power Department Arunachal">Power Department Arunachal</option>
+<option value="PWD Assam">PWD Assam</option>
+<option value="PWD Mizoram">PWD Mizoram</option>
+<option value="Tourism Dept Sikkim">Tourism Dept Sikkim</option>
+</select>
+</div>
+<div id="t-list">
+<div class="card" data-state="Assam" data-district="Udalguri" data-dept="PWD Assam">
+<div class="meta"><span class="badge">📍 Udalguri, Assam</span><span class="win">📊 High Win Rate</span></div>
+<h3>PWD Road Repair & Upgradation Works</h3>
+<div class="dept">🏛️ PWD Assam | Ref: <strong>Tender-UDG-2026-09</strong></div>
+<div class="val">₹25,000,000 (2.5 Crore)</div>
+<div class="foot"><span>⏳ Closing: <strong>28-Nov-2026</strong></span><a href="https://assamtenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
 
-    <div class="legal-container">
-        <h1>Legal Policy & Liability Disclaimer</h1>
-        <p><strong>Last Updated: November 2026</strong></p>
+<div class="card" data-state="Assam" data-district="Udalguri" data-dept="Bodoland Territorial Council">
+<div class="meta"><span class="badge">📍 Tangla, Udalguri, Assam</span><span class="win">📊 Medium Competition</span></div>
+<h3>Supply of Office & IT Infrastructure Equipment</h3>
+<div class="dept">🏛️ Bodoland Territorial Council | Ref: <strong>Tender-BTC-2026-11</strong></div>
+<div class="val">₹1,200,000 (12 Lakhs)</div>
+<div class="foot"><span>⏳ Closing: <strong>02-Dec-2026</strong></span><a href="https://assamtenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
 
-        <div class="highlight-box">
-            <strong>Absolute Protection Alert:</strong> This platform is a fully automated open data aggregation service. We act strictly as an informational pipeline between public records data and the end-user. Users must read and accept these terms before using any information provided.
-        </div>
+<div class="card" data-state="Assam" data-district="Kamrup Metro" data-dept="GMDA Assam">
+<div class="meta"><span class="badge">📍 Guwahati, Kamrup Metro, Assam</span><span class="win">📊 Medium Competition</span></div>
+<h3>Construction of Drainage & Urban Flood Management System</h3>
+<div class="dept">🏛️ GMDA Assam | Ref: <strong>Tender-GHY-2026-14</strong></div>
+<div class="val">₹42,000,000 (4.2 Crore)</div>
+<div class="foot"><span>⏳ Closing: <strong>04-Dec-2026</strong></span><a href="https://assamtenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
 
-        <h2>1. Information Aggregator Status (Data Source)</h2>
-        <p>All data published on Tender Engine is automatically collected via web scrapers from public state procurement portals (including assamtenders.gov.in). We do not modify, evaluate, or guarantee the accuracy of these listings. Users are required to cross-verify all details on the original official procurement portal before bidding.</p>
+<div class="card" data-state="Meghalaya" data-district="East Khasi Hills" data-dept="PHE Meghalaya">
+<div class="meta"><span class="badge">📍 Shillong, East Khasi Hills</span><span class="win">📊 High Win Rate</span></div>
+<h3>Rural Water Supply Pipeline & Reservoir Upgradation</h3>
+<div class="dept">🏛️ PHE Meghalaya | Ref: <strong>MEG-PHE-2026-44</strong></div>
+<div class="val">₹18,500,000 (1.85 Crore)</div>
+<div class="foot"><span>⏳ Closing: <strong>05-Dec-2026</strong></span><a href="https://meghalayatenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
 
-        <h2>2. Third-Party Loan & Financing Hyperlinks</h2>
-        <p>For user convenience and logistical assistance, this dashboard displays references, banner ads, and affiliate hyperlinks directing to financial institutions and commercial funding networks.</p>
-        <ul>
-            <li>We are not registered brokers, lenders, financial institution agents, or official loan advisors.</li>
-            <li>We are not a party to, nor do we monitor, facilitate, or oversee any binding contract, agreement, document submission, or processing transaction between you and any third-party company.</li>
-            <li>Users bear total responsibility for performing due diligence and confirming the valid RBI registrations of any commercial entity before making processing fee payments.</li>
-        </ul>
+<div class="card" data-state="Arunachal Pradesh" data-district="Itanagar Capital Complex" data-dept="Power Department Arunachal">
+<div class="meta"><span class="badge">📍 Itanagar, Arunachal Pradesh</span><span class="win">📊 Medium Competition</span></div>
+<h3>Solar Street Light Installation & Smart Grid Works</h3>
+<div class="dept">🏛️ Power Department Arunachal | Ref: <strong>ARP-PWR-2026-19</strong></div>
+<div class="val">₹9,500,000 (95 Lakhs)</div>
+<div class="foot"><span>⏳ Closing: <strong>10-Dec-2026</strong></span><a href="https://arunachaltenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
 
-        <h2>3. Zero Financial Liability Clause</h2>
-        <p>Under no circumstances shall this portal, its underlying database infrastructure, or its developers/owners be held legally liable or accountable for any online fraud, monetary scams, financial defaults, operational business losses, or contractual disputes arising between users and external service providers.</p>
+<div class="card" data-state="Tripura" data-district="West Tripura" data-dept="Education Dept Tripura">
+<div class="meta"><span class="badge">📍 Agartala, West Tripura</span><span class="win">📊 High Win Rate</span></div>
+<h3>Government School Building Renovation & Furniture Supply</h3>
+<div class="dept">🏛️ Education Dept Tripura | Ref: <strong>TRP-EDU-2026-31</strong></div>
+<div class="val">₹6,000,000 (60 Lakhs)</div>
+<div class="foot"><span>⏳ Closing: <strong>12-Dec-2026</strong></span><a href="https://tripuratenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
 
-        <center>
-            <a href="index.html" class="btn-back">← Return To Dashboard</a>
-        </center>
-    </div>
+<div class="card" data-state="Nagaland" data-district="Kohima" data-dept="NPWD Nagaland">
+<div class="meta"><span class="badge">📍 Kohima, Nagaland</span><span class="win">📊 High Win Rate</span></div>
+<h3>NH-29 Retaining Wall & Hill Slope Protection Work</h3>
+<div class="dept">🏛️ NPWD Nagaland | Ref: <strong>NGL-PWD-2026-08</strong></div>
+<div class="val">₹31,000,000 (3.1 Crore)</div>
+<div class="foot"><span>⏳ Closing: <strong>14-Dec-2026</strong></span><a href="https://nagalandtenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
 
-</body>
-</html>
+<div class="card" data-state="Manipur" data-district="Imphal West" data-dept="Health Directorate Manipur">
+<div class="meta"><span class="badge">📍 Imphal, Manipur</span><span class="win">📊 Medium Competition</span></div>
+<h3>Supply of Medical & Diagnostic Equipment for District Hospital</h3>
+<div class="dept">🏛️ Health Directorate Manipur | Ref: <strong>MNP-HLT-2026-22</strong></div>
+<div class="val">₹15,000,000 (1.5 Crore)</div>
+<div class="foot"><span>⏳ Closing: <strong>15-Dec-2026</strong></span><a href="https://manipurtenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
+
+<div class="card" data-state="Mizoram" data-district="Aizawl" data-dept="PWD Mizoram">
+<div class="meta"><span class="badge">📍 Aizawl, Mizoram</span><span class="win">📊 High Win Rate</span></div>
+<h3>Community Hall Construction & Water Harvesting Tank</h3>
+<div class="dept">🏛️ PWD Mizoram | Ref: <strong>MIZ-PWD-2026-15</strong></div>
+<div class="val">₹8,000,000 (80 Lakhs)</div>
+<div class="foot"><span>⏳ Closing: <strong>18-Dec-2026</strong></span><a href="https://mizoramtenders.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
+
+<div class="card" data-state="Sikkim" data-district="Gangtok" data-dept="Tourism Dept Sikkim">
+<div class="meta"><span class="badge">📍 Gangtok, Sikkim</span><span class="win">📊 Medium Competition</span></div>
+<h3>Tourism Infrastructure & Eco-Park Development</h3>
+<div class="dept">🏛️ Tourism Dept Sikkim | Ref: <strong>SKM-TRM-2026-07</strong></div>
+<div class="val">₹22,000,000 (2.2 Crore)</div>
+<div class="foot"><span>⏳ Closing: <strong>20-Dec-2026</strong></span><a href="https://sikkimtender.gov.in" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div>
+</div>
+</div>
+</div>
+
+<div>
+<div class="side-card">
+<h3 style="margin-top:0;color:var(--gold)">🔨 Contractor Capital</h3>
+<p style="font-size:.9rem;color:var(--muted);margin:0">Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
+<a href="https://sbismartcare.sbi" target="_blank" rel="noopener noreferrer" class="loan-btn">Apply for Project Loan →</a>
+<div class="ad">[ GOOGLE ADSENSE DISPLAY SLOT ]</div>
+</div>
+<div class="legal">
+<div class="legal-title">⚠️ Legal Protection Clause</div>
+Disclaimer: This platform is an automated open-data aggregator that displays public information from official government portals. We are not a financial institution, bank, or loan advisor. Please verify all details on the official portal before bidding.
+</div>
+</div>
+</div>
+
+<script>
+const DIST={
+"Assam":["Bajali","Baksa","Barpeta","Biswanath","Bongaigaon","Cachar","Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh","Dima Hasao","Goalpara","Golaghat","Hailakandi","Hojai","Jorhat","Kamrup","Kamrup Metro","Karbi Anglong","Karimganj","Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari","Sivasagar","Sonitpur","South Salmara-Mankachar","Tamulpur","Tinsukia","Udalguri","West Karbi Anglong"],
+"Meghalaya":["East Garo Hills","East Jaintia Hills","East Khasi Hills","Eastern West Khasi Hills","North Garo Hills","Ri Bhoi","South Garo Hills","South West Garo Hills","South West Khasi Hills","West Garo Hills","West Jaintia Hills","West Khasi Hills"],
+"Arunachal Pradesh":["Anjaw","Changlang","Dibang Valley","East Kameng","East Siang","Itanagar Capital Complex","Kamle","Kra Daadi","Kurung Kumey","Lepa Rada","Lohit","Longding","Lower Dibang Valley","Lower Siang","Lower Subansiri","Namsai","Pakke Kessang","Papum Pare","Shi Yomi","Siang","Tawang","Tirap","Upper Siang","Upper Subansiri","West Kameng","West Siang"],
+"Nagaland":["Chumoukedima","Dimapur","Kiphire","Kohima","Longleng","Mokokchung","Mon","Niuland","Noklak","Peren","Phek","Shamator","Tseminyu","Tuensang","Wokha","Zunheboto"],
+"Manipur":["Bishnupur","Chandel","Churachandpur","Imphal East","Imphal West","Jiribam","Kakching","Kamjong","Kangpokpi","Noney","Pherzawl","Senapati","Tamenglong","Tengnoupal","Thoubal","Ukhrul"],
+"Mizoram":["Aizawl","Champhai","Hnahthial","Khawzawl","Kolasib","Lawngtlai","Lunglei","Mamit","Saiha","Saitual","Serchhip"],
+"Tripura":["Dhalai","Gomati","Khowai","North Tripura","Sepahijala","South Tripura","Unakoti","West Tripura"],
+"Sikkim":["Gangtok","Gyalshing","Mangan","Namchi","Pakyong","Soreng"]
+};
+const DEPT={
+"Assam":["PWD Assam","Bodoland Territorial Council","PHE Assam","Health & Family Welfare Assam","Education Dept Assam","Irrigation Dept Assam","Water Resources Assam","GMDA Assam","APDCL (Assam Power)","Panchayat & Rural Development Assam"],
+"Meghalaya":["PHE Meghalaya","PWD Meghalaya","MeECL (Power)","Health Dept Meghalaya"],
+"Arunachal Pradesh":["Power Department Arunachal","PWD Arunachal","PHE & WS Arunachal","Rural Works Dept"],
+"Nagaland":["NPWD Nagaland","PHED Nagaland","Power Dept Nagaland"],
+"Manipur":["Health Directorate Manipur","PWD Manipur","PHED Manipur"],
+"Mizoram":["PWD Mizoram","PHE Mizoram","Power & Electricity Mizoram"],
+"Tripura":["Education Dept Tripura","PWD Tripura","DWS Tripura"],
+"Sikkim":["Tourism Dept Sikkim","Roads & Bridges Sikkim","Power Dept Sikkim"]
+};
+const sf=document.getElementById("s-filter"),df=document.getElementById("d-filter"),pf=document.getElementById("p-filter");
+function fillSub(st){
+df.innerHTML='<option value="ALL">All Districts</option>';
+pf.innerHTML='<option value="ALL">All Departments</option>';
+let dl=st==="ALL"?Object.values(DIST).flat():(DIST[st]||[]);
+let pl=st==="ALL"?Object.values(DEPT).flat():(DEPT[st]||[]);
