@@ -7,13 +7,17 @@
     <style>
         :root {
             --emerald: #059669;
-            --emerald-light: #10b981;
-            --dark-bg: #111827;
-            --card-bg: #1f2937;
-            --text-light: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent-gold: #f59e0b;
-            --danger-red: #ef4444;
+            --emerald-light: #34d399;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --border-subtle: #334155;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-gold: #fbbf24;
+            --danger-red: #f87171;
+        }
+        * {
+            box-sizing: border-box;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,103 +25,149 @@
             color: var(--text-light);
             margin: 0;
             padding: 20px;
+            line-height: 1.5;
         }
         .header {
             text-align: center;
-            padding: 30px 20px;
+            padding: 28px 20px;
             border-bottom: 3px solid var(--emerald);
             background-color: var(--card-bg);
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 25px;
         }
         .header h1 {
             color: var(--emerald-light);
-            margin: 0 0 10px 0;
-            font-size: 2.5rem;
+            margin: 0 0 8px 0;
+            font-size: 2.3rem;
             letter-spacing: 1px;
         }
         .header p {
             color: var(--text-muted);
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
         .main-container {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 2.2fr 1fr;
             gap: 25px;
+            max-width: 1280px;
+            margin: 0 auto;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 850px) {
             .main-container { grid-template-columns: 1fr; }
         }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--emerald-light);
-            border-bottom: 1px solid var(--card-bg);
-            padding-bottom: 8px;
-            margin-top: 0;
+            margin: 0;
+        }
+        .tender-count {
+            background-color: rgba(5, 150, 105, 0.15);
+            color: var(--emerald-light);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
         .filter-bar {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
-            margin: 15px 0 25px 0;
+            margin-bottom: 15px;
         }
-        .filter-select {
-            background: #1e293b;
-            color: #f8fafc;
-            border: 1px solid #334155;
-            padding: 10px 14px;
-            border-radius: 6px;
+        .filter-select, .search-input {
+            background-color: var(--card-bg);
+            color: var(--text-light);
+            border: 1px solid var(--border-subtle);
+            padding: 11px 14px;
+            border-radius: 8px;
             flex: 1;
-            min-width: 180px;
+            min-width: 170px;
             font-size: 0.95rem;
+        }
+        .filter-select:focus, .search-input:focus {
+            outline: none;
+            border-color: var(--emerald-light);
+        }
+        .search-bar-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .btn-reset {
+            background-color: #334155;
+            color: var(--text-light);
+            border: none;
+            padding: 0 16px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .btn-reset:hover {
+            background-color: #475569;
         }
         .tender-card {
             background-color: var(--card-bg);
+            border: 1px solid var(--border-subtle);
             border-left: 5px solid var(--emerald);
             padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            transition: transform 0.15s ease;
+        }
+        .tender-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--emerald-light);
         }
         .tender-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
             flex-wrap: wrap;
             gap: 8px;
         }
         .district-badge {
-            background-color: #374151;
+            background-color: #0f172a;
+            border: 1px solid var(--border-subtle);
             padding: 4px 10px;
-            border-radius: 4px;
+            border-radius: 5px;
             color: var(--text-light);
-            font-weight: bold;
+            font-weight: 600;
         }
         .win-probability {
             background-color: rgba(5, 150, 105, 0.2);
             color: var(--emerald-light);
             padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: bold;
+            border-radius: 5px;
+            font-weight: 600;
             font-size: 0.85rem;
         }
         .tender-title {
             margin: 0 0 8px 0;
             font-size: 1.15rem;
-            color: var(--text-light);
+            color: #ffffff;
         }
         .tender-dept {
             color: var(--text-muted);
             font-size: 0.9rem;
         }
         .tender-value {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--accent-gold);
             font-weight: bold;
-            margin: 10px 0;
+            margin: 12px 0;
         }
         .card-footer {
             display: flex;
@@ -125,70 +175,72 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 14px;
             padding-top: 12px;
-            border-top: 1px solid #374151;
-            font-size: 0.85rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.88rem;
             color: var(--text-muted);
         }
         .btn-bid {
             background-color: var(--emerald);
             color: #ffffff;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 5px;
+            padding: 9px 16px;
+            border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
             display: inline-block;
         }
-        .btn-bid:hover { background-color: var(--emerald-light); }
+        .btn-bid:hover {
+            background-color: var(--emerald-light);
+            color: #0f172a;
+        }
         .sidebar-card {
             background-color: var(--card-bg);
             border: 1px dashed var(--accent-gold);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
         .btn-loan {
             display: block;
             text-align: center;
             background-color: var(--accent-gold);
-            color: #111827;
+            color: #0f172a;
             padding: 12px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 6px;
             margin-top: 15px;
-            cursor: pointer;
         }
         .adsense-placeholder {
-            background-color: #374151;
+            background-color: #0f172a;
             text-align: center;
-            padding: 15px;
+            padding: 18px;
             font-size: 11px;
             color: var(--text-muted);
-            border: 1px dashed #4b5563;
-            margin: 15px 0;
-            border-radius: 4px;
+            border: 1px dashed var(--border-subtle);
+            margin-top: 16px;
+            border-radius: 6px;
         }
         .disclaimer-card {
-            background-color: rgba(239, 68, 68, 0.05);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 15px;
-            border-radius: 6px;
+            background-color: rgba(248, 113, 113, 0.08);
+            border: 1px solid rgba(248, 113, 113, 0.35);
+            padding: 16px;
+            border-radius: 8px;
             font-size: 0.85rem;
-            color: #fca5a5;
-            line-height: 1.4;
+            color: #fecaca;
+            line-height: 1.5;
         }
         .disclaimer-title {
             color: var(--danger-red);
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
         .legal-link {
             display: inline-block;
             margin-top: 10px;
-            color: #fca5a5;
+            color: #fecaca;
             font-weight: bold;
             text-decoration: underline;
         }
@@ -203,7 +255,11 @@
 
     <div class="main-container">
         <div class="tenders-section">
-            <h2 class="section-title">⚡ Live Local Tenders</h2>
+            <div class="section-header">
+                <h2 class="section-title">⚡ Live Local Tenders</h2>
+                <span id="tender-count-badge" class="tender-count">Loading...</span>
+            </div>
+
             <div class="filter-bar">
                 <select id="state-filter" class="filter-select">
                     <option value="ALL">All States (North East / India)</option>
@@ -215,6 +271,12 @@
                     <option value="ALL">All Departments</option>
                 </select>
             </div>
+
+            <div class="search-bar-row">
+                <input type="text" id="keyword-search" class="search-input" placeholder="Search by work title, reference ID, or city...">
+                <button type="button" id="reset-filters-btn" class="btn-reset">Reset</button>
+            </div>
+
             <div id="live-tenders-container"></div>
         </div>
 
@@ -225,7 +287,7 @@
                     Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.
                 </p>
                 <a href="https://sbismartcare.sbi" target="_blank" rel="noopener noreferrer" class="btn-loan">Apply for Project Loan →</a>
-                <div class="adsense-placeholder">[ DYNAMIC FINANCIAL DISPLAY AD ]</div>
+                <div class="adsense-placeholder">[ GOOGLE ADSENSE DISPLAY SLOT ]</div>
             </div>
 
             <div class="disclaimer-card">
@@ -236,34 +298,3 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const STATE_DISTRICTS_MASTER = {
-            "Assam": [
-                "Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo",
-                "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara",
-                "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong",
-                "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari",
-                "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"
-            ],
-            "Meghalaya": [
-                "East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills",
-                "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills",
-                "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"
-            ],
-            "Arunachal Pradesh": [
-                "Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Itanagar Capital Complex",
-                "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley",
-                "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi",
-                "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"
-            ],
-            "Nagaland": [
-                "Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon",
-                "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"
-            ],
-            "Manipur": [
-                "Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam",
-                "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong",
-                "Tengnoupal", "Thoubal", "Ukhrul"
-            ],
-            "Mizoram": [
