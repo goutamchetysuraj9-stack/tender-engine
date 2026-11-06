@@ -2,41 +2,35 @@ name: Automated Tender Scraper Engine
 
 on:
   schedule:
-    - cron: '0 */12 * * *'
-  workflow_dispatch:
+    - cron: '0 */6 * * *'  # Har 6 ghante mein automatic chalega
+  workflow_dispatch:       # Manual "Run workflow" button ke liye
 
 permissions:
-  contents: write
+  contents: write          # tenders.json ko auto-save karne ke liye zaroori
 
 jobs:
   build-and-scrape:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-      with:
-        persist-credentials: true
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 urllib3
 
-    # 🎯 Yahan 'scraper.py' ki jagah sahi naam 'script.py' set kar diya hai
-    - name: Run Automated Scraper
-      run: python script.py
+      - name: Run North East Tender Scraper
+        run: python scraper.py
 
-    - name: Commit and Push Updated Data
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git config --global user.name "goutamchetysuraj9-stack"
-        git config --global user.email "goutamchetysuraj9@gmail.com"
-        git add tenders.json
-        git diff-index --quiet HEAD || (git commit -m "Automated Sync: Update active tender database structures" && git push)
+      - name: Commit and push updated tenders.json
+        run: |
+          git config --global user.name "Tender-Engine-Bot"
+          git config --global user.email "bot@://github.com"
+          git add tenders.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update North East tenders" && git push)
