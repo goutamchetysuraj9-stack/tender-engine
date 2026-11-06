@@ -3,16 +3,14 @@ import re
 from datetime import datetime
 from playwright.sync_api import sync_playwright
 
-# असम के सभी 35 जिलों की लिस्ट (टेंडर टाइटल से जिला पहचानने के लिए)
 ASSAM_DISTRICTS = [
     "Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo",
     "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara",
     "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup Metro", "Kamrup", "Karbi Anglong",
     "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari",
-    "Sivasagar", "Sonitpur", "South Salmara", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"
+    "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"
 ]
 
-# प्रमुख शहरों के नामों को सही जिले से जोड़ने का मैप
 CITY_TO_DISTRICT = {
     "guwahati": "Kamrup Metro",
     "dispur": "Kamrup Metro",
@@ -33,7 +31,7 @@ def detect_district(text):
     for dist in ASSAM_DISTRICTS:
         if dist.lower() in lower_text:
             return dist
-    return "Kamrup Metro"  # डिफ़ॉल्ट यदि शीर्षक में जिला न लिखा हो
+    return "Kamrup Metro"
 
 def detect_department(text):
     lower_text = text.lower()
@@ -67,21 +65,19 @@ def scrape_assam_tenders():
             page.goto("https://assamtenders.gov.in", timeout=60000)
             page.wait_for_timeout(4000)
 
-            # होमपेज पर मौजूद लेटेस्ट टेंडर टेबल की पंक्तियाँ पढ़ें
             rows = page.locator("table tr").all()
             seen_titles = set()
 
             for row in rows:
                 cols = [c.inner_text().strip() for c in row.locator("td").all()]
-                # केवल वही पंक्तियाँ लें जिनमें टेंडर का शीर्षक और तारीख हो
-                if len(cols) >= 3 and len(cols[0]) > 20 and "tender" not in cols[0].lower()[:10]:
-                    title = re.sub(r'\s+', ' ', cols[0])
+                if len(cols) >= 3 and len(cols) > 20 and "tender" not in cols.lower()[:10]:
+                    title = re.sub(r'\s+', ' ', cols)
                     if title in seen_titles:
                         continue
                     seen_titles.add(title)
 
-                    ref_no = cols[1] if len(cols) > 1 and cols[1] else f"ASM-{datetime.now().strftime('%Y%m')}-{len(live_tenders)+1}"
-                    closing_date = cols[2] if len(cols) > 2 and cols[2] else "Check Official Portal"
+                    ref_no = cols if len(cols) > 1 and cols else f"ASM-{datetime.now().strftime('%Y%m')}-{len(live_tenders)+1}"
+                    closing_date = cols if len(cols) > 2 and cols else "Check Official Portal"
                     district = detect_district(title)
                     dept = detect_department(title)
 
@@ -98,14 +94,13 @@ def scrape_assam_tenders():
                         "link": "https://assamtenders.gov.in"
                     })
 
-                    if len(live_tenders) >= 30:
+                    if len(live_tenders) >= 35:
                         break
 
             browser.close()
     except Exception as e:
         print(f"Live crawl warning: {e}")
 
-    # अन्य नॉर्थ-ईस्ट राज्यों के लिए बेस एंट्रीज़ जोड़ें ताकि कोई भी राज्य खाली न दिखे
     other_ne_tenders = [
         {"state": "Meghalaya", "district": "East Khasi Hills", "location": "Shillong, East Khasi Hills", "winRate": "Active Portal", "title": "State Public Works & Water Supply Tenders (Meghalaya)", "estimate": "Check Official Portal", "department": "PHE Meghalaya", "ref": "MEG-LIVE-PORTAL", "closingDate": "Open", "link": "https://meghalayatenders.gov.in"},
         {"state": "Arunachal Pradesh", "district": "Itanagar Capital Complex", "location": "Itanagar, Arunachal Pradesh", "winRate": "Active Portal", "title": "Power, Roads & Infrastructure Tenders (Arunachal)", "estimate": "Check Official Portal", "department": "Power Department Arunachal", "ref": "ARP-LIVE-PORTAL", "closingDate": "Open", "link": "https://arunachaltenders.gov.in"},
@@ -113,7 +108,7 @@ def scrape_assam_tenders():
         {"state": "Manipur", "district": "Imphal West", "location": "Imphal, Manipur", "winRate": "Active Portal", "title": "Health, PWD & PHED Procurement Tenders (Manipur)", "estimate": "Check Official Portal", "department": "Health Directorate Manipur", "ref": "MNP-LIVE-PORTAL", "closingDate": "Open", "link": "https://manipurtenders.gov.in"},
         {"state": "Mizoram", "district": "Aizawl", "location": "Aizawl, Mizoram", "winRate": "Active Portal", "title": "PWD & Community Infrastructure Tenders (Mizoram)", "estimate": "Check Official Portal", "department": "PWD Mizoram", "ref": "MIZ-LIVE-PORTAL", "closingDate": "Open", "link": "https://mizoramtenders.gov.in"},
         {"state": "Tripura", "district": "West Tripura", "location": "Agartala, West Tripura", "winRate": "Active Portal", "title": "Education & Public Works Tenders (Tripura)", "estimate": "Check Official Portal", "department": "Education Dept Tripura", "ref": "TRP-LIVE-PORTAL", "closingDate": "Open", "link": "https://tripuratenders.gov.in"},
-        {"state": "Sikkim", "district": "Gangtok", "location": "Gangtok, Sikkim", "winRate": "Active Portal", "title": "Tourism, Roads & Bridges Tenders (Sikkim)", "estimate": "Check Official Portal", "department": "Tourism Dept Sikkim", "ref": "SKM-LIVE-PORTAL", "closingDate": "Open", "link": "https://sikkimtender.gov.in"}
+        {"state": "Sikkim", "district": "Gangtok", "location": "Gangtok, Sikkim", "winRate": "Active Portal", "title": "Tourism, Roads & Bridges Tenders (Sikkim)", "estimate": "Check Official Portal", "department": "Tourism Dept Sikkim", "ref": "SKM-TRM-2026-07", "closingDate": "Open", "link": "https://sikkimtender.gov.in"}
     ]
 
     final_output = live_tenders + other_ne_tenders
