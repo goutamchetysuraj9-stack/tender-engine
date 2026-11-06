@@ -29,11 +29,10 @@
         .district-badge { background-color: #374151; padding: 4px 10px; border-radius: 4px; color: var(--text-light); font-weight: bold; }
         .win-probability { background-color: rgba(5, 150, 105, 0.2); color: var(--emerald-light); padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; }
         .tender-value { font-size: 1.3rem; color: var(--accent-gold); font-weight: bold; margin: 10px 0; }
-        .tender-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; padding-top: 12px; border-top: 1px solid #374151; }
-        .btn-bid { background-color: var(--emerald); color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 5px; font-weight: bold; font-size: 0.9rem; display: inline-block; }
-        .btn-bid:hover { background-color: var(--emerald-light); }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; padding-top: 12px; border-top: 1px solid #374151; }
+        .btn-bid { background-color: var(--emerald); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 5px; font-weight: bold; font-size: 0.9rem; }
         .sidebar-card { background-color: var(--card-bg); border: 1px dashed var(--accent-gold); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .btn-loan { display: block; text-align: center; background-color: var(--accent-gold); color: #111827; padding: 12px; font-weight: bold; text-decoration: none; border-radius: 6px; margin-top: 15px; cursor: pointer; }
+        .btn-loan { display: block; text-align: center; background-color: var(--accent-gold); color: #111827; padding: 12px; font-weight: bold; text-decoration: none; border-radius: 6px; margin-top: 15px; }
         .adsense-placeholder { background-color: #374151; text-align: center; padding: 15px; font-size: 11px; color: var(--text-muted); border: 1px dashed #4b5563; margin: 15px 0; border-radius: 4px; }
         .disclaimer-card { background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.3); padding: 15px; border-radius: 6px; font-size: 0.85rem; color: #fca5a5; line-height: 1.4; }
         .disclaimer-title { color: var(--danger-red); font-weight: bold; margin-bottom: 5px; }
@@ -53,9 +52,7 @@
                 <select id="district-filter" class="filter-select"><option value="ALL">All Districts</option></select>
                 <select id="department-filter" class="filter-select"><option value="ALL">All Departments</option></select>
             </div>
-            <div id="live-tenders-container">
-                <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
-            </div>
+            <div id="live-tenders-container"></div>
         </div>
 
         <div class="sidebar-area">
@@ -73,31 +70,25 @@
     </div>
 
     <script>
-    let allTenders = [];
-
-    const STATE_DISTRICTS_MASTER = {
-        "Assam": ["Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"],
-        "Meghalaya": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"],
-        "Arunachal Pradesh": ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Itanagar Capital Complex", "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"],
-        "Nagaland": ["Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"],
-        "Manipur": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
-        "Mizoram": ["Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Saitual", "Serchhip"],
-        "Tripura": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
-        "Sikkim": ["Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"]
+    const DISTRICTS = {
+        "Assam": ["Bajali","Baksa","Barpeta","Biswanath","Bongaigaon","Cachar","Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh","Dima Hasao","Goalpara","Golaghat","Hailakandi","Hojai","Jorhat","Kamrup","Kamrup Metro","Karbi Anglong","Karimganj","Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari","Sivasagar","Sonitpur","South Salmara-Mankachar","Tamulpur","Tinsukia","Udalguri","West Karbi Anglong"],
+        "Meghalaya": ["East Garo Hills","East Jaintia Hills","East Khasi Hills","Ri Bhoi","South Garo Hills","West Garo Hills","West Jaintia Hills","West Khasi Hills"],
+        "Arunachal Pradesh": ["Changlang","East Siang","Itanagar Capital Complex","Lohit","Lower Subansiri","Namsai","Papum Pare","Tawang","West Kameng","West Siang"],
+        "Nagaland": ["Chumoukedima","Dimapur","Kohima","Mokokchung","Mon","Tuensang","Wokha","Zunheboto"],
+        "Manipur": ["Bishnupur","Churachandpur","Imphal East","Imphal West","Senapati","Thoubal","Ukhrul"],
+        "Mizoram": ["Aizawl","Champhai","Kolasib","Lawngtlai","Lunglei","Mamit","Saiha","Serchhip"],
+        "Tripura": ["Dhalai","Gomati","Khowai","North Tripura","Sepahijala","South Tripura","Unakoti","West Tripura"],
+        "Sikkim": ["Gangtok","Gyalshing","Mangan","Namchi","Pakyong","Soreng"]
     };
 
-    const STATE_DEPARTMENTS_MASTER = {
-        "Assam": ["PWD Assam", "Bodoland Territorial Council", "PHE Assam", "Health & Family Welfare Assam", "Education Dept Assam", "Irrigation Dept Assam", "Water Resources Assam", "GMDA Assam", "APDCL (Assam Power)", "Panchayat & Rural Development Assam"],
-        "Meghalaya": ["PHE Meghalaya", "PWD Meghalaya", "MeECL (Power)", "Health Dept Meghalaya"],
-        "Arunachal Pradesh": ["Power Department Arunachal", "PWD Arunachal", "PHE & WS Arunachal", "Rural Works Dept"],
-        "Nagaland": ["NPWD Nagaland", "PHED Nagaland", "Power Dept Nagaland"],
-        "Manipur": ["Health Directorate Manipur", "PWD Manipur", "PHED Manipur"],
-        "Mizoram": ["PWD Mizoram", "PHE Mizoram", "Power & Electricity Mizoram"],
-        "Tripura": ["Education Dept Tripura", "PWD Tripura", "DWS Tripura"],
-        "Sikkim": ["Tourism Dept Sikkim", "Roads & Bridges Dept Sikkim", "Power Dept Sikkim"]
-    };
+    const DEPTS = ["PWD Assam","Bodoland Territorial Council","GMDA Assam","PHE Meghalaya","Power Department Arunachal","Education Dept Tripura","NPWD Nagaland","Health Directorate Manipur","PWD Mizoram","Tourism Dept Sikkim"];
 
-    const DEFAULT_TENDERS = [
+    let allTenders = [
         { state: "Assam", district: "Udalguri", location: "Udalguri, Assam", winRate: "High Win Rate", title: "PWD Road Repair & Upgradation Works", value: "₹25,000,000 (2.5 Crore)", department: "PWD Assam", ref: "Tender-UDG-2026-09", closingDate: "28-Nov-2026", portalUrl: "https://assamtenders.gov.in" },
         { state: "Assam", district: "Udalguri", location: "Tangla, Udalguri, Assam", winRate: "Medium Competition", title: "Supply of Office & IT Infrastructure Equipment", value: "₹1,200,000 (12 Lakhs)", department: "Bodoland Territorial Council", ref: "Tender-BTC-2026-11", closingDate: "02-Dec-2026", portalUrl: "https://assamtenders.gov.in" },
         { state: "Assam", district: "Nalbari", location: "Nalbari, Assam", winRate: "High Win Rate", title: "Construction of RCC Bridge & Rural Connectivity Road", value: "₹16,500,000 (1.65 Crore)", department: "PWD Assam", ref: "Tender-NLB-2026-18", closingDate: "03-Dec-2026", portalUrl: "https://assamtenders.gov.in" },
+        { state: "Assam", district: "Kamrup Metro", location: "Guwahati, Kamrup Metro, Assam", winRate: "Medium Competition", title: "Construction of Drainage & Urban Flood Management System", value: "₹42,000,000 (4.2 Crore)", department: "GMDA Assam", ref: "Tender-GHY-2026-14", closingDate: "04-Dec-2026", portalUrl: "https://assamtenders.gov.in" },
+        { state: "Meghalaya", district: "East Khasi Hills", location: "Shillong, East Khasi Hills, Meghalaya", winRate: "High Win Rate", title: "Rural Water Supply Pipeline & Reservoir Upgradation", value: "₹18,500,000 (1.85 Crore)", department: "PHE Meghalaya", ref: "MEG-PHE-2026-44", closingDate: "05-Dec-2026", portalUrl: "https://meghalayatenders.gov.in" },
+        { state: "Arunachal Pradesh", district: "Itanagar Capital Complex", location: "Itanagar, Arunachal Pradesh", winRate: "Medium Competition", title: "Solar Street Light Installation & Smart Grid Works", value: "₹9,500,000 (95 Lakhs)", department: "Power Department Arunachal", ref: "ARP-PWR-2026-19", closingDate: "10-Dec-2026", portalUrl: "https://arunachaltenders.gov.in" },
+        { state: "Tripura", district: "West Tripura", location: "Agartala, West Tripura, Tripura", winRate: "High Win Rate", title: "Government School Building Renovation & Furniture Supply", value: "₹6,000,000 (60 Lakhs)", department: "Education Dept Tripura", ref: "TRP-EDU-2026-31", closingDate: "12-Dec-2026", portalUrl: "https://tripuratenders.gov.in" },
+        { state: "Nagaland", district: "Kohima", location: "Kohima, Nagaland", winRate: "High Win Rate", title: "NH-29 Retaining Wall & Hill Slope Protection Work", value: "₹31,000,000 (3.1 Crore)", department: "NPWD Nagaland", ref: "NGL-PWD-2026-08", closingDate: "14-Dec-2026", portalUrl: "https://nagalandtenders.gov.in" },
