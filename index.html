@@ -10,286 +10,94 @@
             --emerald-light: #10b981;
             --dark-bg: #111827;
             --card-bg: #1f2937;
-            --text-light: #f3f4f6;
+            --text-light: #f9fafb;
             --text-muted: #9ca3af;
             --accent-gold: #f59e0b;
             --danger-red: #ef4444;
         }
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            margin: 0;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-            border-bottom: 3px solid var(--emerald);
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-        .header h1 {
-            margin: 0 0 8px 0;
-            font-size: 2rem;
-            letter-spacing: 1px;
-            color: var(--text-light);
-        }
-        .header p {
-            margin: 0 0 15px 0;
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-        .live-tag {
-            display: inline-block;
-            background-color: rgba(16, 185, 129, 0.15);
-            color: var(--emerald-light);
-            border: 1px solid var(--emerald);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .filter-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            background-color: var(--card-bg);
-            padding: 18px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border: 1px solid #374151;
-        }
-        select {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            border: 1px solid #4b5563;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            cursor: pointer;
-        }
-        select:focus {
-            outline: none;
-            border-color: var(--emerald-light);
-        }
-        .tender-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .tender-card {
-            background-color: var(--card-bg);
-            border-left: 5px solid var(--emerald);
-            border-radius: 8px;
-            padding: 22px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-        .location-text {
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        .win-badge {
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.82rem;
-        }
-        .high-win {
-            background-color: rgba(5, 150, 105, 0.2);
-            color: var(--emerald-light);
-            border: 1px solid var(--emerald);
-        }
-        .med-win {
-            background-color: rgba(245, 158, 11, 0.2);
-            color: var(--accent-gold);
-            border: 1px solid var(--accent-gold);
-        }
-        .tender-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin: 0 0 10px 0;
-            color: #ffffff;
-        }
-        .tender-budget {
-            font-size: 1.35rem;
-            font-weight: bold;
-            color: var(--emerald-light);
-            margin-bottom: 10px;
-        }
-        .tender-dept {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 18px;
-        }
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding-top: 15px;
-            border-top: 1px solid #374151;
-        }
-        .closing-date {
-            color: var(--danger-red);
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        .portal-btn {
-            background-color: var(--emerald);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.92rem;
-            transition: background-color 0.2s;
-            display: inline-block;
-        }
-        .portal-btn:hover {
-            background-color: var(--emerald-light);
-        }
-        .adsense-slot {
-            background-color: #161e2e;
-            border: 1px dashed #4b5563;
-            color: var(--text-muted);
-            text-align: center;
-            padding: 20px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
-        .loan-section {
-            margin-top: 35px;
-            background-color: var(--card-bg);
-            border: 2px solid var(--accent-gold);
-            border-radius: 8px;
-            padding: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .loan-text h3 {
-            margin: 0 0 8px 0;
-            color: var(--accent-gold);
-            font-size: 1.3rem;
-        }
-        .loan-text p {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-        .loan-btn {
-            background-color: var(--accent-gold);
-            color: #111827;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.95rem;
-            display: inline-block;
-        }
-        .loan-btn:hover {
-            background-color: #fbbf24;
-        }
-        .disclaimer {
-            margin-top: 30px;
-            background-color: var(--card-bg);
-            border-left: 4px solid var(--accent-gold);
-            padding: 18px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--dark-bg); color: var(--text-light); margin: 0; padding: 20px; }
+        .header { text-align: center; padding: 30px 20px; border-bottom: 3px solid var(--emerald); background-color: var(--card-bg); border-radius: 8px; margin-bottom: 25px; }
+        .header h1 { color: var(--emerald-light); margin: 0 0 10px 0; font-size: 2.5rem; letter-spacing: 1px; }
+        .header p { color: var(--text-muted); margin: 0; font-size: 1.1rem; }
+        .main-container { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
+        @media (max-width: 768px) { .main-container { grid-template-columns: 1fr; } }
+        .section-title { font-size: 1.5rem; color: var(--emerald-light); border-bottom: 1px solid var(--card-bg); padding-bottom: 8px; margin-top: 0; }
+        .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin: 15px 0 25px 0; }
+        .filter-select { background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer; }
+        .tender-card { background-color: var(--card-bg); border-left: 5px solid var(--emerald); padding: 20px; border-radius: 6px; margin-bottom: 20px; }
+        .tender-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 0.9rem; flex-wrap: wrap; gap: 8px; }
+        .district-badge { background-color: #374151; padding: 4px 10px; border-radius: 4px; color: var(--text-light); font-weight: bold; }
+        .win-probability { background-color: rgba(5, 150, 105, 0.2); color: var(--emerald-light); padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; }
+        .tender-value { font-size: 1.3rem; color: var(--accent-gold); font-weight: bold; margin: 10px 0; }
+        .tender-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; padding-top: 12px; border-top: 1px solid #374151; }
+        .btn-bid { background-color: var(--emerald); color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 5px; font-weight: bold; font-size: 0.9rem; display: inline-block; }
+        .btn-bid:hover { background-color: var(--emerald-light); }
+        .sidebar-card { background-color: var(--card-bg); border: 1px dashed var(--accent-gold); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .btn-loan { display: block; text-align: center; background-color: var(--accent-gold); color: #111827; padding: 12px; font-weight: bold; text-decoration: none; border-radius: 6px; margin-top: 15px; cursor: pointer; }
+        .adsense-placeholder { background-color: #374151; text-align: center; padding: 15px; font-size: 11px; color: var(--text-muted); border: 1px dashed #4b5563; margin: 15px 0; border-radius: 4px; }
+        .disclaimer-card { background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.3); padding: 15px; border-radius: 6px; font-size: 0.85rem; color: #fca5a5; line-height: 1.4; }
+        .disclaimer-title { color: var(--danger-red); font-weight: bold; margin-bottom: 5px; }
     </style>
 </head>
 <body>
-
-<div class="container">
     <div class="header">
         <h1>TENDER ENGINE</h1>
         <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
-        <div class="live-tag">⚡ Live Local Tenders</div>
     </div>
 
-    <div class="filter-bar">
-        <select id="stateFilter" onchange="onStateChange()">
-            <option value="ALL">All States (North East / India)</option>
-            <option value="Assam">Assam</option>
-            <option value="Meghalaya">Meghalaya</option>
-            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-            <option value="Tripura">Tripura</option>
-            <option value="Nagaland">Nagaland</option>
-            <option value="Manipur">Manipur</option>
-            <option value="Mizoram">Mizoram</option>
-            <option value="Sikkim">Sikkim</option>
-        </select>
-
-        <select id="districtFilter" onchange="onDistrictChange()">
-            <option value="ALL">All Districts</option>
-            <option value="Udalguri">Udalguri (Assam)</option>
-            <option value="Nalbari">Nalbari (Assam)</option>
-            <option value="Kamrup Metro">Guwahati / Kamrup Metro (Assam)</option>
-            <option value="Barpeta">Barpeta (Assam)</option>
-            <option value="Sonitpur">Tezpur / Sonitpur (Assam)</option>
-            <option value="Dibrugarh">Dibrugarh (Assam)</option>
-            <option value="Cachar">Silchar / Cachar (Assam)</option>
-            <option value="East Khasi Hills">Shillong (Meghalaya)</option>
-            <option value="Papum Pare">Itanagar (Arunachal Pradesh)</option>
-            <option value="West Tripura">Agartala (Tripura)</option>
-            <option value="Kohima">Kohima (Nagaland)</option>
-            <option value="Imphal West">Imphal (Manipur)</option>
-            <option value="Aizawl">Aizawl (Mizoram)</option>
-            <option value="Gangtok">Gangtok (Sikkim)</option>
-        </select>
-
-        <select id="deptFilter" onchange="filterTenders()">
-            <option value="ALL">All Departments</option>
-            <option value="PWD">PWD / Construction</option>
-            <option value="IT">IT & Office Supply</option>
-            <option value="Water">PHE / Water Supply</option>
-            <option value="Power">Power & Solar</option>
-            <option value="Education">Education</option>
-            <option value="Health">Health & Medical</option>
-            <option value="Tourism">Tourism</option>
-        </select>
-    </div>
-
-    <div class="tender-list" id="tenderList"></div>
-
-    <div class="loan-section">
-        <div class="loan-text">
-            <h3>🔨 Contractor Capital</h3>
-            <p>Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
+    <div class="main-container">
+        <div class="tenders-section">
+            <h2 class="section-title">⚡ Live Local Tenders</h2>
+            <div class="filter-bar">
+                <select id="state-filter" class="filter-select"><option value="ALL">All States (North East / India)</option></select>
+                <select id="district-filter" class="filter-select"><option value="ALL">All Districts</option></select>
+                <select id="department-filter" class="filter-select"><option value="ALL">All Departments</option></select>
+            </div>
+            <div id="live-tenders-container">
+                <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
+            </div>
         </div>
-        <a href="https://udyamimitra.in" target="_blank" rel="noopener noreferrer" class="loan-btn">Apply for Project Loan →</a>
+
+        <div class="sidebar-area">
+            <div class="sidebar-card">
+                <h3 style="margin-top: 0; color: var(--accent-gold);">🔨 Contractor Capital</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
+                <a href="https://sbismartcare.sbi" target="_blank" rel="noopener noreferrer" class="btn-loan">Apply for Project Loan →</a>
+                <div class="adsense-placeholder">[ DYNAMIC FINANCIAL DISPLAY AD ]</div>
+            </div>
+            <div class="disclaimer-card">
+                <div class="disclaimer-title">⚠️ Legal Protection Clause</div>
+                Disclaimer: This platform is an automated open-data aggregator that displays public information from official government portals. We are not a financial institution, bank, or loan advisor. Please verify all details on the official portal before bidding.
+            </div>
+        </div>
     </div>
 
-    <div class="adsense-slot" style="margin-top: 25px;">
-        [ DYNAMIC FINANCIAL DISPLAY AD ]
-    </div>
+    <script>
+    let allTenders = [];
 
-    <div class="disclaimer">
-        <strong>⚠️ Legal Protection Clause</strong><br>
+    const STATE_DISTRICTS_MASTER = {
+        "Assam": ["Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"],
+        "Meghalaya": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"],
+        "Arunachal Pradesh": ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Itanagar Capital Complex", "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"],
+        "Nagaland": ["Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"],
+        "Manipur": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
+        "Mizoram": ["Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Saitual", "Serchhip"],
+        "Tripura": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
+        "Sikkim": ["Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"]
+    };
+
+    const STATE_DEPARTMENTS_MASTER = {
+        "Assam": ["PWD Assam", "Bodoland Territorial Council", "PHE Assam", "Health & Family Welfare Assam", "Education Dept Assam", "Irrigation Dept Assam", "Water Resources Assam", "GMDA Assam", "APDCL (Assam Power)", "Panchayat & Rural Development Assam"],
+        "Meghalaya": ["PHE Meghalaya", "PWD Meghalaya", "MeECL (Power)", "Health Dept Meghalaya"],
+        "Arunachal Pradesh": ["Power Department Arunachal", "PWD Arunachal", "PHE & WS Arunachal", "Rural Works Dept"],
+        "Nagaland": ["NPWD Nagaland", "PHED Nagaland", "Power Dept Nagaland"],
+        "Manipur": ["Health Directorate Manipur", "PWD Manipur", "PHED Manipur"],
+        "Mizoram": ["PWD Mizoram", "PHE Mizoram", "Power & Electricity Mizoram"],
+        "Tripura": ["Education Dept Tripura", "PWD Tripura", "DWS Tripura"],
+        "Sikkim": ["Tourism Dept Sikkim", "PWD Sikkim", "Power Dept Sikkim"]
+    };
+
+    const FALLBACK_TENDERS = [
+        { state: "Assam", district: "Udalguri", location: "Udalguri, Assam", winRate: "High Win Rate", title: "PWD Road Repair & Upgradation Works", value: "₹25,000,000 (2.5 Crore)", department: "PWD Assam", ref: "Tender-UDG-2026-09", closingDate: "28-Nov-2026", portalUrl: "https://assamtenders.gov.in" },
+        { state: "Assam", district: "Udalguri", location: "Tangla, Udalguri, Assam", winRate: "Medium Competition", title: "Supply of Office & IT Infrastructure Equipment", value: "₹1,200,000 (12 Lakhs)", department: "Bodoland Territorial Council", ref: "Tender-BTC-2026-11", closingDate: "02-Dec-2026", portalUrl: "https://assamtenders.gov.in" },
+        { state: "Assam", district: "Nalbari", location: "Nalbari, Assam", winRate: "High Win Rate", title: "Construction of RCC Bridge & Rural Connectivity Road", value: "₹16,500,000 (1.65 Crore)", department: "PWD Assam", ref: "Tender-NLB-2026-18", closingDate: "03-Dec-2026", portalUrl: "https://assamtenders.gov.in" },
