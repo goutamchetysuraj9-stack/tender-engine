@@ -1,20 +1,122 @@
 [
   {
+    "state": "Assam",
+    "district": "Udalguri",
     "location": "Udalguri",
     "winRate": "High Win Rate",
     "title": "PWD Road Repair & Upgradation Works",
     "estimate": "₹25,000,000 (2.5 Crore)",
     "department": "PWD Assam",
     "ref": "Tender-UDG-2026-09",
-    "closingDate": "28-Nov-2026"
+    "closingDate": "28-Nov-2026",
+    "link": "https://assamtenders.gov.in"
   },
   {
-    "location": "Tangla",
+    "state": "Assam",
+    "district": "Udalguri",
+    "location": "Tangla, Udalguri",
     "winRate": "Medium Competition",
     "title": "Supply of Office & IT Infrastructure Equipment",
     "estimate": "₹1,200,000 (12 Lakhs)",
     "department": "Bodoland Territorial Council",
     "ref": "Tender-BTC-2026-11",
-    "closingDate": "02-Dec-2026"
+    "closingDate": "02-Dec-2026",
+    "link": "https://assamtenders.gov.in"
+  },
+  {
+    "state": "Assam",
+    "district": "Kamrup Metro",
+    "location": "Guwahati, Kamrup Metro",
+    "winRate": "Medium Competition",
+    "title": "Construction of Drainage & Urban Flood Management System",
+    "estimate": "₹42,000,000 (4.2 Crore)",
+    "department": "GMDA Assam",
+    "ref": "Tender-GHY-2026-14",
+    "closingDate": "04-Dec-2026",
+    "link": "https://assamtenders.gov.in"
+  },
+  {
+    "state": "Meghalaya",
+    "district": "East Khasi Hills",
+    "location": "Shillong, East Khasi Hills",
+    "winRate": "High Win Rate",
+    "title": "Rural Water Supply Pipeline & Reservoir Upgradation",
+    "estimate": "₹18,500,000 (1.85 Crore)",
+    "department": "PHE Meghalaya",
+    "ref": "MEG-PHE-2026-44",
+    "closingDate": "05-Dec-2026",
+    "link": "https://meghalayatenders.gov.in"
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "district": "Itanagar Capital Complex",
+    "location": "Itanagar",
+    "winRate": "Medium Competition",
+    "title": "Solar Street Light Installation & Smart Grid Works",
+    "estimate": "₹9,500,000 (95 Lakhs)",
+    "department": "Power Department Arunachal",
+    "ref": "ARP-PWR-2026-19",
+    "closingDate": "10-Dec-2026",
+    "link": "https://arunachaltenders.gov.in"
+  },
+  {
+    "state": "Tripura",
+    "district": "West Tripura",
+    "location": "Agartala, West Tripura",
+    "winRate": "High Win Rate",
+    "title": "Government School Building Renovation & Furniture Supply",
+    "estimate": "₹6,000,000 (60 Lakhs)",
+    "department": "Education Dept Tripura",
+    "ref": "TRP-EDU-2026-31",
+    "closingDate": "12-Dec-2026",
+    "link": "https://tripuratenders.gov.in"
+  },
+  {
+    "state": "Nagaland",
+    "district": "Kohima",
+    "location": "Kohima",
+    "winRate": "High Win Rate",
+    "title": "NH-29 Retaining Wall & Hill Slope Protection Work",
+    "estimate": "₹31,000,000 (3.1 Crore)",
+    "department": "NPWD Nagaland",
+    "ref": "NGL-PWD-2026-08",
+    "closingDate": "14-Dec-2026",
+    "link": "https://nagalandtenders.gov.in"
+  },
+  {
+    "state": "Manipur",
+    "district": "Imphal West",
+    "location": "Imphal",
+    "winRate": "Medium Competition",
+    "title": "Supply of Medical & Diagnostic Equipment for District Hospital",
+    "estimate": "₹15,000,000 (1.5 Crore)",
+    "department": "Health Directorate Manipur",
+    "ref": "MNP-HLT-2026-22",
+    "closingDate": "15-Dec-2026",
+    "link": "https://manipurtenders.gov.in"
+  },
+  {
+    "state": "Mizoram",
+    "district": "Aizawl",
+    "location": "Aizawl",
+    "winRate": "High Win Rate",
+    "title": "Community Hall Construction & Water Harvesting Tank",
+    "estimate": "₹8,000,000 (80 Lakhs)",
+    "department": "PWD Mizoram",
+    "ref": "MIZ-PWD-2026-15",
+    "closingDate": "18-Dec-2026",
+    "link": "https://mizoramtenders.gov.in"
+  },
+  {
+    "state": "Sikkim",
+    "district": "Gangtok",
+    "location": "Gangtok",
+    "winRate": "Medium Competition",
+    "title": "Tourism Infrastructure & Eco-Park Development",
+    "estimate": "₹22,000,000 (2.2 Crore)",
+    "department": "Tourism Dept Sikkim",
+    "ref": "SKM-TRM-2026-07",
+    "closingDate": "20-Dec-2026",
+    "link": "https://sikkimtender.gov.in"
   }
 ]
