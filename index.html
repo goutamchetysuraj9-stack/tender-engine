@@ -3,219 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TENDER ENGINE | Automated Public Procurement & Contractor Logistics Dashboard</title>
+    <title>Tender Engine - North East LMO AI</title>
     <style>
         :root {
-            --bg-main: #0f171a;       /* Soft, eye-friendly deep slate */
-            --bg-panel: #162226;      /* Calm card background */
-            --bg-hover: #1d2d32;      /* Gentle hover highlight */
-            --border: #263a40;        /* Subtle muted border */
-            --accent: #38a889;        /* Soft muted emerald (no eye strain) */
-            --accent-hover: #2d8a70;
-            --text-primary: #e2e8f0;  /* Soft off-white text */
-            --text-secondary: #94a3b8;/* Muted grey-blue text */
-            --badge-high-bg: rgba(56, 168, 137, 0.14);
-            --badge-high-txt: #6ee7b7;
-            --badge-med-bg: rgba(217, 160, 91, 0.14);
-            --badge-med-txt: #fcd34d;
+            --emerald: #059669;
+            --emerald-light: #10b981;
+            --dark-bg: #111827;
+            --card-bg: #1f2937;
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-gold: #f59e0b;
+            --danger-red: #ef4444;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-primary); line-height: 1.5; }
-
-        /* Top Header */
-        header {
-            background-color: var(--bg-panel);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 4%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
+        * {
+            box-sizing: border-box;
         }
-        .brand h1 { font-size: 1.35rem; color: var(--text-primary); font-weight: 700; letter-spacing: 0.4px; }
-        .brand span { color: var(--accent); }
-        .brand p { font-size: 0.82rem; color: var(--text-secondary); }
-        .live-pill {
-            background: var(--badge-high-bg);
-            color: var(--badge-high-txt);
-            border: 1px solid rgba(56, 168, 137, 0.3);
-            padding: 5px 14px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            border-bottom: 3px solid var(--emerald);
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            margin: 0 0 8px 0;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
+        .header p {
+            margin: 0 0 15px 0;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        .live-tag {
+            display: inline-block;
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--emerald-light);
+            border: 1px solid var(--emerald);
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
-
-        /* Filter Bar */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
         .filter-bar {
-            max-width: 1320px;
-            margin: 18px auto 0;
-            padding: 0 4%;
-        }
-        .filter-box {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            background-color: var(--card-bg);
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #374151;
         }
         select {
             width: 100%;
-            padding: 10px 12px;
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            border-radius: 7px;
-            font-size: 0.9rem;
-            outline: none;
+            padding: 12px;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+            font-size: 0.95rem;
             cursor: pointer;
         }
-        select:focus { border-color: var(--accent); }
-
-        /* Main 2-Column Layout (Left Continuous Tender List + Right Info/Ad Sidebar) */
-        .main-layout {
-            max-width: 1320px;
-            margin: 18px auto 40px;
-            padding: 0 4%;
-            display: grid;
-            grid-template-columns: 2.1fr 1fr;
-            gap: 22px;
-            align-items: start;
+        select:focus {
+            outline: none;
+            border-color: var(--emerald-light);
         }
-        @media (max-width: 900px) {
-            .main-layout { grid-template-columns: 1fr; }
-        }
-
-        /* Left Column: Continuous Tender List */
-        .tender-column {
+        .tender-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-        }
-        .list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            padding-bottom: 4px;
+            gap: 20px;
         }
         .tender-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 18px;
-            transition: background 0.2s, border-color 0.2s;
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--emerald);
+            border-radius: 8px;
+            padding: 22px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
-        .tender-card:hover {
-            background: var(--bg-hover);
-            border-color: var(--accent);
-        }
-        .card-top {
+        .card-header {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 0.84rem;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
         }
-        .loc-tag { color: var(--text-secondary); font-weight: 500; }
-        .badge { padding: 3px 10px; border-radius: 5px; font-size: 0.76rem; font-weight: 600; }
-        .badge-high { background: var(--badge-high-bg); color: var(--badge-high-txt); }
-        .badge-med { background: var(--badge-med-bg); color: var(--badge-med-txt); }
-        
-        .t-title { font-size: 1.08rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
-        .t-amount { font-size: 1.18rem; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
-        .t-meta { font-size: 0.83rem; color: var(--text-secondary); margin-bottom: 14px; }
-        
+        .location-text {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .win-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.82rem;
+        }
+        .high-win {
+            background-color: rgba(5, 150, 105, 0.2);
+            color: var(--emerald-light);
+            border: 1px solid var(--emerald);
+        }
+        .med-win {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+        }
+        .tender-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: #ffffff;
+        }
+        .tender-budget {
+            font-size: 1.35rem;
+            font-weight: bold;
+            color: var(--emerald-light);
+            margin-bottom: 10px;
+        }
+        .tender-dept {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
         .card-footer {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 15px;
+            border-top: 1px solid #374151;
         }
-        .closing-date { font-size: 0.83rem; color: #e2a0a0; font-weight: 500; }
-        .btn-portal {
-            background: var(--accent);
-            color: #0b1416;
+        .closing-date {
+            color: var(--danger-red);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .portal-btn {
+            background-color: var(--emerald);
+            color: #ffffff;
             text-decoration: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.92rem;
+            transition: background-color 0.2s;
+            display: inline-block;
+        }
+        .portal-btn:hover {
+            background-color: var(--emerald-light);
+        }
+        .adsense-slot {
+            background-color: #161e2e;
+            border: 1px dashed #4b5563;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 20px;
             border-radius: 6px;
             font-size: 0.85rem;
-            font-weight: 700;
-            transition: background 0.2s;
+            letter-spacing: 1px;
         }
-        .btn-portal:hover { background: var(--accent-hover); color: #fff; }
-
-        /* Right Column: Sticky Sidebar (Contractor Capital + Ads + Legal) */
-        .sidebar-column {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            position: sticky;
-            top: 20px;
-        }
-        .side-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px;
-        }
-        .side-card h3 { font-size: 1.08rem; color: var(--text-primary); margin-bottom: 8px; }
-        .side-card p { font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 16px; }
-        .btn-loan {
-            display: block;
-            text-align: center;
-            background: transparent;
-            border: 1.5px solid var(--accent);
-            color: var(--accent);
-            text-decoration: none;
-            padding: 10px 16px;
-            border-radius: 7px;
-            font-weight: 700;
-            font-size: 0.88rem;
-            transition: all 0.2s;
-        }
-        .btn-loan:hover { background: var(--accent); color: #0b1416; }
-
-        .ad-slot {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed var(--border);
+        .loan-section {
+            margin-top: 35px;
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent-gold);
             border-radius: 8px;
-            padding: 18px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.78rem;
-            letter-spacing: 0.8px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        .disclaimer-box {
-            background: var(--bg-panel);
-            border-left: 3px solid var(--text-secondary);
+        .loan-text h3 {
+            margin: 0 0 8px 0;
+            color: var(--accent-gold);
+            font-size: 1.3rem;
+        }
+        .loan-text p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .loan-btn {
+            background-color: var(--accent-gold);
+            color: #111827;
+            text-decoration: none;
+            padding: 12px 24px;
             border-radius: 6px;
-            padding: 14px;
-            font-size: 0.78rem;
-            color: var(--text-secondary);
+            font-weight: bold;
+            font-size: 0.95rem;
+            display: inline-block;
+        }
+        .loan-btn:hover {
+            background-color: #fbbf24;
+        }
+        .disclaimer {
+            margin-top: 30px;
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--accent-gold);
+            padding: 18px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="brand">
-        <h1><span>TENDER</span> ENGINE</h1>
+<div class="container">
+    <div class="header">
+        <h1>TENDER ENGINE</h1>
         <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
+        <div class="live-tag">⚡ Live Local Tenders</div>
     </div>
-    <div class="live-pill">⚡ Live Local Tenders</div>
-</header>
 
-<div class="filter-bar">
-    <div class="filter-box">
+    <div class="filter-bar">
         <select id="stateFilter" onchange="onStateChange()">
             <option value="ALL">All States (North East / India)</option>
             <option value="Assam">Assam</option>
@@ -253,3 +272,24 @@
             <option value="Water">PHE / Water Supply</option>
             <option value="Power">Power & Solar</option>
             <option value="Education">Education</option>
+            <option value="Health">Health & Medical</option>
+            <option value="Tourism">Tourism</option>
+        </select>
+    </div>
+
+    <div class="tender-list" id="tenderList"></div>
+
+    <div class="loan-section">
+        <div class="loan-text">
+            <h3>🔨 Contractor Capital</h3>
+            <p>Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
+        </div>
+        <a href="https://udyamimitra.in" target="_blank" rel="noopener noreferrer" class="loan-btn">Apply for Project Loan →</a>
+    </div>
+
+    <div class="adsense-slot" style="margin-top: 25px;">
+        [ DYNAMIC FINANCIAL DISPLAY AD ]
+    </div>
+
+    <div class="disclaimer">
+        <strong>⚠️ Legal Protection Clause</strong><br>
