@@ -6,144 +6,201 @@
     <title>TENDER ENGINE | Automated Public Procurement & Contractor Logistics Dashboard</title>
     <style>
         :root {
-            --bg-dark: #070d0b;
-            --card-bg: #0f1b17;
-            --card-border: #1e382f;
-            --emerald: #10b981;
-            --emerald-hover: #059669;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --badge-high: #064e3b;
-            --badge-high-text: #34d399;
-            --badge-med: #78350f;
-            --badge-med-text: #fbbf24;
-            --ad-bg: #13221d;
+            --bg-main: #0f171a;       /* Soft, eye-friendly deep slate */
+            --bg-panel: #162226;      /* Calm card background */
+            --bg-hover: #1d2d32;      /* Gentle hover highlight */
+            --border: #263a40;        /* Subtle muted border */
+            --accent: #38a889;        /* Soft muted emerald (no eye strain) */
+            --accent-hover: #2d8a70;
+            --text-primary: #e2e8f0;  /* Soft off-white text */
+            --text-secondary: #94a3b8;/* Muted grey-blue text */
+            --badge-high-bg: rgba(56, 168, 137, 0.14);
+            --badge-high-txt: #6ee7b7;
+            --badge-med-bg: rgba(217, 160, 91, 0.14);
+            --badge-med-txt: #fcd34d;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; padding-bottom: 40px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-primary); line-height: 1.5; }
+
+        /* Top Header */
         header {
-            background: linear-gradient(180deg, #0b1914 0%, var(--bg-dark) 100%);
-            border-bottom: 1px solid var(--card-border);
-            padding: 20px 5%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-        .brand h1 { font-size: 1.5rem; color: var(--emerald); letter-spacing: 0.5px; }
-        .brand p { font-size: 0.85rem; color: var(--text-muted); }
-        .live-badge {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid var(--emerald);
-            color: var(--emerald);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .container { max-width: 1200px; margin: 25px auto; padding: 0 5%; }
-        .filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            background: var(--card-bg);
-            padding: 18px;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            margin-bottom: 25px;
-        }
-        select {
-            width: 100%;
-            padding: 11px 14px;
-            background: var(--bg-dark);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            border-radius: 8px;
-            font-size: 0.92rem;
-            outline: none;
-            cursor: pointer;
-        }
-        select:focus { border-color: var(--emerald); }
-        .tender-grid { display: flex; flex-direction: column; gap: 18px; }
-        .tender-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 20px;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .tender-card:hover { border-color: var(--emerald); transform: translateY(-2px); }
-        .card-top {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            font-size: 0.85rem;
-        }
-        .location { color: var(--text-muted); font-weight: 500; }
-        .badge { padding: 4px 10px; border-radius: 6px; font-weight: 600; font-size: 0.78rem; }
-        .badge-high { background: var(--badge-high); color: var(--badge-high-text); }
-        .badge-med { background: var(--badge-med); color: var(--badge-med-text); }
-        .tender-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; color: #fff; }
-        .tender-value { font-size: 1.25rem; font-weight: 700; color: var(--emerald); margin-bottom: 8px; }
-        .tender-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
-        .card-bottom {
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 4%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            padding-top: 14px;
-            border-top: 1px solid var(--card-border);
         }
-        .closing { font-size: 0.85rem; color: #fca5a5; font-weight: 500; }
-        .btn-bid {
-            background: var(--emerald);
-            color: #032219;
-            text-decoration: none;
-            padding: 9px 18px;
-            border-radius: 8px;
-            font-weight: 700;
+        .brand h1 { font-size: 1.35rem; color: var(--text-primary); font-weight: 700; letter-spacing: 0.4px; }
+        .brand span { color: var(--accent); }
+        .brand p { font-size: 0.82rem; color: var(--text-secondary); }
+        .live-pill {
+            background: var(--badge-high-bg);
+            color: var(--badge-high-txt);
+            border: 1px solid rgba(56, 168, 137, 0.3);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            max-width: 1320px;
+            margin: 18px auto 0;
+            padding: 0 4%;
+        }
+        .filter-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 7px;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+        select:focus { border-color: var(--accent); }
+
+        /* Main 2-Column Layout (Left Continuous Tender List + Right Info/Ad Sidebar) */
+        .main-layout {
+            max-width: 1320px;
+            margin: 18px auto 40px;
+            padding: 0 4%;
+            display: grid;
+            grid-template-columns: 2.1fr 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Left Column: Continuous Tender List */
+        .tender-column {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 0.88rem;
-            transition: background 0.2s;
-            display: inline-block;
+            color: var(--text-secondary);
+            padding-bottom: 4px;
         }
-        .btn-bid:hover { background: var(--emerald-hover); color: #fff; }
-        .ad-slot {
-            background: var(--ad-bg);
-            border: 1px dashed #2d5245;
+        .tender-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
             border-radius: 10px;
             padding: 18px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            letter-spacing: 1px;
+            transition: background 0.2s, border-color 0.2s;
         }
-        .capital-box {
-            margin-top: 35px;
-            background: linear-gradient(135deg, #0f2920 0%, #0a1713 100%);
-            border: 1px solid var(--emerald);
-            border-radius: 12px;
-            padding: 24px;
+        .tender-card:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent);
+        }
+        .card-top {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 0.84rem;
         }
-        .capital-info h3 { color: var(--emerald); margin-bottom: 6px; font-size: 1.2rem; }
-        .capital-info p { color: var(--text-muted); font-size: 0.9rem; max-width: 650px; }
-        .disclaimer {
-            margin-top: 30px;
-            padding: 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 3px solid #f59e0b;
+        .loc-tag { color: var(--text-secondary); font-weight: 500; }
+        .badge { padding: 3px 10px; border-radius: 5px; font-size: 0.76rem; font-weight: 600; }
+        .badge-high { background: var(--badge-high-bg); color: var(--badge-high-txt); }
+        .badge-med { background: var(--badge-med-bg); color: var(--badge-med-txt); }
+        
+        .t-title { font-size: 1.08rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+        .t-amount { font-size: 1.18rem; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+        .t-meta { font-size: 0.83rem; color: var(--text-secondary); margin-bottom: 14px; }
+        
+        .card-footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        .closing-date { font-size: 0.83rem; color: #e2a0a0; font-weight: 500; }
+        .btn-portal {
+            background: var(--accent);
+            color: #0b1416;
+            text-decoration: none;
+            padding: 8px 16px;
             border-radius: 6px;
-            font-size: 0.82rem;
-            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+        .btn-portal:hover { background: var(--accent-hover); color: #fff; }
+
+        /* Right Column: Sticky Sidebar (Contractor Capital + Ads + Legal) */
+        .sidebar-column {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: sticky;
+            top: 20px;
+        }
+        .side-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .side-card h3 { font-size: 1.08rem; color: var(--text-primary); margin-bottom: 8px; }
+        .side-card p { font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 16px; }
+        .btn-loan {
+            display: block;
+            text-align: center;
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+        .btn-loan:hover { background: var(--accent); color: #0b1416; }
+
+        .ad-slot {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            letter-spacing: 0.8px;
+        }
+        .disclaimer-box {
+            background: var(--bg-panel);
+            border-left: 3px solid var(--text-secondary);
+            border-radius: 6px;
+            padding: 14px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -151,14 +208,14 @@
 
 <header>
     <div class="brand">
-        <h1>TENDER ENGINE</h1>
+        <h1><span>TENDER</span> ENGINE</h1>
         <p>Automated Public Procurement & Contractor Logistics Dashboard</p>
     </div>
-    <div class="live-badge">⚡ Live Local Tenders</div>
+    <div class="live-pill">⚡ Live Local Tenders</div>
 </header>
 
-<div class="container">
-    <div class="filters">
+<div class="filter-bar">
+    <div class="filter-box">
         <select id="stateFilter" onchange="onStateChange()">
             <option value="ALL">All States (North East / India)</option>
             <option value="Assam">Assam</option>
@@ -181,7 +238,7 @@
             <option value="Dibrugarh">Dibrugarh (Assam)</option>
             <option value="Cachar">Silchar / Cachar (Assam)</option>
             <option value="East Khasi Hills">Shillong (Meghalaya)</option>
-            <option value="Papum Pare">Itanagar (Arunachal)</option>
+            <option value="Papum Pare">Itanagar (Arunachal Pradesh)</option>
             <option value="West Tripura">Agartala (Tripura)</option>
             <option value="Kohima">Kohima (Nagaland)</option>
             <option value="Imphal West">Imphal (Manipur)</option>
@@ -196,31 +253,3 @@
             <option value="Water">PHE / Water Supply</option>
             <option value="Power">Power & Solar</option>
             <option value="Education">Education</option>
-            <option value="Health">Health & Medical</option>
-            <option value="Tourism">Tourism</option>
-        </select>
-    </div>
-
-    <div class="tender-grid" id="tenderList"></div>
-
-    <div class="capital-box">
-        <div class="capital-info">
-            <h3>🔨 Contractor Capital</h3>
-            <p>Running short on EMD or Mobilization advance capital? Apply securely with verified official financial institutions.</p>
-        </div>
-        <a href="https://udyamimitra.in" target="_blank" rel="noopener noreferrer" class="btn-bid">Apply for Project Loan →</a>
-    </div>
-
-    <div class="ad-slot" style="margin-top: 20px;">
-        [ DYNAMIC FINANCIAL DISPLAY AD ]
-    </div>
-
-    <div class="disclaimer">
-        <strong>⚠️ Legal Protection Clause & Disclaimer:</strong> This platform is an automated open-data aggregator that displays public information from official government portals. We are not a financial institution, bank, or loan advisor. Please verify all details on the official portal before bidding.
-    </div>
-</div>
-
-<script>
-    const tenders = [
-        { state: "Assam", district: "Udalguri", location: "Udalguri, Assam", rate: "High Win Rate", title: "PWD Road Repair & Upgradation Works", value: "₹25,000,000 (2.5 Crore)", dept: "PWD Assam", cat: "PWD", ref: "Tender-UDG-2026-09", closing: "28-Nov-2026", url: "https://assamtenders.gov.in" },
-        { state: "Assam", district: "Udalguri", location: "Tangla, Udalguri, Assam", rate: "Medium Competition", title: "Supply of Office & IT Infrastructure Equipment", value: "₹1,200,000 (12 Lakhs)", dept: "Bodoland Territorial Council", cat: "IT", ref: "Tender-BTC-2026-11", closing: "02-Dec-2026", url: "https://assamtenders.gov.in" },
