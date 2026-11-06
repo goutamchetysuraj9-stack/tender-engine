@@ -217,7 +217,7 @@ const DEPT={
 "Tripura":["Education Dept Tripura","PWD Tripura","DWS Tripura"],
 "Sikkim":["Tourism Dept Sikkim","Roads & Bridges Sikkim","Power Dept Sikkim"]
 };
-const sf=document.getElementById("s-filter"),df=document.getElementById("d-filter"),pf=document.getElementById("p-filter");
+const sf=document.getElementById("s-filter"),df=document.getElementById("d-filter"),pf=document.getElementById("p-filter"),tl=document.getElementById("t-list");
 function fillSub(st){
 df.innerHTML='<option value="ALL">All Districts</option>';
 pf.innerHTML='<option value="ALL">All Departments</option>';
@@ -237,6 +237,13 @@ sf.onchange=()=>{fillSub(sf.value);filterCards()};
 df.onchange=filterCards;
 pf.onchange=filterCards;
 fillSub("ALL");
+
+fetch("./tenders.json?t="+Date.now()).then(r=>r.ok?r.json():[]).then(data=>{
+if(Array.isArray(data)&&data.length){
+tl.innerHTML=data.map(t=>'<div class="card" data-state="'+(t.state||"Assam")+'" data-district="'+(t.district||"")+'" data-dept="'+(t.department||"")+'"><div class="meta"><span class="badge">📍 '+(t.location||t.district)+'</span><span class="win">📊 '+(t.winRate||"Live")+'</span></div><h3>'+t.title+'</h3><div class="dept">🏛️ '+t.department+' | Ref: <strong>'+t.ref+'</strong></div><div class="val">'+(t.estimate||"Check Portal")+'</div><div class="foot"><span>⏳ Closing: <strong>'+t.closingDate+'</strong></span><a href="'+(t.link||"https://assamtenders.gov.in")+'" target="_blank" rel="noopener noreferrer" class="btn">View Official Tender →</a></div></div>').join("");
+filterCards();
+}
+}).catch(()=>{});
 </script>
 </body>
 </html>
