@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tender Engine - Assam LMO AI</title>
+    <title>Tender Engine - North East LMO AI</title>
     <style>
         :root {
             --emerald: #059669;
@@ -162,21 +162,21 @@
         <div class="tenders-section">
             <h2 class="section-title">⚡ Live Local Tenders</h2>
             
-            <!-- JavaScript (script.js) yahan live tenders load karega --><!-- Filter Bar for State, District & Department -->
-<!-- Filter Bar for State, District & Department (Dark Theme Styled) -->
-<div class="filter-bar" style="display: flex; gap: 12px; flex-wrap: wrap; margin: 15px 0 25px 0;">
-    <select id="state-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
-        <option value="ALL">All States (North East / India)</option>
-    </select>
+            <!-- Filter Bar for State, District & Department -->
+            <div class="filter-bar" style="display: flex; gap: 12px; flex-wrap: wrap; margin: 15px 0 25px 0;">
+                <select id="state-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
+                    <option value="ALL">All States (North East / India)</option>
+                </select>
 
-    <select id="district-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
-        <option value="ALL">All Districts</option>
-    </select>
+                <select id="district-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
+                    <option value="ALL">All Districts</option>
+                </select>
 
-    <select id="department-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
-        <option value="ALL">All Departments</option>
-    </select>
-</div>
+                <select id="department-filter" style="background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 10px 14px; border-radius: 6px; flex: 1; min-width: 180px; font-size: 0.95rem; cursor: pointer;">
+                    <option value="ALL">All Departments</option>
+                </select>
+            </div>
+
             <div id="live-tenders-container">
                 <p style="color: var(--text-muted); padding: 20px;">Loading live tenders...</p>
             </div>
@@ -203,8 +203,49 @@
         </div> <!-- Sidebar area closing -->
     </div> <!-- Main container closing -->
 
-    <!-- External JavaScript file jo tenders.json load karegi -->
-    <script src="script.js"></script>
+    <!-- Built-in JavaScript (No external script.js dependency) -->
+    <script>
+    let allTenders = [];
 
-</body>
-</html>
+    const STATE_DISTRICTS_MASTER = {
+        "Assam": [
+            "Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo",
+            "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara",
+            "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong",
+            "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari",
+            "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"
+        ],
+        "Meghalaya": [
+            "East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills",
+            "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills",
+            "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"
+        ],
+        "Arunachal Pradesh": [
+            "Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Itanagar Capital Complex",
+            "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley",
+            "Lower Siang", "Lower Subansiri", "Namsai", "Pakke Kessang", "Papum Pare", "Shi Yomi",
+            "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"
+        ],
+        "Nagaland": [
+            "Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon",
+            "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"
+        ],
+        "Manipur": [
+            "Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam",
+            "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong",
+            "Tengnoupal", "Thoubal", "Ukhrul"
+        ],
+        "Mizoram": [
+            "Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai",
+            "Lunglei", "Mamit", "Saiha", "Saitual", "Serchhip"
+        ],
+        "Tripura": [
+            "Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"
+        ],
+        "Sikkim": [
+            "Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"
+        ]
+    };
+
+    const STATE_DEPARTMENTS_MASTER = {
+        "Assam": [
